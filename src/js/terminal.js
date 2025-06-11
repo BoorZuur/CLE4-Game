@@ -9,4 +9,14 @@ export class Terminal extends Actor {
         this.scale = new Vector(0.2, 0.2)
         this.graphics.use(Resources.Terminal.toSprite())
     }
+
+    createPlatform() {
+        // Logica om een platform te maken
+        console.log('Platform created');
+    }
+    
+    destroyPlatform() {
+        // Logica om een platform te vernietigen
+        console.log('Platform destroyed');
+    }
 }

@@ -40,8 +40,9 @@ export class Cryptographer extends Actor {
     }
 
     hitSomething(event) {
+        // check ook of space is ingedrukt
         if (event.other.owner instanceof Terminal) {
-            // logic om een platform te showen of te verbergen
+            console.log('Cryptographer hit Terminal');
         }
 
 
