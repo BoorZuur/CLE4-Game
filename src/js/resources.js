@@ -5,6 +5,7 @@ import { Platform } from './platform'
 const Resources = {
     Cryptographer: new ImageSource('images/Cryptographer.png'),
     Terminal: new ImageSource('images/Terminal.jpg'),
+    ControlPlatform: new ImageSource('images/Controllable platform.png'),
     Platform: new ImageSource('images/Platform.png')
 }
 
