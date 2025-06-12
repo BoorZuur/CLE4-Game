@@ -1,5 +1,5 @@
 import '../css/style.css'
-import { Actor, Engine, Vector, DisplayMode } from "excalibur"
+import { Actor, Engine, Vector, DisplayMode, SolverStrategy } from "excalibur"
 import { Resources, ResourceLoader } from './resources.js'
 import { Cryptographer } from './cryptographer.js'
 import { Terminal } from './terminal.js'
@@ -11,7 +11,11 @@ export class Game extends Engine {
             width: 1280,
             height: 720,
             maxFps: 60,
-            displayMode: DisplayMode.FitScreen
+            displayMode: DisplayMode.FitScreen,
+            physics: {
+                solver: SolverStrategy.Realistic,
+                gravity: new Vector(0, 500)
+            }
         })
         this.showDebug(true)
         this.start(ResourceLoader).then(() => this.startGame())
