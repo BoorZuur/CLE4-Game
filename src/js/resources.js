@@ -1,12 +1,12 @@
 import { ImageSource, Sound, Resource, Loader } from 'excalibur'
-import { Platform } from './platform'
 
 // voeg hier jouw eigen resources toe
 const Resources = {
     Cryptographer: new ImageSource('images/Cryptographer.png'),
     Terminal: new ImageSource('images/Terminal.jpg'),
     ControlPlatform: new ImageSource('images/Controllable platform.png'),
-    Platform: new ImageSource('images/Platform.png')
+    Platform: new ImageSource('images/Platform.png'),
+    ContinuousPlatform: new ImageSource('images/Continuous platform.png')
 }
 
 const ResourceLoader = new Loader()

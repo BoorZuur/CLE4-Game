@@ -4,6 +4,7 @@ import { Resources, ResourceLoader } from './resources.js'
 import { Cryptographer } from './cryptographer.js'
 import { Terminal } from './terminal.js'
 import { Platform } from './platform.js'
+import { ContinuousPlatform } from './continuousPlatform.js'
 
 export class Game extends Engine {
 
@@ -22,10 +23,37 @@ export class Game extends Engine {
         let cryptographer = new Cryptographer()
         let terminal = new Terminal()
         let platform = new Platform()
-
-        this.add(terminal)
+        
+        // this.add(terminal)
         this.add(cryptographer)
-        this.add(platform)
+
+        let y = 50
+        for (let i = 0; i < 5; i++){
+            let continuousPlatform = new ContinuousPlatform(10, y, 0.5 * Math.PI)
+            this.add(continuousPlatform)
+            y += 150
+        }
+
+        let x = 110
+        for (let i = 0; i < 8; i++){
+            let continuousPlatform = new ContinuousPlatform(x, 720, 0)
+            this.add(continuousPlatform)
+            x += 150
+        }
+
+        y = 50
+        for (let i = 0; i < 5; i++){
+            let continuousPlatform = new ContinuousPlatform(1260, y, 1.5 * Math.PI)
+            this.add(continuousPlatform)
+            y += 150
+        }
+
+        x = 110
+        for (let i= 0; i < 8; i++){
+            let continuousPlatform = new ContinuousPlatform(x, 0, Math.PI)
+            this.add(continuousPlatform)
+            x += 150
+        }
     }
 }
 
