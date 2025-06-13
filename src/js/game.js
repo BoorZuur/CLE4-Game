@@ -25,10 +25,10 @@ export class Game extends Engine {
 
     startGame() {
         let cryptographer = new Cryptographer()
-        let terminal = new Terminal()
-        let platform = new Platform()
+        let terminal = new Terminal(600, 630, 0, -2000, 5000, 5000, 5000, 5000)
+        // let platform = new Platform()
         
-        // this.add(terminal)
+        this.add(terminal)
         this.add(cryptographer)
 
         let y = 50

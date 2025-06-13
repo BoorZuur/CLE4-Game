@@ -1,4 +1,4 @@
-import { Actor, Vector, Keys, CollisionType } from "excalibur"
+import { Actor, Vector, Keys, CollisionType, DegreeOfFreedom, CompositeCollider, Shape } from "excalibur"
 import { Resources } from './resources.js'
 import { Terminal } from "./terminal.js";
 import { InteractionLabel } from "./interactionLabel.js";
@@ -9,26 +9,32 @@ export class Cryptographer extends Actor {
     nearTerminal
 
     constructor() {
-        super({ width: Resources.Cryptographer.width, height: Resources.Cryptographer.height, collisionType: CollisionType.Active });
+        super({ collisionType: CollisionType.Active });
         this.pos = new Vector(200, 600)
         this.scale = new Vector(0.1, 0.1)
         this.graphics.use(Resources.Cryptographer.toSprite())
+        this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation)
         this.interacting = false
         this.nearTerminal = null
-        // this.body.collisionType = CollisionType.Active
     }
 
     onInitialize(engine) {
+        let capsule = new CompositeCollider([
+            Shape.Circle(400, new Vector(0, -200)),
+            // Shape.Box(Resources.Cryptographer.width - 400, Resources.Cryptographer.height- 400),
+            Shape.Circle(300, new Vector(0, 200)),
+        ])
+        this.collider.set(capsule)
         this.on('collisionstart', (event) => this.hitSomething(event))
         this.on('collisionend', (event) => this.leftSomething(event))
     }
 
-    onPreUpdate(engine) {
-        this.move(engine)
+    onPreUpdate(engine, delta) {
+        this.move(engine, delta)
         this.checkInteraction(engine)
     }
 
-    move(engine) {
+    move(engine, delta) {
         const keys = {
             Left: Keys.A,
             Right: Keys.D,
@@ -38,27 +44,34 @@ export class Cryptographer extends Actor {
         const kb = engine.input.keyboard
         let xvel = 0
         let yvel = 0
+        let move = 0
 
         if (kb.isHeld(keys.Left)) {
-            xvel = -300
-            this.graphics.flipHorizontal = true
+            move = -7 * delta
+            xvel = -1
+            if (!this.interacting) {
+                this.graphics.flipHorizontal = true
+            }
         }
         if (kb.isHeld(keys.Right)) {
-            xvel = 300
-            this.graphics.flipHorizontal = false
+            move = 7 * delta
+            xvel = 1
+            if (!this.interacting) {
+                this.graphics.flipHorizontal = false
+            }
         }
         if (kb.isHeld(keys.Up)) {
-            yvel = -300
+            yvel = -1
         }
         if (kb.isHeld(keys.Down)) {
-            yvel = 300
+            yvel = 1
         }
 
         if (this.interacting) {
-            this.nearTerminal.platform.platform.vel = new Vector(xvel * 5, yvel * 5)
-            // this.nearTerminal.platform.platform.body.applyLinearImpulse(new Vector(xvel * 5, yvel * 5));
+            this.nearTerminal.movePlatform(xvel, yvel)
         } else {
-            this.vel.x = xvel
+            // this.vel.x = xvel
+            this.body.applyLinearImpulse(new Vector(move, 0))
         }
     }
 
@@ -71,11 +84,11 @@ export class Cryptographer extends Actor {
     interactWithTerminal(terminal) {
         if (this.interacting) {
             this.interacting = false
-            this.interactionLabel.text = 'Press E to use terminal'
-            this.nearTerminal.platform.platform.vel = new Vector(0, 0)
+            this.interactionLabel.text = 'Press "E" to use terminal'
+            this.nearTerminal.movePlatform(0, 0)
         } else {
             this.interacting = true
-            this.interactionLabel.text = 'Press E to stop interacting'
+            this.interactionLabel.text = 'Press "E" to stop interacting'
             this.vel = new Vector(0, 0)
         }
     }
@@ -84,7 +97,7 @@ export class Cryptographer extends Actor {
         if (event.other.owner instanceof Terminal) {
             this.nearTerminal = event.other.owner
             console.log('Press E to use terminal')
-            this.interactionLabel = new InteractionLabel('Press E to use terminal')
+            this.interactionLabel = new InteractionLabel(0, -1000, 'Press "E" to use terminal', 50, 'White')
             this.addChild(this.interactionLabel)
         }
     }
