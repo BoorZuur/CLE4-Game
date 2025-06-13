@@ -1,4 +1,4 @@
-import { Actor, Vector } from 'excalibur';
+import { Actor, Vector, CollisionType } from 'excalibur';
 import { Resources } from './resources.js';
 
 export class ContinuousPlatform extends Actor {
@@ -8,7 +8,8 @@ export class ContinuousPlatform extends Actor {
             y,
             width: Resources.ContinuousPlatform.width,
             height: Resources.ContinuousPlatform.height,
-            rotation
+            rotation,
+            collisionType: CollisionType.Fixed
         })
         
         // this.body.collisionType = CollisionType.Fixed

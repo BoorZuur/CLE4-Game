@@ -1,4 +1,4 @@
-import { Actor, Vector, Keys } from "excalibur"
+import { Actor, Vector, Keys, CollisionType } from "excalibur"
 import { Resources } from './resources.js'
 import { Terminal } from "./terminal.js";
 import { InteractionLabel } from "./interactionLabel.js";
@@ -9,12 +9,13 @@ export class Cryptographer extends Actor {
     nearTerminal
 
     constructor() {
-        super({ width: Resources.Cryptographer.width, height: Resources.Cryptographer.height });
+        super({ width: Resources.Cryptographer.width, height: Resources.Cryptographer.height, collisionType: CollisionType.Active });
         this.pos = new Vector(200, 600)
-        this.scale = new Vector(0.2, 0.2)
+        this.scale = new Vector(0.1, 0.1)
         this.graphics.use(Resources.Cryptographer.toSprite())
         this.interacting = false
         this.nearTerminal = null
+        // this.body.collisionType = CollisionType.Active
     }
 
     onInitialize(engine) {
