@@ -1,9 +1,11 @@
 import { Actor, Vector, Keys } from "excalibur"
 import { Resources } from './resources.js'
 import { Terminal } from "./terminal.js";
+import { InteractionLabel } from "./interactionLabel.js";
 
 export class Cryptographer extends Actor {
     interacting
+    interactionLabel
     nearTerminal
 
     constructor() {
@@ -52,7 +54,8 @@ export class Cryptographer extends Actor {
         }
 
         if (this.interacting) {
-            this.nearTerminal.platform.vel = new Vector(xvel * 5, yvel * 5)
+            this.nearTerminal.platform.platform.vel = new Vector(xvel * 5, yvel * 5)
+            // this.nearTerminal.platform.platform.body.applyLinearImpulse(new Vector(xvel * 5, yvel * 5));
         } else {
             this.vel.x = xvel
         }
@@ -65,14 +68,23 @@ export class Cryptographer extends Actor {
     }
 
     interactWithTerminal(terminal) {
-        console.log('Using terminal!')
-        this.interacting = !this.interacting
+        if (this.interacting) {
+            this.interacting = false
+            this.interactionLabel.text = 'Press E to use terminal'
+            this.nearTerminal.platform.platform.vel = new Vector(0, 0)
+        } else {
+            this.interacting = true
+            this.interactionLabel.text = 'Press E to stop interacting'
+            this.vel = new Vector(0, 0)
+        }
     }
 
     hitSomething(event) {
         if (event.other.owner instanceof Terminal) {
             this.nearTerminal = event.other.owner
             console.log('Press E to use terminal')
+            this.interactionLabel = new InteractionLabel('Press E to use terminal')
+            this.addChild(this.interactionLabel)
         }
     }
 
@@ -80,6 +92,10 @@ export class Cryptographer extends Actor {
         if (event.other.owner instanceof Terminal) {
             this.nearTerminal = null
             console.log('You left the terminal area')
+            if (this.interactionLabel) {
+                this.interactionLabel.kill()
+                this.interactionLabel = null
+            }
         }
     }
 }
