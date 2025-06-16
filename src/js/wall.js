@@ -1,18 +1,18 @@
 import { Actor, Vector, CollisionType } from 'excalibur';
 import { Resources } from './resources.js';
 
-export class ContinuousPlatform extends Actor {
+export class Wall extends Actor {
     constructor(x,y,rotation) {
         super({
             x,
             y,
-            width: Resources.ContinuousPlatform.width,
-            height: Resources.ContinuousPlatform.height,
+            width: Resources.Wall.width,
+            height: Resources.Wall.height,
             rotation,
             collisionType: CollisionType.Fixed
         })
         
-        this.scale = new Vector(0.1, 0.1)
-        this.graphics.use(Resources.ContinuousPlatform.toSprite())
+        this.scale = new Vector(0.125, 0.125)
+        this.graphics.use(Resources.Wall.toSprite())
     }
 }

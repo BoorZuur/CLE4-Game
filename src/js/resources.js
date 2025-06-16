@@ -8,7 +8,15 @@ const Resources = {
     Platform: new ImageSource('images/Platform.png'),
     ContinuousPlatform: new ImageSource('images/Continuous platform.png'),
     Spikes: new ImageSource('images/Spikes.png'),
+    Stone: new ImageSource('images/projectile.png'),
+    HookPoint: new ImageSource('images/GrapplePoint.png'),
+    Secret: new ImageSource('images/SecretHoleWall.png'),
+    PressurePlate: new ImageSource('images/PressurePlate.png'),
+    Door: new ImageSource('images/LockedDoor.png'),
+    Crate: new ImageSource('images/Crate.png'),
     Border: new ImageSource('images/Border.png'),
+    Wall: new ImageSource('images/Wall.png'),
+    Adventurer: new ImageSource('images/adventurer.png'),
 }
 
 const ResourceLoader = new Loader()

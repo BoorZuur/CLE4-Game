@@ -5,6 +5,7 @@ import { Cryptographer } from './cryptographer.js'
 import { Terminal } from './terminal.js'
 import { Platform } from './platform.js'
 import { ContinuousPlatform } from './continuousPlatform.js'
+import { Wall } from './wall.js'
 import { Spikes } from './spikes.js'
 
 export class Game extends Engine {
@@ -29,20 +30,20 @@ export class Game extends Engine {
         let terminal = new Terminal(600, 630, -2000, -4000, 600, 600, 600, 500)
         let spikes = new Spikes(900, 680, 0.1, 200, 600)
         
-        // let platform = new Platform()
+        let y = 0
+        let x = 0
         
         this.add(terminal)
         this.add(cryptographer)
-        this.add(spikes)
-
-        let y = 50
+        
+        y = 50
         for (let i = 0; i < 5; i++){
             let continuousPlatform = new ContinuousPlatform(10, y, 0.5 * Math.PI)
             this.add(continuousPlatform)
             y += 150
         }
 
-        let x = 110
+        x = 110
         for (let i = 0; i < 8; i++){
             let continuousPlatform = new ContinuousPlatform(x, 720, 0)
             this.add(continuousPlatform)
@@ -62,6 +63,24 @@ export class Game extends Engine {
             this.add(continuousPlatform)
             x += 150
         }
+
+        let platform = new Platform(85, 550)
+        this.add(platform)
+
+        platform = new Platform(270, 550)
+        this.add(platform)
+
+        let wall = new Wall(450, 550, 0.5 * Math.PI)
+        this.add(wall)
+
+        wall = new Wall(480, 550, 0.5 * Math.PI)
+        this.add(wall)
+
+        wall = new Wall(640, 450, 0)
+        this.add(wall)
+
+        wall = new Wall(640, 400, 0)
+        this.add(wall)
     }
 }
 
