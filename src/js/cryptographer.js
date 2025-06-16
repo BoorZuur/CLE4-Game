@@ -12,7 +12,7 @@ export class Cryptographer extends Actor {
     constructor(x, y) {
         super({ collisionType: CollisionType.Active });
         this.pos = new Vector(x, y)
-        this.scale = new Vector(0.1, 0.1)
+        this.scale = new Vector(0.08, 0.08)
         this.graphics.use(Resources.Cryptographer.toSprite())
         this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation)
         this.interacting = false

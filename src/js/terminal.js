@@ -14,7 +14,7 @@ export class Terminal extends Actor {
     constructor(posX, posY, platformX, platformY, minX, maxX, minY, maxY) {
         super({ width: Resources.Terminal.width, height: Resources.Terminal.height });
         this.pos = new Vector(posX, posY)
-        this.scale = new Vector(0.1, 0.1)
+        this.scale = new Vector(0.08, 0.08)
         this.graphics.use(Resources.Terminal.toSprite())
         this.body.collisionType = CollisionType.Passive;
         this.platformx = platformX;

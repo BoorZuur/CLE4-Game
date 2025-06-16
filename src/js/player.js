@@ -3,7 +3,9 @@ import { Resources } from "./resources.js"
 import { Projectile } from "./projectile.js"
 import { HookPoint } from "./hook-point.js"
 import { Platform } from "./platform.js"
+import { ContinuousPlatform } from "./continuousPlatform.js"
 import { PressurePlate } from "./pressure-plate.js"
+import { Spikes } from "./spikes.js"
 import { Door } from "./door.js"
 import { Crate } from "./crate.js"
 
@@ -13,13 +15,13 @@ export class Player extends Actor {
     constructor(x, y) {
         super({ width: 400, height: 900, collisionType: CollisionType.Active, anchor: Vector.Half })
         this.pos = new Vector(x, y)
-        this.scale = new Vector(0.1, 0.1)
+        this.scale = new Vector(0.08, 0.08)
         this.grappling = false;
         this.grapplePoint = null;
         this.grappleSpeed = 50;
         this.grappleCooldown = 0;
         this.grappleMaxCooldown = 60;
-        this.jumpForce = -300;
+        this.jumpForce = -700;
         this.isGrounded = false;
         this.gravity = 800;
 

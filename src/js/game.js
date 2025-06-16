@@ -2,11 +2,13 @@ import '../css/style.css'
 import { Actor, Engine, Vector, DisplayMode, SolverStrategy } from "excalibur"
 import { Resources, ResourceLoader } from './resources.js'
 import { Cryptographer } from './cryptographer.js'
+import { Player } from './player.js'
 import { Terminal } from './terminal.js'
 import { Platform } from './platform.js'
 import { ContinuousPlatform } from './continuousPlatform.js'
 import { Wall } from './wall.js'
 import { Spikes } from './spikes.js'
+import { Background } from './background.js'
 
 export class Game extends Engine {
 
@@ -26,15 +28,20 @@ export class Game extends Engine {
     }
 
     startGame() {
-        let cryptographer = new Cryptographer(200, 600)
-        let terminal = new Terminal(600, 630, -2000, -4000, 5, 5, 1500, 500)
+        let cryptographer = new Cryptographer(100, 600)
+        let player = new Player(100, 500)
+        let terminal = new Terminal(820, 640, -1000, -1500, 5, 5, 1000, 1300)
         let spikes = new Spikes(900, 680, 0.1, 200, 600)
-        
-        let y = 0
-        let x = 0
+        let background = new Background()
+        background.z = -1
         
         this.add(terminal)
         this.add(cryptographer)
+        this.add(player)
+        this.add(background)
+        
+        let y = 0
+        let x = 0
         
         y = 50
         for (let i = 0; i < 5; i++){

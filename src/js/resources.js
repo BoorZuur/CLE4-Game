@@ -15,7 +15,9 @@ const Resources = {
     Door: new ImageSource('images/LockedDoor.png'),
     Crate: new ImageSource('images/Crate.png'),
     Border: new ImageSource('images/Border.png'),
-    Wall: new ImageSource('images/Wall.png')
+    Wall: new ImageSource('images/Wall.png'),
+    Background: new ImageSource('images/Background.png'),
+    Adventurer: new ImageSource('images/Adventurer.png')
 }
 
 const ResourceLoader = new Loader()
