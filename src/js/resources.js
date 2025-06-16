@@ -7,6 +7,8 @@ const Resources = {
     ControlPlatform: new ImageSource('images/Controllable platform.png'),
     Platform: new ImageSource('images/Platform.png'),
     ContinuousPlatform: new ImageSource('images/Continuous platform.png'),
+    Spikes: new ImageSource('images/Spikes.png'),
+    Border: new ImageSource('images/Border.png'),
     Wall: new ImageSource('images/Wall.png')
 }
 

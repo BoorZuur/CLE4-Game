@@ -1,24 +1,27 @@
-import { Actor, Vector, Shape, CollisionType, CompositeCollider } from 'excalibur';
+import { Actor, Vector, CollisionType, clamp } from 'excalibur';
 import { Resources } from './resources.js';
 
 export class ControlPlatform extends Actor {
-    platform
+    minX
+    maxX
+    minY
+    maxY
 
-    constructor() {
-        super(
-            { collisionType: CollisionType.Fixed, }
-        );
-        this.platform = new Actor({
-            width: Resources.ControlPlatform.width,
-            height: Resources.ControlPlatform.height,
-            pos: new Vector(0, 0),
-            collisionType: CollisionType.Fixed
-        });
-        this.collider.useBoxCollider(1500, 1500);
+    constructor(posX, posY, minX, maxX, minY, maxY) {
+        super({ width: Resources.ControlPlatform.width, height: Resources.ControlPlatform.height });
+        this.pos = new Vector(posX, posY);
+        this.scale = new Vector(1, 1);
+        this.graphics.use(Resources.ControlPlatform.toSprite());
+        this.minX = posX - minX;
+        this.maxX = posX + maxX;
+        this.minY = posY - minY;
+        this.maxY = posY + maxY;
+        this.body.collisionType = CollisionType.Fixed;
     }
 
-    onInitialize(engine) {
-        this.platform.graphics.use(Resources.ControlPlatform.toSprite());
-        this.addChild(this.platform);
+    onPreUpdate() {
+        // Clamp position to stay within boundaries
+        this.pos.x = clamp(this.pos.x, this.minX, this.maxX);
+        this.pos.y = clamp(this.pos.y, this.minY, this.maxY);
     }
 }

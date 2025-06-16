@@ -6,6 +6,7 @@ import { Terminal } from './terminal.js'
 import { Platform } from './platform.js'
 import { ContinuousPlatform } from './continuousPlatform.js'
 import { Wall } from './wall.js'
+import { Spikes } from './spikes.js'
 
 export class Game extends Engine {
 
@@ -25,13 +26,14 @@ export class Game extends Engine {
     }
 
     startGame() {
+        let cryptographer = new Cryptographer(200, 600)
+        let terminal = new Terminal(600, 630, -2000, -4000, 5, 5, 1500, 500)
+        let spikes = new Spikes(900, 680, 0.1, 200, 600)
+        
         let y = 0
         let x = 0
-
-        let cryptographer = new Cryptographer()
-        let terminal = new Terminal()
         
-        // this.add(terminal)
+        this.add(terminal)
         this.add(cryptographer)
         
         y = 50
