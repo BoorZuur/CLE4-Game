@@ -52,6 +52,7 @@ export class Terminal extends Actor {
     movePlatform(x, y) {
         const speed = 1000
 
+        // diagonal movement
         if (x && y) {
             x *= 0.7071; // 1/sqrt(2)
             y *= 0.7071; // 1/sqrt(2)
