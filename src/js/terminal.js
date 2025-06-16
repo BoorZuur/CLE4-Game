@@ -26,10 +26,28 @@ export class Terminal extends Actor {
     }
 
     onInitialize(engine) {
+        this.createPlatform();
+    }
+
+    createPlatform() {
+        // niet aankomen zelfs einstein weet niet hoe dit werkt
+        let width = (this.maxX - this.minX) / 2;
+        let height = (this.maxY - this.minY) / 2;
+
+        let border = new Actor({
+            pos: new Vector(this.platformx + width, this.platformy + height),
+            collisionType: CollisionType.Fixed,
+        });
+        border.scale = new Vector((this.minX + this.maxX) / Resources.Border.width, (this.minY + this.maxY) / Resources.Border.width);
+        border.graphics.use(Resources.Border.toSprite());
+
         this.platform = new ControlPlatform(this.platformx, this.platformy,
             this.minX, this.maxX, this.minY, this.maxY);
+
+        this.addChild(border);
         this.addChild(this.platform);
     }
+
 
     movePlatform(x, y) {
         const speed = 1000

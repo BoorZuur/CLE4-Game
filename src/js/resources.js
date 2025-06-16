@@ -8,6 +8,7 @@ const Resources = {
     Platform: new ImageSource('images/Platform.png'),
     ContinuousPlatform: new ImageSource('images/Continuous platform.png'),
     Spikes: new ImageSource('images/Spikes.png'),
+    Border: new ImageSource('images/Border.png'),
 }
 
 const ResourceLoader = new Loader()
