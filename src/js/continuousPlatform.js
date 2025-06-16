@@ -12,7 +12,6 @@ export class ContinuousPlatform extends Actor {
             collisionType: CollisionType.Fixed
         })
         
-        // this.body.collisionType = CollisionType.Fixed
         this.scale = new Vector(0.1, 0.1)
         this.graphics.use(Resources.ContinuousPlatform.toSprite())
     }

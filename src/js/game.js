@@ -30,14 +30,16 @@ export class Game extends Engine {
         
         // this.add(terminal)
         this.add(cryptographer)
-
+        
+        // hele stuk in een component zetten
+        // variabele bovenaan declareren
         let y = 50
         for (let i = 0; i < 5; i++){
             let continuousPlatform = new ContinuousPlatform(10, y, 0.5 * Math.PI)
             this.add(continuousPlatform)
             y += 150
         }
-
+        // variabele bovenaan declareren
         let x = 110
         for (let i = 0; i < 8; i++){
             let continuousPlatform = new ContinuousPlatform(x, 720, 0)
