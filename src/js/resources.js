@@ -6,7 +6,8 @@ const Resources = {
     Terminal: new ImageSource('images/Terminal.png'),
     ControlPlatform: new ImageSource('images/Controllable platform.png'),
     Platform: new ImageSource('images/Platform.png'),
-    ContinuousPlatform: new ImageSource('images/Continuous platform.png')
+    ContinuousPlatform: new ImageSource('images/Continuous platform.png'),
+    Wall: new ImageSource('images/Wall.png')
 }
 
 const ResourceLoader = new Loader()
