@@ -9,8 +9,6 @@ export class ControlPlatform extends Actor {
 
     constructor(posX, posY, minX, maxX, minY, maxY) {
         super({ width: Resources.ControlPlatform.width, height: Resources.ControlPlatform.height });
-        // restrict movement with clampX and clampY
-        // this.pos = new Vector(posX, posY);
         this.pos = new Vector(posX, posY);
         this.scale = new Vector(1, 1);
         this.graphics.use(Resources.ControlPlatform.toSprite());

@@ -21,7 +21,7 @@ export class Cryptographer extends Actor {
 
     onInitialize(engine) {
         let capsule = new CompositeCollider([
-            Shape.Circle(400, new Vector(0, -200)),
+            Shape.Circle(300, new Vector(0, -200)),
             // Shape.Box(Resources.Cryptographer.width - 400, Resources.Cryptographer.height- 400),
             Shape.Circle(300, new Vector(0, 200)),
         ])
