@@ -2,15 +2,16 @@ import { Actor, Vector, Keys, CollisionType, DegreeOfFreedom, CompositeCollider,
 import { Resources } from './resources.js'
 import { Terminal } from "./terminal.js";
 import { InteractionLabel } from "./interactionLabel.js";
+import { Spikes } from "./spikes.js";
 
 export class Cryptographer extends Actor {
     interacting
     interactionLabel
     nearTerminal
 
-    constructor() {
+    constructor(x, y) {
         super({ collisionType: CollisionType.Active });
-        this.pos = new Vector(200, 600)
+        this.pos = new Vector(x, y)
         this.scale = new Vector(0.1, 0.1)
         this.graphics.use(Resources.Cryptographer.toSprite())
         this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation)
@@ -99,6 +100,10 @@ export class Cryptographer extends Actor {
             console.log('Press E to use terminal')
             this.interactionLabel = new InteractionLabel(0, -1000, 'Press "E" to use terminal', 50, 'White')
             this.addChild(this.interactionLabel)
+        } if (event.other.owner instanceof Spikes) {
+            console.log('You hit the spikes!')
+            this.pos.x = event.other.owner.respawnX
+            this.pos.y = event.other.owner.respawnY
         }
     }
 

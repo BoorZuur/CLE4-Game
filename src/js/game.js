@@ -5,6 +5,7 @@ import { Cryptographer } from './cryptographer.js'
 import { Terminal } from './terminal.js'
 import { Platform } from './platform.js'
 import { ContinuousPlatform } from './continuousPlatform.js'
+import { Spikes } from './spikes.js'
 
 export class Game extends Engine {
 
@@ -24,12 +25,15 @@ export class Game extends Engine {
     }
 
     startGame() {
-        let cryptographer = new Cryptographer()
+        let cryptographer = new Cryptographer(200, 600)
         let terminal = new Terminal(600, 630, 0, -2000, 5000, 5000, 5000, 5000)
+        let spikes = new Spikes(900, 680, 0.1, 200, 600)
+        
         // let platform = new Platform()
         
         this.add(terminal)
         this.add(cryptographer)
+        this.add(spikes)
 
         let y = 50
         for (let i = 0; i < 5; i++){
