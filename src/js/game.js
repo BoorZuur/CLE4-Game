@@ -9,6 +9,7 @@ import { ContinuousPlatform } from './continuousPlatform.js'
 import { Wall } from './wall.js'
 import { Spikes } from './spikes.js'
 import { Background } from './background.js'
+import { Door } from './door.js'
 
 export class Game extends Engine {
 
@@ -88,6 +89,18 @@ export class Game extends Engine {
 
         wall = new Wall(640, 400, 0)
         this.add(wall)
+
+        wall = new Wall(1030, 450, 0)
+        this.add(wall)
+
+        wall = new Wall(1030, 400, 0)
+        this.add(wall)
+
+        platform = new Platform(950, 490)
+        this.add(platform)
+
+        let door = new Door(1030, 600)
+        this.add(door)
     }
 }
 

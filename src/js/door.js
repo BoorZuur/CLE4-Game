@@ -11,7 +11,7 @@ export class Door extends Actor {
             collisionType: CollisionType.Fixed
         });
         this.graphics.use(Resources.Door.toSprite());
-        this.scale = new Vector(0.1, 0.1);
+        this.scale = new Vector(0.22, 0.22);
         this.doorX = x; 
         this.doorY = y; 
     }
