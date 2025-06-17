@@ -9,6 +9,7 @@ import { ControlPlatform } from "./controlPlatform.js"
 import { Spikes } from "./spikes.js"
 import { Door } from "./door.js"
 import { Crate } from "./crate.js"
+import { Wall } from "./wall.js"
 
 export class Player extends Actor {
     sprite
@@ -49,7 +50,7 @@ export class Player extends Actor {
     }
 
     handleCollision(event) {
-        if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate || event.other.owner instanceof ContinuousPlatform || event.other.owner instanceof ControlPlatform) {
+        if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate || event.other.owner instanceof ContinuousPlatform || event.other.owner instanceof ControlPlatform || event.other.owner instanceof Wall)  {
             this.isGrounded = true;
             this.vel.y = 0;
         }
@@ -184,7 +185,7 @@ export class Player extends Actor {
                 this.vel.y = 0
             }
             if (!engine.input.keyboard.isHeld(Keys.Left) && !engine.input.keyboard.isHeld(Keys.Right)) {
-                // this.vel.x = this.recentPlatform.vel.x;
+                this.vel.x = 0;
                 xspeed = platformVel.x;
             }
         }

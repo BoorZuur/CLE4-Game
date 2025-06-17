@@ -36,38 +36,38 @@ export class Game extends Engine {
         let spikes = new Spikes(900, 680, 0.1, 200, 600)
         let background = new Background()
         background.z = -1
-        
+
         this.add(terminal)
         this.add(cryptographer)
         this.add(player)
         this.add(background)
-        
+
         let y = 0
         let x = 0
-        
+
         y = 50
-        for (let i = 0; i < 5; i++){
+        for (let i = 0; i < 5; i++) {
             let continuousPlatform = new ContinuousPlatform(10, y, 0.5 * Math.PI)
             this.add(continuousPlatform)
             y += 150
         }
 
         x = 110
-        for (let i = 0; i < 8; i++){
+        for (let i = 0; i < 8; i++) {
             let continuousPlatform = new ContinuousPlatform(x, 720, 0)
             this.add(continuousPlatform)
             x += 150
         }
 
         y = 50
-        for (let i = 0; i < 5; i++){
+        for (let i = 0; i < 5; i++) {
             let continuousPlatform = new ContinuousPlatform(1260, y, 1.5 * Math.PI)
             this.add(continuousPlatform)
             y += 150
         }
 
         x = 110
-        for (let i= 0; i < 8; i++){
+        for (let i = 0; i < 8; i++) {
             let continuousPlatform = new ContinuousPlatform(x, 0, Math.PI)
             this.add(continuousPlatform)
             x += 150
@@ -100,8 +100,19 @@ export class Game extends Engine {
         platform = new Platform(950, 490)
         this.add(platform)
 
-        let door = new Door(1030, 600)
-        this.add(door)
+        let door = this.addDoor(1030, 600)
+        this.addPlate(950, 470, door)
+        this.addPlate(1200, 685, door)
+    }
+    addDoor(x, y) {
+        const door = new Door(x, y);
+        this.add(door);
+        return door;
+    }
+    addPlate(x, y, door) {
+        const plate = new PressurePlate(x, y, door, this);
+        this.add(plate);
+        return plate;
     }
 }
 
