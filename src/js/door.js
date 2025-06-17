@@ -12,12 +12,25 @@ export class Door extends Actor {
         });
         this.graphics.use(Resources.Door.toSprite());
         this.scale = new Vector(0.22, 0.22);
-        this.doorX = x; 
-        this.doorY = y; 
+        this.doorX = x;
+        this.doorY = y;
+        this.linkedPlates = []; 
+    }
+
+    addLinkedPlate(plate) {
+        this.linkedPlates.push(plate);
+    }
+
+    shouldReset() {
+        return this.linkedPlates.every(plate => plate.exists);
     }
 
     resetDoor(gameInstance) {
         const newDoor = new Door(this.doorX, this.doorY);
+        newDoor.linkedPlates = [...this.linkedPlates];
+        newDoor.linkedPlates.forEach(plate => {
+            plate.linkedDoor = newDoor;
+        });
         gameInstance.add(newDoor);
         return newDoor;
     }
