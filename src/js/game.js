@@ -31,7 +31,7 @@ export class Game extends Engine {
 
     startGame() {
         let cryptographer = new Cryptographer(100, 670)
-        let player = new Player(100, 450)
+        let player = new Player(100, 430)
         let terminal = new Terminal(820, 640, -1000, -1500, 5, 5, 1000, 1300)
         let spikes = new Spikes(900, 680, 0.1, 200, 600)
         let background = new Background()
