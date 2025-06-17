@@ -171,22 +171,26 @@ export class Player extends Actor {
             this.#Shoot();
         }
 
-        if (this.onPlatform && !engine.input.keyboard.wasPressed(Keys.Space)) {
-            this.vel.y = 0
-        }
+        // if (this.onPlatform && !engine.input.keyboard.wasPressed(Keys.Space)) {
+        //     this.vel.y = 0
+        // }
 
-        let platformVel = 0;
-        if (this.recentPlatform) {
-            platformVel = this.recentPlatform.vel.clone()
-        }
-        if (this.onPlatform) {
-            if (!engine.input.keyboard.wasPressed(Keys.Space)) {
-                this.vel.y = 0
-            }
-            if (!engine.input.keyboard.isHeld(Keys.Left) && !engine.input.keyboard.isHeld(Keys.Right)) {
-                // this.vel.x = this.recentPlatform.vel.x;
-                xspeed = platformVel.x;
-            }
-        }
+        // Als je op een platform staat, gebruik de snelheid van het platform
+
+
+        // let platformVel = 0;
+        // if (this.recentPlatform) {
+        //     platformVel = this.recentPlatform.vel.clone()
+        // }
+        // if (this.onPlatform) {
+        //     if (!engine.input.keyboard.wasPressed(Keys.Space)) {
+        //         this.vel.y = 0
+        //     }
+        //     if (!engine.input.keyboard.isHeld(Keys.Left) && !engine.input.keyboard.isHeld(Keys.Right)) {
+        //         // this.vel.x = this.recentPlatform.vel.x;
+        //         const relativeVelocity = this.recentPlatform.vel.clone().add(this.vel.clone());
+        //         this.vel = relativeVelocity;
+        //     }
+        // }
     }
 }
