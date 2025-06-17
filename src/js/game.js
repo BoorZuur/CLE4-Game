@@ -10,6 +10,7 @@ import { Wall } from './wall.js'
 import { Spikes } from './spikes.js'
 import { Background } from './background.js'
 import { Door } from './door.js'
+import { PressurePlate } from './pressure-plate.js'
 
 export class Game extends Engine {
 
@@ -29,8 +30,8 @@ export class Game extends Engine {
     }
 
     startGame() {
-        let cryptographer = new Cryptographer(100, 600)
-        let player = new Player(100, 500)
+        let cryptographer = new Cryptographer(100, 670)
+        let player = new Player(100, 450)
         let terminal = new Terminal(820, 640, -1000, -1500, 5, 5, 1000, 1300)
         let spikes = new Spikes(900, 680, 0.1, 200, 600)
         let background = new Background()
