@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Crypt - Coming Soon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-image: url('../public/images/Background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .font-cinzel {
+            font-family: 'Cinzel', serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-white">
+    <div class="bg-black bg-opacity-70 min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8">
+
+        <main class="text-center w-full max-w-4xl mx-auto flex flex-col items-center">
+
+            <h1 class="font-cinzel text-5xl sm:text-7xl lg:text-8xl font-bold tracking-wider text-gray-200"
+                style="text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);">
+                THE CRYPT
+            </h1>
+
+            <div
+                class="mt-8 mb-8 w-full max-w-xl aspect-video bg-gray-800/50 border-2 border-gray-600 rounded-lg overflow-hidden video-embed-container transition-all duration-300 ease-in-out hover:border-gray-400">
+                <iframe class="w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <p class="max-w-xl text-base sm:text-lg text-gray-300 leading-relaxed">
+                One explores, the other opens the way. Team up as the agile Adventurer and the brilliant Cryptographer.
+                Swing over dangerous spikes and hack ancient terminals to discover the chambers of The Crypt
+                together.
+            </p>
+
+            <div id="countdown-container" class="mt-10 w-full max-w-lg text-center border-t border-gray-700 pt-6">
+                <h2 class="text-lg text-gray-400 tracking-widest mb-4">UNEARTHING IN...</h2>
+                <div class="grid grid-cols-4 gap-2 sm:gap-4">
+                    <div>
+                        <span id="days" class="font-cinzel text-4xl sm:text-5xl font-bold text-gray-200">0</span>
+                        <span class="block text-sm text-gray-400">Days</span>
+                    </div>
+                    <div>
+                        <span id="hours" class="font-cinzel text-4xl sm:text-5xl font-bold text-gray-200">0</span>
+                        <span class="block text-sm text-gray-400">Hours</span>
+                    </div>
+                    <div>
+                        <span id="minutes" class="font-cinzel text-4xl sm:text-5xl font-bold text-gray-200">0</span>
+                        <span class="block text-sm text-gray-400">Minutes</span>
+                    </div>
+                    <div>
+                        <span id="seconds" class="font-cinzel text-4xl sm:text-5xl font-bold text-gray-200">0</span>
+                        <span class="block text-sm text-gray-400">Seconds</span>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <footer class="mt-12 text-center text-gray-500 text-sm">
+            <p>&copy; 2025 The Accessibility Studio Interactive Technologies. All rights reserved.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const countDownDate = new Date("Jun 26, 2025 00:00:00").getTime();
+
+        const x = setInterval(function () {
+
+            const now = new Date().getTime();
+
+            const distance = countDownDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days;
+            document.getElementById("hours").innerText = hours;
+            document.getElementById("minutes").innerText = minutes;
+            document.getElementById("seconds").innerText = seconds;
+
+            if (distance < 0) {
+                clearInterval(x);
+                const countdownContainer = document.getElementById("countdown-container");
+                countdownContainer.innerHTML = `
+                    <a href="/game" 
+                       class="inline-block bg-amber-400 hover:bg-amber-300 text-gray-900 font-bold font-cinzel text-2xl px-10 py-4 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105">
+                       PLAY NOW
+                    </a>
+                `;
+                countdownContainer.classList.remove('border-t', 'border-gray-700', 'pt-6');
+            }
+        }, 1000);
+    </script>
+</body>
+
+</html>
