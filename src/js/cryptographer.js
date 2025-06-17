@@ -15,6 +15,7 @@ export class Cryptographer extends Actor {
         this.scale = new Vector(0.08, 0.08)
         this.graphics.use(Resources.Cryptographer.toSprite())
         this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation)
+        this.body.bounciness = 0
         this.interacting = false
         this.nearTerminal = null
     }

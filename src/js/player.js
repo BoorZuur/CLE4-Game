@@ -1,4 +1,4 @@
-import { Actor, Engine, Keys, Vector, CollisionType ,DegreeOfFreedom} from "excalibur"
+import { Actor, Engine, Keys, Vector, CollisionType, DegreeOfFreedom } from "excalibur"
 import { Resources } from "./resources.js"
 import { Projectile } from "./projectile.js"
 import { HookPoint } from "./hook-point.js"
@@ -25,7 +25,8 @@ export class Player extends Actor {
         this.jumpForce = -700;
         this.isGrounded = false;
         this.gravity = 800;
-
+        this.onPlatform = false;
+        this.recentPlatform = 0;
         this.sprite = Resources.Adventurer.toSprite()
         this.graphics.use(this.sprite)
         this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation)
@@ -33,7 +34,7 @@ export class Player extends Actor {
     onInitialize(engine) {
         // Voeg deze regel toe om collisions te detecteren
         this.on('collisionstart', (event) => this.handleCollision(event));
-
+        this.on('collisionend', (event) => this.collisionEnd(event));
     }
 
     #Shoot() {
@@ -46,17 +47,28 @@ export class Player extends Actor {
             this.isGrounded = false;
         }
     }
-    handleCollision(event) {
-    if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate ||event.other.owner instanceof ContinuousPlatform || event.other.owner instanceof ControlPlatform) {
-        this.isGrounded = true;
-        this.vel.y = 0;
-    }
-    if (event.other.owner instanceof Spikes) {
-        this.pos.x = event.other.owner.respawnX
-        this.pos.y = event.other.owner.respawnY
-    }
-}
 
+    handleCollision(event) {
+        if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate || event.other.owner instanceof ContinuousPlatform || event.other.owner instanceof ControlPlatform) {
+            this.isGrounded = true;
+            this.vel.y = 0;
+        }
+        if (event.other.owner instanceof ControlPlatform) {
+            this.onPlatform = true;
+            this.recentPlatform = event.other.owner;
+        }
+
+        if (event.other.owner instanceof Spikes) {
+            this.pos.x = event.other.owner.respawnX
+            this.pos.y = event.other.owner.respawnY
+        }
+    }
+
+    collisionEnd(event) {
+        if (event.other.owner instanceof ControlPlatform) {
+            this.onPlatform = false;
+        }
+    }
 
     activateGrapple(hookPoint) {
         if (this.grappleCooldown <= 0 && !this.grappling) {
@@ -157,6 +169,24 @@ export class Player extends Actor {
         // Schieten
         if (engine.input.keyboard.wasPressed(Keys.Q)) {
             this.#Shoot();
+        }
+
+        if (this.onPlatform && !engine.input.keyboard.wasPressed(Keys.Space)) {
+            this.vel.y = 0
+        }
+
+        let platformVel = 0;
+        if (this.recentPlatform) {
+            platformVel = this.recentPlatform.vel.clone()
+        }
+        if (this.onPlatform) {
+            if (!engine.input.keyboard.wasPressed(Keys.Space)) {
+                this.vel.y = 0
+            }
+            if (!engine.input.keyboard.isHeld(Keys.Left) && !engine.input.keyboard.isHeld(Keys.Right)) {
+                // this.vel.x = this.recentPlatform.vel.x;
+                xspeed = platformVel.x;
+            }
         }
     }
 }
