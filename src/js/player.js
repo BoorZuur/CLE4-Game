@@ -5,6 +5,7 @@ import { HookPoint } from "./hook-point.js"
 import { Platform } from "./platform.js"
 import { ContinuousPlatform } from "./continuousPlatform.js"
 import { PressurePlate } from "./pressure-plate.js"
+import { ControlPlatform } from "./controlPlatform.js"
 import { Spikes } from "./spikes.js"
 import { Door } from "./door.js"
 import { Crate } from "./crate.js"
@@ -46,7 +47,7 @@ export class Player extends Actor {
         }
     }
     handleCollision(event) {
-    if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate ||event.other.owner instanceof ContinuousPlatform) {
+    if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate ||event.other.owner instanceof ContinuousPlatform || event.other.owner instanceof ControlPlatform) {
         this.isGrounded = true;
         this.vel.y = 0;
     }
