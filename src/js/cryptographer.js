@@ -1,12 +1,10 @@
 import { Actor, Vector, Keys, CollisionType, DegreeOfFreedom, CompositeCollider, Shape } from "excalibur"
 import { Resources } from './resources.js'
 import { Terminal } from "./terminal.js";
-import { InteractionLabel } from "./interactionLabel.js";
 import { Spikes } from "./spikes.js";
 
 export class Cryptographer extends Actor {
     interacting
-    interactionLabel
     nearTerminal
 
     constructor(x, y) {
@@ -70,7 +68,7 @@ export class Cryptographer extends Actor {
         }
 
         if (this.interacting) {
-            this.nearTerminal.movePlatform(xvel, yvel)
+            // this.nearTerminal.movePlatform(xvel, yvel)
         } else {
             // this.vel.x = xvel
             this.body.applyLinearImpulse(new Vector(move, 0))
@@ -86,11 +84,13 @@ export class Cryptographer extends Actor {
     interactWithTerminal(terminal) {
         if (this.interacting) {
             this.interacting = false
-            this.interactionLabel.text = 'Press "E" to use terminal'
+            this.nearTerminal.interacting = false
+            this.nearTerminal.interactionLabel.text = 'Press "E" to use terminal'
             this.nearTerminal.movePlatform(0, 0)
         } else {
             this.interacting = true
-            this.interactionLabel.text = 'Press "E" to stop interacting'
+            this.nearTerminal.interacting = true
+            this.nearTerminal.interactionLabel.text = 'Press "E" to stop using terminal'
             this.vel = new Vector(0, 0)
         }
     }
@@ -98,9 +98,6 @@ export class Cryptographer extends Actor {
     hitSomething(event) {
         if (event.other.owner instanceof Terminal) {
             this.nearTerminal = event.other.owner
-            console.log('Press E to use terminal')
-            this.interactionLabel = new InteractionLabel(0, -1000, 'Press "E" to use terminal', 50, 'White')
-            this.addChild(this.interactionLabel)
         } if (event.other.owner instanceof Spikes) {
             console.log('You hit the spikes!')
             this.pos.x = event.other.owner.respawnX
@@ -110,12 +107,12 @@ export class Cryptographer extends Actor {
 
     leftSomething(event) {
         if (event.other.owner instanceof Terminal) {
-            this.nearTerminal = null
-            console.log('You left the terminal area')
-            if (this.interactionLabel) {
-                this.interactionLabel.kill()
-                this.interactionLabel = null
+            if (this.interacting) {
+                this.interacting = false
+                this.nearTerminal.interacting = false
+                this.nearTerminal.movePlatform(0, 0)
             }
+            this.nearTerminal = null
         }
     }
 }

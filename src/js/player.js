@@ -146,16 +146,10 @@ export class Player extends Actor {
             if (engine.input.keyboard.isHeld(Keys.Left)) {
                 xspeed = -100;
                 this.sprite.flipHorizontal = true;
-                if (this.onPlatform) {
-                    xspeed += this.recentPlatform.vel.x;
-                }
             }
             if (engine.input.keyboard.isHeld(Keys.Right)) {
                 xspeed = 100;
                 this.sprite.flipHorizontal = false;
-                if (this.onPlatform) {
-                    xspeed += this.recentPlatform.vel.x;
-                }
             }
             // Springen met spatiebalk
             if (engine.input.keyboard.wasPressed(Keys.Space)) {
@@ -164,10 +158,10 @@ export class Player extends Actor {
         }
 
         // check of het platform op de clamp border is
-        if (this.recentPlatform && this.recentPlatform.pos.x <= this.recentPlatform.minX) {
+        if (this.recentPlatform && this.onPlatform && this.recentPlatform.pos.x <= this.recentPlatform.minX) {
             xspeed -= this.recentPlatform.vel.x;
         }
-        if (this.recentPlatform && this.recentPlatform.pos.x >= this.recentPlatform.maxX) {
+        if (this.recentPlatform && this.onPlatform && this.recentPlatform.pos.x >= this.recentPlatform.maxX) {
             xspeed -= this.recentPlatform.vel.x;
         }
 
