@@ -8,6 +8,7 @@ import { PressurePlate } from "./pressure-plate.js"
 import { ControlPlatform } from "./controlPlatform.js"
 import { Spikes } from "./spikes.js"
 import { Door } from "./door.js"
+import { Button } from "./button.js"
 import { Crate } from "./crate.js"
 import { Wall } from "./wall.js"
 

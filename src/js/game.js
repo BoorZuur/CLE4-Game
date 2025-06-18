@@ -11,6 +11,7 @@ import { Spikes } from './spikes.js'
 import { Background } from './background.js'
 import { Door } from './door.js'
 import { PressurePlate } from './pressure-plate.js'
+import { Button } from './button.js'
 
 export class Game extends Engine {
 
@@ -113,6 +114,10 @@ export class Game extends Engine {
         const plate = new PressurePlate(x, y, door, this);
         this.add(plate);
         return plate;
+    }
+    addButton(x, y, door) {
+        const button = new Button(x, y, door,this);
+        this.add(button);
     }
 }
 
