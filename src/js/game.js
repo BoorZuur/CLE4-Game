@@ -32,7 +32,7 @@ export class Game extends Engine {
     }
 
     startGame() {
-        let cryptographer = new Cryptographer(100, 670)
+        let cryptographer = new Cryptographer(100, 650)
         let player = new Player(100, 430)
         let terminal = new Terminal(820, 640, 750, 550, 5, 5, 100, 100)
         let background = new Background()
@@ -84,7 +84,7 @@ export class Game extends Engine {
         this.addWall(1030, 400, 0)
 
         this.addPlatform(950, 490)
-        this.addCrate(500, 400)
+        this.addCrate(500, 300)
 
         this.addPlatform(80,700)
         this.addPlatform(170,700)
@@ -99,7 +99,7 @@ export class Game extends Engine {
         this.addPlatform(1040,700)
         this.addPlatform(1130,700)
         this.addPlatform(1220,700)
-        this.addSpikes(605,720, 0.05, 50, 50)
+        this.addSpikes(605,720, 0.05, 100, 650)
 
 
         let door = this.addDoor(1030, 590)

@@ -2,13 +2,17 @@ import { Actor, Vector, Keys, CollisionType, DegreeOfFreedom, CompositeCollider,
 import { Resources } from './resources.js'
 import { Terminal } from "./terminal.js";
 import { Spikes } from "./spikes.js";
+import { friendsGroup } from './collisiongroups.js'
 
 export class Cryptographer extends Actor {
     interacting
     nearTerminal
 
     constructor(x, y) {
-        super({ collisionType: CollisionType.Active });
+        super({ 
+            collisionType: CollisionType.Active,
+            collisionGroup: friendsGroup,
+         });
         this.pos = new Vector(x, y)
         this.scale = new Vector(0.08, 0.08)
         this.graphics.use(Resources.Cryptographer.toSprite())
@@ -47,14 +51,14 @@ export class Cryptographer extends Actor {
         let move = 0
 
         if (kb.isHeld(keys.Left)) {
-            move = -7 * delta
+            move = -5.5* delta
             xvel = -1
             if (!this.interacting) {
                 this.graphics.flipHorizontal = true
             }
         }
         if (kb.isHeld(keys.Right)) {
-            move = 7 * delta
+            move = 5.5 * delta
             xvel = 1
             if (!this.interacting) {
                 this.graphics.flipHorizontal = false

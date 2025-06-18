@@ -11,12 +11,13 @@ import { Door } from "./door.js"
 import { Button } from "./button.js"
 import { Crate } from "./crate.js"
 import { Wall } from "./wall.js"
+import { friendsGroup } from "./collisiongroups.js"
 
 export class Player extends Actor {
     sprite
 
     constructor(x, y) {
-        super({ width: 400, height: 900, collisionType: CollisionType.Active, anchor: Vector.Half })
+        super({ width: 400, height: 900, collisionType: CollisionType.Active, anchor: Vector.Half, collisionGroup: friendsGroup });
         this.pos = new Vector(x, y)
         this.scale = new Vector(0.08, 0.08)
         this.grappling = false;
