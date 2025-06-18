@@ -5,6 +5,8 @@ import { Ramp } from './ramp'
 const Resources = {
     Cryptographer: new ImageSource('images/Cryptographer.png'),
     Terminal: new ImageSource('images/Terminal.png'),
+    TerminalRed: new ImageSource('images/TerminalRed.png'),
+    TerminalGreen: new ImageSource('images/TerminalGreen.png'),
     ControlPlatform: new ImageSource('images/Controllable platform.png'),
     Platform: new ImageSource('images/Platform.png'),
     ContinuousPlatform: new ImageSource('images/Continuous platform.png'),
@@ -19,6 +21,7 @@ const Resources = {
     Wall: new ImageSource('images/Wall.png'),
     Background: new ImageSource('images/Background.png'),
     Adventurer: new ImageSource('images/Adventurer.png'),
+    Button: new ImageSource('images/Target.png'),
     Ramp: new ImageSource('images/Ramp.png')
 }
 

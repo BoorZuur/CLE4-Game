@@ -8,6 +8,7 @@ import { PressurePlate } from "./pressure-plate.js"
 import { ControlPlatform } from "./controlPlatform.js"
 import { Spikes } from "./spikes.js"
 import { Door } from "./door.js"
+import { Button } from "./button.js"
 import { Crate } from "./crate.js"
 import { Wall } from "./wall.js"
 
@@ -23,11 +24,11 @@ export class Player extends Actor {
         this.grappleSpeed = 50;
         this.grappleCooldown = 0;
         this.grappleMaxCooldown = 60;
-        this.jumpForce = -700;
+        this.jumpForce = -400;
         this.isGrounded = false;
         this.gravity = 800;
         this.onPlatform = false;
-        this.recentPlatform = 0;
+        this.recentPlatform = null;
         this.sprite = Resources.Adventurer.toSprite()
         this.graphics.use(this.sprite)
         this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation)
@@ -50,7 +51,7 @@ export class Player extends Actor {
     }
 
     handleCollision(event) {
-        if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate || event.other.owner instanceof ContinuousPlatform || event.other.owner instanceof ControlPlatform || event.other.owner instanceof Wall)  {
+        if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate  || event.other.owner instanceof ControlPlatform || event.other.owner instanceof Wall) {
             this.isGrounded = true;
             this.vel.y = 0;
         }
@@ -157,6 +158,14 @@ export class Player extends Actor {
             }
         }
 
+        // check of het platform op de clamp border is
+        if (this.recentPlatform && this.onPlatform && this.recentPlatform.pos.x <= this.recentPlatform.minX) {
+            xspeed -= this.recentPlatform.vel.x;
+        }
+        if (this.recentPlatform && this.onPlatform && this.recentPlatform.pos.x >= this.recentPlatform.maxX) {
+            xspeed -= this.recentPlatform.vel.x;
+        }
+
         // Gravity toepassen als je niet aan het grappelen bent
         if (!this.grappling) {
             this.vel.y += this.gravity * (delta / 1000);
@@ -176,22 +185,20 @@ export class Player extends Actor {
         //     this.vel.y = 0
         // }
 
-        // Als je op een platform staat, gebruik de snelheid van het platform
 
-
-        // let platformVel = 0;
-        // if (this.recentPlatform) {
-        //     platformVel = this.recentPlatform.vel.clone()
-        // }
-        // if (this.onPlatform) {
-        //     if (!engine.input.keyboard.wasPressed(Keys.Space)) {
-        //         this.vel.y = 0
-        //     }
-        //     if (!engine.input.keyboard.isHeld(Keys.Left) && !engine.input.keyboard.isHeld(Keys.Right)) {
-        //         // this.vel.x = this.recentPlatform.vel.x;
-        //         const relativeVelocity = this.recentPlatform.vel.clone().add(this.vel.clone());
-        //         this.vel = relativeVelocity;
-        //     }
-        // }
+        let platformVel = 0;
+        if (this.recentPlatform) {
+            platformVel = this.recentPlatform.vel.clone()
+        }
+        if (this.onPlatform) {
+            if (!engine.input.keyboard.wasPressed(Keys.Space)) {
+                this.vel.y = 0
+            }
+            if (!engine.input.keyboard.isHeld(Keys.Left) && !engine.input.keyboard.isHeld(Keys.Right)) {
+                // this.vel.x = this.recentPlatform.vel.x;
+                const relativeVelocity = this.recentPlatform.vel.clone().add(this.vel.clone());
+                this.vel = relativeVelocity;
+            }
+        }
     }
 }

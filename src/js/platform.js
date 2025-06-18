@@ -10,6 +10,7 @@ export class Platform extends Actor {
             height: Resources.Platform.height,
             collisionType: CollisionType.Fixed
         })
+        this.z = -1
         
         this.scale = new Vector(0.075, 0.075)
         this.graphics.use(Resources.Platform.toSprite())
