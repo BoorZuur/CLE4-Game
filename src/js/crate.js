@@ -4,6 +4,9 @@ import { Player } from "./player.js";
 import { Platform } from "./platform.js";
 import { PressurePlate } from "./pressure-plate.js";
 import { Spikes } from "./spikes.js";
+import { ContinuousPlatform } from "./continuousPlatform.js";
+import { Cryptographer } from "./cryptographer.js";
+
 
 export class Crate extends Actor {
     constructor(x, y) {
@@ -29,11 +32,11 @@ export class Crate extends Actor {
     onInitialize() {
         this.on('precollision', (event) => this.handlePush(event));
         this.on('collisionstart', (event) => this.handleCollision(event));
-        this.on('collisionend', (event) => this.handleCollisionEnd(event));
+        this.on('collisionend', (event) => this.handleCollision(event));
     }
 
     handlePush(event) {
-        if (event.other.owner instanceof Player) {
+        if (event.other.owner instanceof Player || event.other.owner instanceof Cryptographer) {
             const player = event.other.owner;
             if (Math.abs(player.vel.x) > 50) {
                 const direction = player.vel.x > 0 ? 1 : -1;

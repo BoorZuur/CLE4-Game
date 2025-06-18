@@ -14,6 +14,7 @@ export class Door extends Actor {
         this.scale = new Vector(0.22, 0.22);
         this.doorX = x;
         this.doorY = y;
+        this.z = -1
         this.linkedPlates = []; 
     }
 

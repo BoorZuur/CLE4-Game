@@ -24,7 +24,7 @@ export class Player extends Actor {
         this.grappleSpeed = 50;
         this.grappleCooldown = 0;
         this.grappleMaxCooldown = 60;
-        this.jumpForce = -700;
+        this.jumpForce = -400;
         this.isGrounded = false;
         this.gravity = 800;
         this.onPlatform = false;
@@ -51,7 +51,7 @@ export class Player extends Actor {
     }
 
     handleCollision(event) {
-        if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate || event.other.owner instanceof ContinuousPlatform || event.other.owner instanceof ControlPlatform || event.other.owner instanceof Wall) {
+        if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate  || event.other.owner instanceof ControlPlatform || event.other.owner instanceof Wall) {
             this.isGrounded = true;
             this.vel.y = 0;
         }
