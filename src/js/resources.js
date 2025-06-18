@@ -1,4 +1,5 @@
 import { ImageSource, Sound, Resource, Loader } from 'excalibur'
+import { Ramp } from './ramp'
 
 // voeg hier jouw eigen resources toe
 const Resources = {
@@ -21,6 +22,7 @@ const Resources = {
     Background: new ImageSource('images/Background.png'),
     Adventurer: new ImageSource('images/Adventurer.png'),
     Button: new ImageSource('images/Target.png'),
+    Ramp: new ImageSource('images/Ramp.png')
 }
 
 const ResourceLoader = new Loader()

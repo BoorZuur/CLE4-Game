@@ -13,6 +13,7 @@ import { Door } from './door.js'
 import { PressurePlate } from './pressure-plate.js'
 import { Button } from './button.js'
 import { Crate } from './crate.js'
+import { Level2 } from './level2.js'
 
 export class Game extends Engine {
 
@@ -29,6 +30,22 @@ export class Game extends Engine {
         })
         // this.showDebug(true)
         this.start(ResourceLoader).then(() => this.startGame())
+    }
+
+    onInitialize() {
+        // const mainMenu = new MainMenuScene();
+        // this.add('menu', mainMenu);
+        // const level1 = new Level1();
+        // this.add('level1', level1);
+        const level2 = new Level2();
+        this.add('level2', level2)
+
+        this.goToScene('level2');
+
+        // Load resources
+        this.start(ResourceLoader).then(() => {
+            console.log('Resources loaded');
+        });
     }
 
     startGame() {
