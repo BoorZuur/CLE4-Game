@@ -44,13 +44,13 @@ export class Terminal extends Actor {
         this.platform = new ControlPlatform(this.platformx, this.platformy,
             this.minX, this.maxX, this.minY, this.maxY);
 
-        this.addChild(border);
-        this.addChild(this.platform);
+        // this.addChild(border);
+        this.scene.add(border)
+        this.scene.add(this.platform);
     }
 
-
     movePlatform(x, y) {
-        const speed = 1000
+        const speed = 100
 
         // diagonal movement
         if (x && y) {

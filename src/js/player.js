@@ -28,7 +28,7 @@ export class Player extends Actor {
         this.isGrounded = false;
         this.gravity = 800;
         this.onPlatform = false;
-        this.recentPlatform = 0;
+        this.recentPlatform = null;
         this.sprite = Resources.Adventurer.toSprite()
         this.graphics.use(this.sprite)
         this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation)
@@ -51,7 +51,7 @@ export class Player extends Actor {
     }
 
     handleCollision(event) {
-        if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate || event.other.owner instanceof ContinuousPlatform || event.other.owner instanceof ControlPlatform || event.other.owner instanceof Wall)  {
+        if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate || event.other.owner instanceof ContinuousPlatform || event.other.owner instanceof ControlPlatform || event.other.owner instanceof Wall) {
             this.isGrounded = true;
             this.vel.y = 0;
         }
@@ -147,15 +147,29 @@ export class Player extends Actor {
             if (engine.input.keyboard.isHeld(Keys.Left)) {
                 xspeed = -100;
                 this.sprite.flipHorizontal = true;
+                if (this.onPlatform) {
+                    xspeed += this.recentPlatform.vel.x;
+                }
             }
             if (engine.input.keyboard.isHeld(Keys.Right)) {
                 xspeed = 100;
                 this.sprite.flipHorizontal = false;
+                if (this.onPlatform) {
+                    xspeed += this.recentPlatform.vel.x;
+                }
             }
             // Springen met spatiebalk
             if (engine.input.keyboard.wasPressed(Keys.Space)) {
                 this.Jump();
             }
+        }
+
+        // check of het platform op de clamp border is
+        if (this.recentPlatform && this.recentPlatform.pos.x <= this.recentPlatform.minX) {
+            xspeed -= this.recentPlatform.vel.x;
+        }
+        if (this.recentPlatform && this.recentPlatform.pos.x >= this.recentPlatform.maxX) {
+            xspeed -= this.recentPlatform.vel.x;
         }
 
         // Gravity toepassen als je niet aan het grappelen bent
@@ -173,9 +187,10 @@ export class Player extends Actor {
             this.#Shoot();
         }
 
-        if (this.onPlatform && !engine.input.keyboard.wasPressed(Keys.Space)) {
-            this.vel.y = 0
-        }
+        // if (this.onPlatform && !engine.input.keyboard.wasPressed(Keys.Space)) {
+        //     this.vel.y = 0
+        // }
+
 
         let platformVel = 0;
         if (this.recentPlatform) {
@@ -186,8 +201,9 @@ export class Player extends Actor {
                 this.vel.y = 0
             }
             if (!engine.input.keyboard.isHeld(Keys.Left) && !engine.input.keyboard.isHeld(Keys.Right)) {
-                this.vel.x = 0;
-                xspeed = platformVel.x;
+                // this.vel.x = this.recentPlatform.vel.x;
+                const relativeVelocity = this.recentPlatform.vel.clone().add(this.vel.clone());
+                this.vel = relativeVelocity;
             }
         }
     }
