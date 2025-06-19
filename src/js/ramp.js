@@ -8,7 +8,7 @@ export class Ramp extends Actor {
             y,
             width: Resources.Ramp.width,
             height: Resources.Ramp.height,
-            collisionType: CollisionType.Fixed
+            collisionType: CollisionType.Fixed,
         })
 
         this.scale = new Vector(0.1, 0.1)

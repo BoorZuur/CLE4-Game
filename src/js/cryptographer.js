@@ -114,7 +114,7 @@ export class Cryptographer extends Actor {
             console.log('You hit the spikes!')
             this.pos.x = event.other.owner.respawnX
             this.pos.y = event.other.owner.respawnY
-        }
+        } if (event.other.owner instanceof Ramp) {}
     }
 
     leftSomething(event) {
