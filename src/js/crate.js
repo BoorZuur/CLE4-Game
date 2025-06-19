@@ -6,6 +6,7 @@ import { PressurePlate } from "./pressure-plate.js";
 import { Spikes } from "./spikes.js";
 import { ContinuousPlatform } from "./continuousPlatform.js";
 import { Cryptographer } from "./cryptographer.js";
+import { ControlPlatform } from "./controlPlatform.js"
 
 
 export class Crate extends Actor {
@@ -36,7 +37,7 @@ export class Crate extends Actor {
     }
 
     handlePush(event) {
-        if (event.other.owner instanceof Player || event.other.owner instanceof Cryptographer) {
+        if (event.other.owner instanceof Player || event.other.owner instanceof Cryptographer || event.other.owner instanceof ControlPlatform) {
             const player = event.other.owner;
             if (Math.abs(player.vel.x) > 50) {
                 const direction = player.vel.x > 0 ? 1 : -1;
@@ -49,7 +50,7 @@ export class Crate extends Actor {
         if (event.other.owner instanceof Platform || 
             event.other.owner instanceof PressurePlate|| 
             event.other.owner instanceof Spikes||
-        event.other.owner instanceof ContinuousPlatform) {
+            event.other.owner instanceof ContinuousPlatform) {
             this.isGrounded = true;
             this.vel.y = 0;
         }

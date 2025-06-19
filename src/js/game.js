@@ -13,6 +13,7 @@ import { Door } from './door.js'
 import { PressurePlate } from './pressure-plate.js'
 import { Button } from './button.js'
 import { Crate } from './crate.js'
+import { HookPoint } from './hook-point.js'
 
 export class Game extends Engine {
 
@@ -27,7 +28,7 @@ export class Game extends Engine {
                 gravity: new Vector(0, 500)
             }
         })
-        // this.showDebug(true)
+        this.showDebug(true)
         this.start(ResourceLoader).then(() => this.startGame())
     }
 
@@ -62,7 +63,7 @@ export class Game extends Engine {
 
         x = 110
         for (let i = 0; i < 8; i++) {
-            let continuousPlatform = new ContinuousPlatform(x, 0, Math.PI)
+            let continuousPlatform = new ContinuousPlatform(x, 330, Math.PI)
             this.add(continuousPlatform)
             x += 150
         }
@@ -84,8 +85,10 @@ export class Game extends Engine {
         this.addWall(1030, 400, 0)
 
         this.addPlatform(950, 490)
+        this.addPlatform(860, 490)
         this.addCrate(500, 400)
-
+        
+        this.addHookpoint(150,550)
         this.addPlatform(80,700)
         this.addPlatform(170,700)
         this.addPlatform(260,700)
@@ -99,10 +102,11 @@ export class Game extends Engine {
         this.addPlatform(1040,700)
         this.addPlatform(1130,700)
         this.addPlatform(1220,700)
-        this.addSpikes(605,720, 0.05, 50, 50)
+        this.addSpikes(605,720, 0.05, 85, 500)
 
 
         let door = this.addDoor(1030, 590)
+        this.addPlate(800, 500, door)
         this.addPlate(950, 470, door)
         this.addPlate(1200, 685, door)
     }
@@ -110,8 +114,12 @@ export class Game extends Engine {
         const wall = new Wall(x, y, angle);
         this.add(wall);
     }
-    addSpikes(x, y, scale, width, height) {
-        const spikes = new Spikes(x, y, scale, width, height);
+    addHookpoint(x,y){
+        const hook = new HookPoint(x,y)
+        this.add(hook)
+    }
+    addSpikes(x, y, scale, respawnX, respawnY) {
+        const spikes = new Spikes(x, y, scale, respawnX, respawnY);
         this.add(spikes);
     }
     addCrate(x,y){

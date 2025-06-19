@@ -1,4 +1,4 @@
-import { Actor, Engine, Keys, Vector, CollisionType, DegreeOfFreedom } from "excalibur"
+import { Actor, Engine, Keys, Vector, CollisionType, DegreeOfFreedom, CompositeCollider,Shape } from "excalibur"
 import { Resources } from "./resources.js"
 import { Projectile } from "./projectile.js"
 import { HookPoint } from "./hook-point.js"
@@ -34,9 +34,27 @@ export class Player extends Actor {
         this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation)
     }
     onInitialize(engine) {
-        // Voeg deze regel toe om collisions te detecteren
-        this.on('collisionstart', (event) => this.handleCollision(event));
-        this.on('collisionend', (event) => this.collisionEnd(event));
+    let capsule = new CompositeCollider([
+        Shape.Circle(300, new Vector(0, -200)),
+        Shape.Circle(300, new Vector(0, 200)),
+        Shape.Box(400, 300, Vector.Half, new Vector(0, 0)) 
+    ]);
+    this.collider.set(capsule);
+
+    this.on('collisionstart', (event) => this.handleCollision(event));
+    this.on('collisionend', (event) => this.collisionEnd(event));
+}
+    handleCollision(event) {
+        // Speciale platform logica blijft hier
+        if (event.other.owner instanceof ControlPlatform) {
+            this.onPlatform = true;
+            this.recentPlatform = event.other.owner;
+        }
+
+        if (event.other.owner instanceof Spikes) {
+            this.pos.x = event.other.owner.respawnX;
+            this.pos.y = event.other.owner.respawnY;
+        }
     }
 
     #Shoot() {
@@ -54,6 +72,7 @@ export class Player extends Actor {
         if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate  || event.other.owner instanceof ControlPlatform || event.other.owner instanceof Wall) {
             this.isGrounded = true;
             this.vel.y = 0;
+            
         }
         if (event.other.owner instanceof ControlPlatform) {
             this.onPlatform = true;

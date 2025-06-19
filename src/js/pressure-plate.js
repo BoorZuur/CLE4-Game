@@ -4,6 +4,7 @@ import { Player } from "./player.js";
 import { Door } from "./door.js";
 import { Crate } from "./crate.js";
 import { Cryptographer } from "./cryptographer.js";
+import { ControlPlatform} from "./controlPlatform.js";
 
 export class PressurePlate extends Actor {
     constructor(x, y, linkedDoor, gameInstance) {
@@ -29,8 +30,10 @@ export class PressurePlate extends Actor {
         this.on('collisionstart', (event) => {
             if ((event.other.owner instanceof Player || 
                  event.other.owner instanceof Cryptographer || 
-                 event.other.owner instanceof Crate) && 
+                 event.other.owner instanceof Crate||
+                event.other.owner instanceof ControlPlatform) && 
                 this.linkedDoor) {
+                    console.log("me hit") 
                 this.linkedDoor.kill();
                 this.exists = false;
             }
@@ -39,7 +42,8 @@ export class PressurePlate extends Actor {
         this.on('collisionend', (event) => {
             if ((event.other.owner instanceof Player || 
                  event.other.owner instanceof Cryptographer || 
-                 event.other.owner instanceof Crate) && 
+                 event.other.owner instanceof Crate||
+                 event.other.owner instanceof ControlPlatform) && 
                 this.linkedDoor && !this.exists) {
                 this.exists = true;
                 

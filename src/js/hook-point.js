@@ -11,7 +11,7 @@ export class HookPoint extends Actor {
             anchor: Vector.full
         });
         this.scale = new Vector(0.05, 0.05);
-        this.grappleRadius = 300;
+        this.grappleRadius = 150;
     }
 
     isPlayerInRange(playerPos) {

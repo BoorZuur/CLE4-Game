@@ -11,7 +11,7 @@ export class ContinuousPlatform extends Actor {
             rotation,
             collisionType: CollisionType.Fixed
         })
-        
+        this.z = 1
         this.scale = new Vector(0.1, 0.1)
         this.graphics.use(Resources.ContinuousPlatform.toSprite())
     }
