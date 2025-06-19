@@ -7,6 +7,7 @@ import { Door } from "./door.js";
 import { Crate } from "./crate.js";
 import { ControlPlatform } from "./controlPlatform.js";
 import { ContinuousPlatform } from "./continuousPlatform.js";
+import { CrackedWall } from "./crackedWall.js"
 
 export class Projectile extends Actor {
     #sprite
@@ -32,6 +33,11 @@ export class Projectile extends Actor {
         if (event.other.owner && event.other.owner.constructor.name === "Button") {
         event.other.owner.activate();
         this.kill();
+    }
+    if (event.other.owner instanceof CrackedWall) {
+        console.log("hallo");
+        event.other.owner.kill();
+        this.kill()
     }
         if (event.other.owner instanceof Wall || event.other.owner instanceof Platform || event.other.owner instanceof Door || event.other.onwer instanceof ControlPlatform || event.other.onwer instanceof  Crate || event.other.onwer instanceof  ContinuousPlatform && !(event.other.owner instanceof Button)) {
             this.kill();

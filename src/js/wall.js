@@ -11,7 +11,6 @@ export class Wall extends Actor {
             rotation,
             collisionType: CollisionType.Fixed
         })
-
         // if swidth or/and sheight are not provided, use the default size
         if (!swidth) {
             swidth = 0.125

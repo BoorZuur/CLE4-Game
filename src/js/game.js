@@ -17,6 +17,9 @@ import { Level2 } from './level2.js'
 import { Ramp } from './ramp.js'
 import { Elevator } from './elevator.js'
 import { HookPoint } from './hook-point.js'
+import { CrackedWall } from './crackedWall.js'
+import { SecretWallHole } from './secretWallHole.js'
+import { SecretWall } from './secretWall.js'
 
 export class Game extends Engine {
 
@@ -84,7 +87,7 @@ export class Game extends Engine {
 
         x = 110
         for (let i = 0; i < 8; i++) {
-            let continuousPlatform = new ContinuousPlatform(x, 330, Math.PI)
+            let continuousPlatform = new ContinuousPlatform(x, 1260, Math.PI)
             this.add(continuousPlatform)
             x += 150
         }
@@ -121,6 +124,9 @@ export class Game extends Engine {
         this.addPlatform(1040, 700)
         this.addPlatform(1130, 700)
         this.addPlatform(1220, 700)
+        this.addCrackedWall(900, 600)
+        this.addSecretWallHole(900, 600)
+        this.addSecretWall(950,600)
         this.addElevator(300, 694, 400, 300, 100, 100, false)
         this.addSpikes(605, 720, 0.05, 100, 650)
         this.addPlatform(860, 490)
@@ -139,6 +145,18 @@ export class Game extends Engine {
         const elevator = new Elevator(x, y, platformX, platformY, minY, maxY, inverted);
         this.add(elevator);
         return elevator;
+    }
+    addSecretWall(x,y){
+        const secretWall = new SecretWall(x,y)
+        this.add(secretWall)
+    }
+    addCrackedWall(x,y){
+        const crackedWall = new CrackedWall(x,y)
+        this.add(crackedWall)
+    }
+    addSecretWallHole(x,y){
+        const secretWallHole = new SecretWallHole(x,y)
+        this.add(secretWallHole)
     }
     addWall(x, y, angle) {
         const wall = new Wall(x, y, angle);
