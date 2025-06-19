@@ -14,6 +14,7 @@ import { PressurePlate } from './pressure-plate.js'
 import { Button } from './button.js'
 import { Crate } from './crate.js'
 import { Level2 } from './level2.js'
+import { Ramp } from './ramp.js'
 
 export class Game extends Engine {
 
@@ -51,13 +52,15 @@ export class Game extends Engine {
     startGame() {
         let cryptographer = new Cryptographer(100, 650)
         let player = new Player(100, 430)
-        let terminal = new Terminal(820, 640, 750, 550, 5, 5, 100, 100)
+        let terminal = new Terminal(820, 640, 750, 550, false, 5, 5, 100, 100)
         let background = new Background()
+        let ramp = new Ramp(300, 660)
 
         this.add(terminal)
         this.add(cryptographer)
         this.add(player)
         this.add(background)
+        // this.add(ramp)
 
         let y = 0
         let x = 0

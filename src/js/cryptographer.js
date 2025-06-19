@@ -17,16 +17,19 @@ export class Cryptographer extends Actor {
         this.scale = new Vector(0.08, 0.08)
         this.graphics.use(Resources.Cryptographer.toSprite())
         this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation)
-        this.body.bounciness = 0
+        // this.body.bounciness = 0
+        // this.body.friction = 0.5
+        // this.body.mas = 100
         this.interacting = false
         this.nearTerminal = null
+        
     }
 
     onInitialize(engine) {
         let capsule = new CompositeCollider([
-            Shape.Circle(300, new Vector(0, -200)),
-            // Shape.Box(Resources.Cryptographer.width - 400, Resources.Cryptographer.height- 400),
-            Shape.Circle(300, new Vector(0, 200)),
+            // Shape.Circle(300, new Vector(0, -200)),
+            // Shape.Circle(300, new Vector(0, 200)),
+            Shape.Box(Resources.Cryptographer.width, Resources.Cryptographer.height),
         ])
         this.collider.set(capsule)
         this.on('collisionstart', (event) => this.hitSomething(event))
@@ -74,8 +77,9 @@ export class Cryptographer extends Actor {
         if (this.interacting) {
             // this.nearTerminal.movePlatform(xvel, yvel)
         } else {
-            // this.vel.x = xvel
-            this.body.applyLinearImpulse(new Vector(move, 0))
+            xvel *= 120
+            this.vel.x = xvel
+            // this.body.applyLinearImpulse(new Vector(move, 0))
         }
     }
 
@@ -90,7 +94,9 @@ export class Cryptographer extends Actor {
             this.interacting = false
             this.nearTerminal.interacting = false
             this.nearTerminal.interactionLabel.text = 'Press "E" to use terminal'
-            this.nearTerminal.movePlatform(0, 0)
+            if (!this.nearTerminal.doorMode) {
+                this.nearTerminal.movePlatform(0, 0)
+            }
         } else {
             this.interacting = true
             this.nearTerminal.interacting = true

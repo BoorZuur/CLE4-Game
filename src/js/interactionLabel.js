@@ -21,5 +21,6 @@ export class InteractionLabel extends Label {
         });
         this.pos.x = posX
         this.pos.y = posY
+        this.z = 1000; // Ensure it is rendered on top
     }
 }
