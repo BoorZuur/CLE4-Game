@@ -13,6 +13,9 @@ import { Door } from './door.js'
 import { PressurePlate } from './pressure-plate.js'
 import { Button } from './button.js'
 import { Crate } from './crate.js'
+import { Level2 } from './level2.js'
+import { Ramp } from './ramp.js'
+import { Elevator } from './elevator.js'
 import { HookPoint } from './hook-point.js'
 
 export class Game extends Engine {
@@ -29,20 +32,38 @@ export class Game extends Engine {
             }
         })
         this.showDebug(true)
+        this.showDebug(true)
         this.start(ResourceLoader).then(() => this.startGame())
     }
 
+    onInitialize() {
+        // const mainMenu = new MainMenuScene();
+        // this.add('menu', mainMenu);
+        // const level1 = new Level1();
+        // this.add('level1', level1);
+        // const level2 = new Level2();
+        // this.add('level2', level2)
+
+        // this.goToScene('level2');
+
+        // Load resources
+        this.start(ResourceLoader).then(() => {
+            console.log('Resources loaded');
+        });
+    }
+
     startGame() {
-        let cryptographer = new Cryptographer(100, 670)
+        let cryptographer = new Cryptographer(100, 650)
         let player = new Player(100, 430)
-        let terminal = new Terminal(820, 640, 750, 550, 5, 5, 100, 100)
+        let terminal = new Terminal(820, 640, 750, 550, false, 5, 5, 100, 100)
         let background = new Background()
-        background.z = -1
+        // let ramp = new Ramp(300, 660)
 
         this.add(terminal)
         this.add(cryptographer)
         this.add(player)
         this.add(background)
+        // this.add(ramp)
 
         let y = 0
         let x = 0
@@ -71,7 +92,7 @@ export class Game extends Engine {
         this.addPlatform(85, 550)
 
         this.addPlatform(270, 550)
-       
+
         this.addWall(450, 550, 0.5 * Math.PI)
 
         this.addWall(480, 550, 0.5 * Math.PI)
@@ -85,30 +106,39 @@ export class Game extends Engine {
         this.addWall(1030, 400, 0)
 
         this.addPlatform(950, 490)
+        this.addCrate(500, 300)
+
+        this.addPlatform(80, 700)
+        this.addPlatform(170, 700)
+        this.addPlatform(260, 700)
+        this.addPlatform(350, 700)
+        this.addPlatform(440, 700)
+        this.addPlatform(530, 700)
+        this.addPlatform(680, 700)
+        this.addPlatform(770, 700)
+        this.addPlatform(860, 700)
+        this.addPlatform(950, 700)
+        this.addPlatform(1040, 700)
+        this.addPlatform(1130, 700)
+        this.addPlatform(1220, 700)
+        this.addElevator(300, 694, 400, 300, 100, 100, false)
+        this.addSpikes(605, 720, 0.05, 100, 650)
         this.addPlatform(860, 490)
         this.addCrate(500, 400)
         
         this.addHookpoint(150,550)
-        this.addPlatform(80,700)
-        this.addPlatform(170,700)
-        this.addPlatform(260,700)
-        this.addPlatform(350,700)
-        this.addPlatform(440,700)
-        this.addPlatform(530,700)
-        this.addPlatform(680,700)
-        this.addPlatform(770,700)
-        this.addPlatform(860,700)
-        this.addPlatform(950,700)
-        this.addPlatform(1040,700)
-        this.addPlatform(1130,700)
-        this.addPlatform(1220,700)
-        this.addSpikes(605,720, 0.05, 85, 500)
 
 
         let door = this.addDoor(1030, 590)
+        this.addPlate(700, 450, door)
         this.addPlate(800, 500, door)
         this.addPlate(950, 470, door)
         this.addPlate(1200, 685, door)
+    }
+    addElevator(x, y, platformX, platformY, minY, maxY, inverted) {
+        const elevator = new Elevator(x, y, platformX, platformY, minY, maxY, inverted);
+        this.add(elevator);
+        return elevator;
     }
     addWall(x, y, angle) {
         const wall = new Wall(x, y, angle);
@@ -122,11 +152,11 @@ export class Game extends Engine {
         const spikes = new Spikes(x, y, scale, respawnX, respawnY);
         this.add(spikes);
     }
-    addCrate(x,y){
+    addCrate(x, y) {
         const crate = new Crate(x, y);
         this.add(crate);
     }
-    addPlatform(x,y){
+    addPlatform(x, y) {
         const platform = new Platform(x, y);
         this.add(platform);
     }
@@ -141,7 +171,7 @@ export class Game extends Engine {
         return plate;
     }
     addButton(x, y, door) {
-        const button = new Button(x, y, door,this);
+        const button = new Button(x, y, door, this);
         this.add(button);
     }
 }

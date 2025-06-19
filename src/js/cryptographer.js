@@ -2,29 +2,38 @@ import { Actor, Vector, Keys, CollisionType, DegreeOfFreedom, CompositeCollider,
 import { Resources } from './resources.js'
 import { Terminal } from "./terminal.js";
 import { Spikes } from "./spikes.js";
+import { friendsGroup } from './collisiongroups.js'
+import { Ramp } from "./ramp.js";
 
 export class Cryptographer extends Actor {
     interacting
     nearTerminal
+    hitbox
 
     constructor(x, y) {
-        super({ collisionType: CollisionType.Active });
+        super({ 
+            collisionType: CollisionType.Active,
+            collisionGroup: friendsGroup,
+         });
         this.pos = new Vector(x, y)
         this.scale = new Vector(0.08, 0.08)
         this.graphics.use(Resources.Cryptographer.toSprite())
         this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation)
-        this.body.bounciness = 0
+        // this.body.bounciness = 0
+        // this.body.friction = 0.5
+        // this.body.mas = 100
         this.interacting = false
         this.nearTerminal = null
+        
     }
 
     onInitialize(engine) {
-        let capsule = new CompositeCollider([
-            Shape.Circle(300, new Vector(0, -200)),
-            // Shape.Box(Resources.Cryptographer.width - 400, Resources.Cryptographer.height- 400),
-            Shape.Circle(300, new Vector(0, 200)),
+        this.hitbox = new CompositeCollider([
+            // Shape.Circle(300, new Vector(0, -200)),
+            // Shape.Circle(300, new Vector(0, 200)),
+            Shape.Box(Resources.Cryptographer.width - 300, Resources.Cryptographer.height),
         ])
-        this.collider.set(capsule)
+        this.collider.set(this.hitbox)
         this.on('collisionstart', (event) => this.hitSomething(event))
         this.on('collisionend', (event) => this.leftSomething(event))
     }
@@ -47,14 +56,14 @@ export class Cryptographer extends Actor {
         let move = 0
 
         if (kb.isHeld(keys.Left)) {
-            move = -7 * delta
+            move = -5.5* delta
             xvel = -1
             if (!this.interacting) {
                 this.graphics.flipHorizontal = true
             }
         }
         if (kb.isHeld(keys.Right)) {
-            move = 7 * delta
+            move = 5.5 * delta
             xvel = 1
             if (!this.interacting) {
                 this.graphics.flipHorizontal = false
@@ -70,8 +79,9 @@ export class Cryptographer extends Actor {
         if (this.interacting) {
             // this.nearTerminal.movePlatform(xvel, yvel)
         } else {
-            // this.vel.x = xvel
-            this.body.applyLinearImpulse(new Vector(move, 0))
+            xvel *= 120
+            this.vel.x = xvel
+            // this.body.applyLinearImpulse(new Vector(move, 0))
         }
     }
 
@@ -86,7 +96,9 @@ export class Cryptographer extends Actor {
             this.interacting = false
             this.nearTerminal.interacting = false
             this.nearTerminal.interactionLabel.text = 'Press "E" to use terminal'
-            this.nearTerminal.movePlatform(0, 0)
+            if (!this.nearTerminal.doorMode) {
+                this.nearTerminal.movePlatform(0, 0)
+            }
         } else {
             this.interacting = true
             this.nearTerminal.interacting = true
@@ -102,7 +114,7 @@ export class Cryptographer extends Actor {
             console.log('You hit the spikes!')
             this.pos.x = event.other.owner.respawnX
             this.pos.y = event.other.owner.respawnY
-        }
+        } if (event.other.owner instanceof Ramp) {}
     }
 
     leftSomething(event) {

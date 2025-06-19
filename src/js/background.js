@@ -13,5 +13,6 @@ export class Background extends Actor {
         this.#sprite = Resources.Background.toSprite()
         this.graphics.use(this.#sprite);
         this.scale = new Vector(1, 1)
+        this.z = -1000;
     }
 }

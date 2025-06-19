@@ -21,7 +21,7 @@ export class Crate extends Actor {
         });
         this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation);
         this.graphics.use(Resources.Crate.toSprite());
-        this.scale = new Vector(0.05, 0.05);
+        this.scale = new Vector(0.055, 0.05);
         
         // Physics instellingen
         this.gravity = 7000;
