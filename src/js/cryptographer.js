@@ -3,10 +3,12 @@ import { Resources } from './resources.js'
 import { Terminal } from "./terminal.js";
 import { Spikes } from "./spikes.js";
 import { friendsGroup } from './collisiongroups.js'
+import { Ramp } from "./ramp.js";
 
 export class Cryptographer extends Actor {
     interacting
     nearTerminal
+    hitbox
 
     constructor(x, y) {
         super({ 
@@ -26,12 +28,12 @@ export class Cryptographer extends Actor {
     }
 
     onInitialize(engine) {
-        let capsule = new CompositeCollider([
+        this.hitbox = new CompositeCollider([
             // Shape.Circle(300, new Vector(0, -200)),
             // Shape.Circle(300, new Vector(0, 200)),
-            Shape.Box(Resources.Cryptographer.width, Resources.Cryptographer.height),
+            Shape.Box(Resources.Cryptographer.width - 300, Resources.Cryptographer.height),
         ])
-        this.collider.set(capsule)
+        this.collider.set(this.hitbox)
         this.on('collisionstart', (event) => this.hitSomething(event))
         this.on('collisionend', (event) => this.leftSomething(event))
     }
