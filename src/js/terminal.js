@@ -37,6 +37,7 @@ export class Terminal extends Actor {
         this.hacked = false;
         this.interactionLabel = null;
         this.interacting = false;
+        this.z = -2
     }
 
     onInitialize(engine) {

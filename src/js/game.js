@@ -28,7 +28,7 @@ export class Game extends Engine {
                 gravity: new Vector(0, 500)
             }
         })
-        // this.showDebug(true)
+        this.showDebug(true)
         this.start(ResourceLoader).then(() => this.startGame())
     }
 
@@ -37,10 +37,10 @@ export class Game extends Engine {
         // this.add('menu', mainMenu);
         // const level1 = new Level1();
         // this.add('level1', level1);
-        const level2 = new Level2();
-        this.add('level2', level2)
+        // const level2 = new Level2();
+        // this.add('level2', level2)
 
-        this.goToScene('level2');
+        // this.goToScene('level2');
 
         // Load resources
         this.start(ResourceLoader).then(() => {
@@ -53,7 +53,6 @@ export class Game extends Engine {
         let player = new Player(100, 430)
         let terminal = new Terminal(820, 640, 750, 550, 5, 5, 100, 100)
         let background = new Background()
-        background.z = -1
 
         this.add(terminal)
         this.add(cryptographer)
