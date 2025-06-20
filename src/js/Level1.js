@@ -76,7 +76,7 @@ export class Level1 extends Scene {
         let artifact2 = new Artifact(150, 380, this)
         let artifact3 = new Artifact(200, 380, this)
         let exit = new Exit(260, 640, this)
-        let key = new Key(300, 380, this)
+        let key = new Key(300, 580, this)
         let checkpoint = new Checkpoint(420, 500, this)
         let checkpoint2 = new Checkpoint(650, 660, this)
         let dartShooter = new DartShooter(300, 580, this, this.currentCheckPointX, this.currentCheckPointY)
