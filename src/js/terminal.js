@@ -22,10 +22,10 @@ export class Terminal extends Actor {
     onCooldown = false
     cooldownTimer = 120 // 2 seconds
 
-    constructor(posX, posY, platformX, platformY, minX, maxX, minY, maxY) {
+    constructor(posX, posY, scale, platformX, platformY, minX, maxX, minY, maxY) {
         super({ width: Resources.Terminal.width, height: Resources.Terminal.height });
         this.pos = new Vector(posX, posY)
-        this.scale = new Vector(0.08, 0.08)
+        this.scale = new Vector(scale, scale)
         this.graphics.use(Resources.Terminal.toSprite())
         this.body.collisionType = CollisionType.Passive;
         this.platformx = platformX;
@@ -88,7 +88,7 @@ export class Terminal extends Actor {
         this.platform = new ControlPlatform(this.platformx, this.platformy,
             this.minX, this.maxX, this.minY, this.maxY);
 
-        border.z = -1
+        border.z = -3
         this.scene.add(border)
         this.scene.add(this.platform);
     }

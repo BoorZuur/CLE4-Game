@@ -2,7 +2,7 @@ import { Actor, Vector, CollisionType } from 'excalibur';
 import { Resources } from './resources.js';
 
 export class Wall extends Actor {
-    constructor(x,y,rotation,swidth,sheight) {
+    constructor(x,y,rotation,scale) {
         super({
             x,
             y,
@@ -12,7 +12,7 @@ export class Wall extends Actor {
             collisionType: CollisionType.Fixed
         })
         
-        this.scale = new Vector(swidth, sheight)
+        this.scale = new Vector(scale, scale)
         this.graphics.use(Resources.Wall.toSprite())
     }
 }

@@ -8,6 +8,7 @@ const Resources = {
     TerminalRed: new ImageSource('images/TerminalRed.png'),
     TerminalGreen: new ImageSource('images/TerminalGreen.png'),
     ControlPlatform: new ImageSource('images/Controllable platform.png'),
+    AutoElevator: new ImageSource('images/AutoElevator.png'),
     Platform: new ImageSource('images/Platform.png'),
     ContinuousPlatform: new ImageSource('images/Continuous platform.png'),
     Spikes: new ImageSource('images/Spikes.png'),
