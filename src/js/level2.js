@@ -15,29 +15,13 @@ import { Crate } from './crate.js'
 import { Ramp } from './ramp.js'
 import { HookPoint } from './hook-point.js';
 import { Button } from './button.js';
-import { LevelUI } from './LevelUI.js'
-import { Artifact } from './Artifact.js'
+// import { LevelUI } from './LevelUI.js'
+// import { Artifact } from './Artifact.js'
 
 export class Level2 extends Scene {
     constructor() {
         super();
 
-    }
-
-    onActivate() {
-        this.showLevelUI();
-        console.log('level2 activated')
-    }
-
-    showLevelUI() {
-        const levelUI = new LevelUI(this);
-        this.levelUI = levelUI;
-        this.add(this.levelUI)
-        console.log('level2 showLevelUI')
-        this.levelUI.updateLevelName('Level 2');
-        console.log('level2 updateLevelName')
-        this.levelUI.updateCollectibles(0);
-        this.levelUI.updateKeyStatus(false);
     }
 
     onInitialize(engine) {
