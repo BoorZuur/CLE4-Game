@@ -37,12 +37,7 @@ export class Player extends Actor {
         this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation)
     }
     onInitialize(engine) {
-        let capsule = new CompositeCollider([
-            Shape.Circle(300, new Vector(0, -200)),
-            Shape.Circle(300, new Vector(0, 200)),
-            Shape.Box(400, 300, Vector.Half, new Vector(0, 0))
-        ]);
-        this.collider.set(capsule);
+
 
         this.on('collisionstart', (event) => this.handleCollision(event));
         this.on('collisionend', (event) => this.collisionEnd(event));
