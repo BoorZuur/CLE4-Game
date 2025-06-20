@@ -1,5 +1,7 @@
-import { Actor, Vector, CollisionType, clamp } from 'excalibur';
+import { Actor, Vector, CollisionType, clamp, DegreeOfFreedom } from 'excalibur';
 import { Resources } from './resources.js';
+import { platformP } from './collisiongroups.js';
+import { pressure } from './collisiongroups.js';
 import { Player } from './player.js';
 
 export class ControlPlatform extends Actor {
@@ -9,7 +11,7 @@ export class ControlPlatform extends Actor {
     maxY
 
     constructor(posX, posY, minX, maxX, minY, maxY) {
-        super({ width: Resources.AutoElevator.width, height: Resources.AutoElevator.height });
+        super({ width: Resources.AutoElevator.width, height: Resources.AutoElevator.height, collisionGroup: platformP });
         this.pos = new Vector(posX, posY);
         this.scale = new Vector(0.09, 0.09);
         this.graphics.use(Resources.AutoElevator.toSprite());
@@ -17,7 +19,11 @@ export class ControlPlatform extends Actor {
         this.maxX = posX + maxX;
         this.minY = posY - minY;
         this.maxY = posY + maxY;
-        this.body.collisionType = CollisionType.Fixed;
+        this.body.useGravity = false;
+        this.body.mass = 1000;
+        this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation)
+        this.body.collisionType = CollisionType.Active;
+        platformP.canCollide(pressure)
     }
 
     

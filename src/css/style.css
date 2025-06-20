@@ -1,7 +1,144 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: rgb(61, 61, 61);
+    background-color: black;
     display: flex;
     justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bolder;
+    font-size: 20px;
+    color: white
+}
+
+#game {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    /* Ensure the canvas maintains its aspect ratio */
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+}
+
+.LevelCutOff {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, 0);
+    width: 100%;
+    height: 35%;
+    pointer-events: none;
+    background-color: black;
+
+}
+
+.game-ui {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.TopUI {
+    padding: 20px 20px;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, 0);
+    width: 300px;
+    height: 80px;
+    pointer-events: none;
+    background-color: #785d30;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.LevelName {
+    font-size: 20px;
+    color: white;
+    text-align: center;
+}
+
+.Collectibles {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+
+}
+
+.Collectible1,
+.Collectible2,
+.Collectible3 {
+    height: 50px;
+    width: auto;
+}
+
+.CompletedCollectible1,
+.CompletedCollectible2,
+.CompletedCollectible3 {
+    height: 70px;
+    width: auto;
+}
+
+.UIKey {
+    height: 40px;
+    width: auto;
+}
+
+.LevelCompletedUI {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+    height: auto;
+    background-color: #785d30;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: #9f7631 5px solid;
+    border-radius: 10px;
+
+}
+
+.LevelCompletedUI h1 {
+    font-size: 40px;
+    color: white;
+    text-align: center;
+}
+
+.LevelCompletedCollectibles {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 50px;
+}
+
+.LevelCompletedButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 40px;
+}
+
+#RestartLevelButton,
+#NextLevelButton {
+    background-color: #483a21;
+    color: white;
+    border: #9f7631 5px solid;
+    padding: 10px 20px;
+    border-radius: 5px;
+    width: 150px;
+    pointer-events: all;
+    cursor: pointer;
 }

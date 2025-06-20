@@ -3,11 +3,14 @@ import { Resources } from './resources.js';
 import { ControlPlatform } from './controlPlatform.js';
 import { Cryptographer } from './cryptographer.js';
 import { InteractionLabel } from './interactionLabel.js';
+import { Door } from './door.js';
 
 export class Terminal extends Actor {
+    doorMode
+    door
     platform
-    platformx
-    platformy
+    objectX
+    objectY
     minX
     maxX
     minY
@@ -20,16 +23,18 @@ export class Terminal extends Actor {
     minigameTimer = 0
     nextSwitchTime = 0
     onCooldown = false
-    cooldownTimer = 120 // 2 seconds
+    cooldownTimer
 
-    constructor(posX, posY, scale, platformX, platformY, minX, maxX, minY, maxY) {
+    constructor(posX, posY, scale, objectX, objectY, doorMode, minX, maxX, minY, maxY) {
         super({ width: Resources.Terminal.width, height: Resources.Terminal.height });
         this.pos = new Vector(posX, posY)
         this.scale = new Vector(scale, scale)
         this.graphics.use(Resources.Terminal.toSprite())
         this.body.collisionType = CollisionType.Passive;
-        this.platformx = platformX;
-        this.platformy = platformY;
+        this.doorMode = doorMode
+        this.door = null;
+        this.objectX = objectX;
+        this.objectY = objectY;
         this.minX = minX;
         this.maxX = maxX;
         this.minY = minY;
@@ -37,12 +42,19 @@ export class Terminal extends Actor {
         this.hacked = false;
         this.interactionLabel = null;
         this.interacting = false;
+        this.cooldownTimer = 120;
+        this.onCooldown = false;
+        this.z = -2
     }
 
     onInitialize(engine) {
         this.on('collisionstart', (event) => this.hitSomething(event))
         this.on('collisionend', (event) => this.leftSomething(event))
-        this.createPlatform();
+        if (this.doorMode) {
+            this.createDoor();
+        } else {
+            this.createPlatform();
+        }
         this.setNextSwitchTime();
     }
 
@@ -79,18 +91,24 @@ export class Terminal extends Actor {
         let height = (this.maxY - this.minY) / 2;
 
         let border = new Actor({
-            pos: new Vector(this.platformx + width, this.platformy + height),
+            pos: new Vector(this.objectX + width, this.objectY + height),
             collisionType: CollisionType.Fixed,
         });
         border.scale = new Vector((this.minX + this.maxX) / Resources.Border.width, (this.minY + this.maxY) / Resources.Border.width);
         border.graphics.use(Resources.Border.toSprite());
 
-        this.platform = new ControlPlatform(this.platformx, this.platformy,
+        this.platform = new ControlPlatform(this.objectX, this.objectY,
             this.minX, this.maxX, this.minY, this.maxY);
 
         border.z = -3
         this.scene.add(border)
         this.scene.add(this.platform);
+    }
+
+    createDoor() {
+        this.door = new Door(this.objectX, this.objectY);
+        this.door.graphics.use(Resources.ControllableDoor.toSprite());
+        this.scene.add(this.door);
     }
 
     setNextSwitchTime() {
@@ -122,7 +140,7 @@ export class Terminal extends Actor {
 
         if (this.interacting && !this.hacked && !this.onCooldown) {
             this.minigameTimer++;
-            this.interactionLabel.text = 'When green, press W to hack.';
+            this.interactionLabel.text = 'When green, press "W" to hack.';
 
             if (this.minigameTimer > this.nextSwitchTime) {
                 this.isGreen = !this.isGreen;
@@ -133,35 +151,38 @@ export class Terminal extends Actor {
             if (this.isGreen) {
                 this.graphics.use(Resources.TerminalGreen.toSprite());
                 this.graphics.flipHorizontal = true;
-                this.scale = new Vector(0.1, 0.1);
                 // this.scale = new Vector(0.1, 0.1);
             } else {
                 this.graphics.use(Resources.TerminalRed.toSprite());
                 this.graphics.flipHorizontal = true;
-                this.scale = new Vector(0.1, 0.1);
+                // this.scale = new Vector(0.1, 0.1);
             }
 
             if (engine.input.keyboard.wasPressed(Keys.W)) {
                 if (this.isGreen) {
                     this.hacked = true;
-                    this.interactionLabel.text = 'Hacked! Use WASD to move platform.';
+                    this.interactionLabel.text = 'Hacked! Press "E" to exit';
                 } else {
                     this.onCooldown = true;
-                    this.cooldownTimer = 100;
+                    this.cooldownTimer = 120;
                     this.interactionLabel.text = 'Failed! Cooldown...';
                     this.graphics.use(Resources.Terminal.toSprite());
                     this.graphics.flipHorizontal = false;
-                    this.scale = new Vector(0.08, 0.08);
+                    // this.scale = new Vector(0.08, 0.08);
                 }
             }
         } else if (this.interacting && this.hacked) {
-            let x = 0;
-            let y = 0;
-            if (engine.input.keyboard.isHeld(Keys.W)) y = -1;
-            if (engine.input.keyboard.isHeld(Keys.S)) y = 1;
-            if (engine.input.keyboard.isHeld(Keys.A)) x = -1;
-            if (engine.input.keyboard.isHeld(Keys.D)) x = 1;
-            this.movePlatform(x, y);
+            if (this.doorMode && this.door) {
+                this.door.kill();
+            } else {
+                let x = 0;
+                let y = 0;
+                if (engine.input.keyboard.isHeld(Keys.W)) y = -1;
+                if (engine.input.keyboard.isHeld(Keys.S)) y = 1;
+                if (engine.input.keyboard.isHeld(Keys.A)) x = -1;
+                if (engine.input.keyboard.isHeld(Keys.D)) x = 1;
+                this.movePlatform(x, y);
+            }
         }
     }
 }

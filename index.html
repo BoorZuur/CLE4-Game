@@ -1,12 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <title>Excalibur</title>
-  </head>
-  <body>
-    <script type="module" src="/src/js/game.js"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <title>The Crypt</title>
+</head>
+
+<body>
+  <script type="module" src="/src/js/game.js"></script>
+  <main>
+    <canvas id="game"></canvas>
+    <div class="game-ui" style="display: none;">
+
+      <div class="LevelCutOff"></div>
+
+      <div class="TopUI">
+        <div class="LevelName"></div>
+        <div class="Collectibles">
+          <img src="public/images/UIArtifact.png" alt="" class="Collectible1">
+          <img src="public/images/UIArtifact.png" alt="" class="Collectible2">
+          <img src="public/images/UIArtifact.png" alt="" class="Collectible3">
+          <img src="public/images/UIKey.png" alt="" class="UIKey">
+        </div>
+      </div>
+
+      <div class="LevelCompletedUI">
+        <h1>Level Completed!</h1>
+
+        <div class="LevelCompletedCollectibles">
+          <img src="public/images/UIArtifact.png" alt="" class="CompletedCollectible1">
+          <img src="public/images/UIArtifact.png" alt="" class="CompletedCollectible2">
+          <img src="public/images/UIArtifact.png" alt="" class="CompletedCollectible3">
+        </div>
+
+        <div class="LevelCompletedButtons">
+          <button id="NextLevelButton">Next Level</button>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+</body>
+
 </html>

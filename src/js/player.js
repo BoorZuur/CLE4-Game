@@ -1,4 +1,4 @@
-import { Actor, Engine, Keys, Vector, CollisionType, DegreeOfFreedom } from "excalibur"
+import { Actor, Engine, Keys, Vector, CollisionType, DegreeOfFreedom, CompositeCollider, Shape } from "excalibur"
 import { Resources } from "./resources.js"
 import { Projectile } from "./projectile.js"
 import { HookPoint } from "./hook-point.js"
@@ -11,12 +11,13 @@ import { Door } from "./door.js"
 import { Button } from "./button.js"
 import { Crate } from "./crate.js"
 import { Wall } from "./wall.js"
+import { friendsGroup } from "./collisiongroups.js"
 
 export class Player extends Actor {
     sprite
 
     constructor(x, y) {
-        super({ width: 400, height: 900, collisionType: CollisionType.Active, anchor: Vector.Half })
+        super({ width: 400, height: 900, collisionType: CollisionType.Active, anchor: Vector.Half, collisionGroup: friendsGroup });
         this.pos = new Vector(x, y)
         this.scale = new Vector(0.08, 0.08)
         this.grappling = false;
@@ -27,6 +28,8 @@ export class Player extends Actor {
         this.jumpForce = -400;
         this.isGrounded = false;
         this.gravity = 800;
+        this.body.friction = 0;
+
         this.onPlatform = false;
         this.recentPlatform = null;
         this.sprite = Resources.Adventurer.toSprite()
@@ -34,9 +37,27 @@ export class Player extends Actor {
         this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation)
     }
     onInitialize(engine) {
-        // Voeg deze regel toe om collisions te detecteren
+        let capsule = new CompositeCollider([
+            Shape.Circle(300, new Vector(0, -200)),
+            Shape.Circle(300, new Vector(0, 200)),
+            Shape.Box(400, 300, Vector.Half, new Vector(0, 0))
+        ]);
+        this.collider.set(capsule);
+
         this.on('collisionstart', (event) => this.handleCollision(event));
         this.on('collisionend', (event) => this.collisionEnd(event));
+    }
+    handleCollision(event) {
+        // Speciale platform logica blijft hier
+        if (event.other.owner instanceof ControlPlatform) {
+            this.onPlatform = true;
+            this.recentPlatform = event.other.owner;
+        }
+
+        if (event.other.owner instanceof Spikes) {
+            this.pos.x = event.other.owner.respawnX;
+            this.pos.y = event.other.owner.respawnY;
+        }
     }
 
     #Shoot() {
@@ -49,22 +70,41 @@ export class Player extends Actor {
             this.isGrounded = false;
         }
     }
-
     handleCollision(event) {
-        if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate  || event.other.owner instanceof ControlPlatform || event.other.owner instanceof Wall) {
-            this.isGrounded = true;
-            this.vel.y = 0;
-        }
-        if (event.other.owner instanceof ControlPlatform) {
-            this.onPlatform = true;
-            this.recentPlatform = event.other.owner;
-        }
+        const contacts = event.contact;
+        const normal = contacts.normal;
 
         if (event.other.owner instanceof Spikes) {
             this.pos.x = event.other.owner.respawnX
             this.pos.y = event.other.owner.respawnY
         }
+
+        if (normal.y > 0.5) {
+            if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate || event.other.owner instanceof ContinuousPlatform || event.other.owner instanceof ControlPlatform) {
+                this.isGrounded = true;
+                this.vel.y = 0;
+            }
+            console.log('Hit from above - landing on platform');
+            // this.isGrounded = true;
+            // this.vel.y = 0;
+        }
+        if (event.other.owner instanceof ControlPlatform) {
+            this.onPlatform = true;
+            this.recentPlatform = event.other.owner;
+        }
+        // Normal.y = -1 means collision from below (player hitting ceiling)
+        else if (normal.y < -0.5) {
+            console.log('Hit from below - hitting ceiling');
+        }
+        // Normal.x indicates side collision (left or right wall)
+        else if (Math.abs(normal.x) > 0.5) {
+            console.log('Hit from side - wall collision');
+            // Don't set grounded for wall collisions
+            // Allow sliding down
+        }
     }
+
+
 
     collisionEnd(event) {
         if (event.other.owner instanceof ControlPlatform) {
