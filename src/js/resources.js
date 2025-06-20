@@ -17,7 +17,17 @@ const Resources = {
     Border: new ImageSource('images/Border.png'),
     Wall: new ImageSource('images/Wall.png'),
     Background: new ImageSource('images/Background.png'),
-    Adventurer: new ImageSource('images/Adventurer.png')
+    Adventurer: new ImageSource('images/Adventurer.png'),
+    MenuBackground: new ImageSource('images/MenuBackground.png'),
+    StartButton: new ImageSource('images/StartGame.png'),
+    Artifact: new ImageSource('images/Artifact.png'),
+    Exit: new ImageSource('images/LevelExit.png'),
+    Key: new ImageSource('images/Key.png'),
+    Lever: new ImageSource('images/Lever.png'),
+    Checkpoint: new ImageSource('images/Checkpoint.png'),
+    ActiveCheckpoint: new ImageSource('images/ActiveCheckpoint.png'),
+    Dart: new ImageSource('images/Dart.png'),
+    DartShooter: new ImageSource('images/DartLauncher.png'),
 }
 
 const ResourceLoader = new Loader()

@@ -1,4 +1,4 @@
-import { Actor, Engine, Keys, Vector, CollisionType ,DegreeOfFreedom} from "excalibur"
+import { Actor, Engine, Keys, Vector, CollisionType, DegreeOfFreedom } from "excalibur"
 import { Resources } from "./resources.js"
 import { Projectile } from "./projectile.js"
 import { HookPoint } from "./hook-point.js"
@@ -25,6 +25,7 @@ export class Player extends Actor {
         this.jumpForce = -700;
         this.isGrounded = false;
         this.gravity = 800;
+        this.body.friction = 0;
 
         this.sprite = Resources.Adventurer.toSprite()
         this.graphics.use(this.sprite)
@@ -47,15 +48,34 @@ export class Player extends Actor {
         }
     }
     handleCollision(event) {
-    if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate ||event.other.owner instanceof ContinuousPlatform || event.other.owner instanceof ControlPlatform) {
-        this.isGrounded = true;
-        this.vel.y = 0;
+        const contacts = event.contact;
+        const normal = contacts.normal;
+
+        if (event.other.owner instanceof Spikes) {
+            this.pos.x = event.other.owner.respawnX
+            this.pos.y = event.other.owner.respawnY
+        }
+
+        if (normal.y > 0.5) {
+            if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate || event.other.owner instanceof ContinuousPlatform || event.other.owner instanceof ControlPlatform) {
+                this.isGrounded = true;
+                this.vel.y = 0;
+            }
+            console.log('Hit from above - landing on platform');
+            // this.isGrounded = true;
+            // this.vel.y = 0;
+        }
+        // Normal.y = -1 means collision from below (player hitting ceiling)
+        else if (normal.y < -0.5) {
+            console.log('Hit from below - hitting ceiling');
+        }
+        // Normal.x indicates side collision (left or right wall)
+        else if (Math.abs(normal.x) > 0.5) {
+            console.log('Hit from side - wall collision');
+            // Don't set grounded for wall collisions
+            // Allow sliding down
+        }
     }
-    if (event.other.owner instanceof Spikes) {
-        this.pos.x = event.other.owner.respawnX
-        this.pos.y = event.other.owner.respawnY
-    }
-}
 
 
     activateGrapple(hookPoint) {
