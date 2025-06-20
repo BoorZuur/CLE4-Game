@@ -2,7 +2,7 @@ import { Actor, Vector, CollisionType } from 'excalibur';
 import { Resources } from './resources.js';
 
 export class Platform extends Actor {
-    constructor(x,y) {
+    constructor(x, y) {
         super({
             x,
             y,
@@ -11,8 +11,8 @@ export class Platform extends Actor {
             collisionType: CollisionType.Fixed
         })
         this.z = -1
-        
-        this.scale = new Vector(0.075, 0.075)
+
+        this.scale = new Vector(0.1, 0.1)
         this.graphics.use(Resources.Platform.toSprite())
     }
 }

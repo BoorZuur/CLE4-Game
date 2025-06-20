@@ -10,7 +10,7 @@ import { ControlPlatform } from "./controlPlatform.js";
 
 
 export class PressurePlate extends Actor {
-    constructor(x, y, linkedDoor, gameInstance) {
+    constructor(x, y, linkedDoor, gameInstance, rotation) {
         super({
             width: 1000,
             height: 500,
@@ -24,30 +24,32 @@ export class PressurePlate extends Actor {
         this.gameInstance = gameInstance;
         this.exists = true;
         this.scale = new Vector(0.05, 0.05);
+        this.rotation = rotation || 0;
         pressure.canCollide(platformP);
         if (this.linkedDoor) {
             this.linkedDoor.addLinkedPlate(this);
+
         }
     }
 
     onInitialize() {
         this.on('collisionstart', (event) => {
-            if ((event.other.owner instanceof Player || 
-                 event.other.owner instanceof Cryptographer || 
-                 event.other.owner instanceof Crate||
-                event.other.owner instanceof ControlPlatform) && 
+            if ((event.other.owner instanceof Player ||
+                event.other.owner instanceof Cryptographer ||
+                event.other.owner instanceof Crate ||
+                event.other.owner instanceof ControlPlatform) &&
                 this.linkedDoor) {
-                    console.log("me hit") 
+                console.log("me hit")
                 this.linkedDoor.kill();
                 this.exists = false;
             }
         });
 
         this.on('collisionend', (event) => {
-            if ((event.other.owner instanceof Player || 
-                 event.other.owner instanceof Cryptographer || 
-                 event.other.owner instanceof Crate||
-                 event.other.owner instanceof ControlPlatform) && 
+            if ((event.other.owner instanceof Player ||
+                event.other.owner instanceof Cryptographer ||
+                event.other.owner instanceof Crate ||
+                event.other.owner instanceof ControlPlatform) &&
                 this.linkedDoor && !this.exists) {
                 this.exists = true;
 

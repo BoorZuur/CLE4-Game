@@ -38,7 +38,7 @@ export class UIManager {
                 this.currentLevel = 4
             }
         });
-
+        this.levelCutOff.style.display = 'none';
 
         // Hide UI by default
         this.hide();

@@ -25,10 +25,10 @@ export class Terminal extends Actor {
     onCooldown = false
     cooldownTimer
 
-    constructor(posX, posY, objectX, objectY, doorMode, minX, maxX, minY, maxY) {
+    constructor(posX, posY, scale, objectX, objectY, doorMode, minX, maxX, minY, maxY) {
         super({ width: Resources.Terminal.width, height: Resources.Terminal.height });
         this.pos = new Vector(posX, posY)
-        this.scale = new Vector(0.08, 0.08)
+        this.scale = new Vector(scale, scale)
         this.graphics.use(Resources.Terminal.toSprite())
         this.body.collisionType = CollisionType.Passive;
         this.doorMode = doorMode

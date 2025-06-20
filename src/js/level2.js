@@ -13,6 +13,8 @@ import { Door } from './door.js'
 import { PressurePlate } from './pressure-plate.js'
 import { Crate } from './crate.js'
 import { Ramp } from './ramp.js'
+import { HookPoint } from './hook-point.js';
+import { Button } from './button.js';
 import { LevelUI } from './LevelUI.js'
 import { Artifact } from './Artifact.js'
 
@@ -24,7 +26,6 @@ export class Level2 extends Scene {
 
     onActivate() {
         this.showLevelUI();
-        console.log('level2 activated')
     }
 
     showLevelUI() {
@@ -40,7 +41,8 @@ export class Level2 extends Scene {
 
     onInitialize(engine) {
         let background = new Background()
-        let ramp = new Ramp(870, 671)
+        background.z = -20
+        let ramp = new Ramp(870, 673)
 
         this.add(background)
         this.add(ramp)
@@ -48,83 +50,42 @@ export class Level2 extends Scene {
         ramp = new Ramp(985, 300)
         this.add(ramp)
 
-        let wall = new Wall(983, 671, 0.5 * Math.PI, 0.125, 0.125)
-        this.add(wall)
+        let terminal = new Terminal(90, 438, 0.045, 240, 325, false, 130, 490, 60, 200)
+        this.add(terminal)
 
-        wall = new Wall(1093, 671, 0.5 * Math.PI, 0.125, 0.125)
-        this.add(wall)
+        let hookpoint = new HookPoint(493, 490, 1.5 * Math.PI)
+        this.add(hookpoint)
 
-        wall = new Wall(1183, 671, 0.5 * Math.PI, 0.125, 0.125)
-        this.add(wall)
+        hookpoint = new HookPoint(223, 200, 1.5 * Math.PI)
+        this.add(hookpoint)
 
-        wall = new Wall(1194, 484, 0.5 * Math.PI, 0.1, 0.1)
-        this.add(wall)
+        this.addWall(983, 673, 0.5 * Math.PI, 0.125)
+        this.addWall(1093, 673, 0.5 * Math.PI, 0.125)
+        this.addWall(1183, 673, 0.5 * Math.PI, 0.125)
+        this.addWall(1194, 484, 0.5 * Math.PI, 0.1)
+        this.addWall(967, 484, 0.5 * Math.PI, 0.1)
+        this.addWall(879, 484, 0.5 * Math.PI, 0.1)
+        this.addWall(791, 484, 0.5 * Math.PI, 0.1)
+        this.addWall(725, 461, 0, 0.1)
+        this.addWall(725, 373, 0, 0.1)
+        this.addWall(912, 348, 0.5 * Math.PI, 0.1)
+        this.addWall(1000, 348, 0.5 * Math.PI, 0.1)
+        this.addWall(1100, 300, 0.5 * Math.PI, 0.125)
+        this.addWall(1183, 300, 0.5 * Math.PI, 0.125)
+        this.addWall(77, 490, 0.5 * Math.PI, 0.1)
+        this.addWall(77, 200, 0.5 * Math.PI, 0.1)
+        this.addWall(165, 200, 0.5 * Math.PI, 0.1)
+        this.addWall(470, 67, 0, 0.1)
+        this.addWall(470, 117, 0, 0.1)
+        this.addWall(890, 180, 0.5 * Math.PI, 0.1)
+        this.addWall(802, 180, 0.5 * Math.PI, 0.1)
+        this.addWall(714, 180, 0.5 * Math.PI, 0.1)
 
-        wall = new Wall(967, 484, 0.5 * Math.PI, 0.1, 0.1)
-        this.add(wall)
-
-        wall = new Wall(879, 484, 0.5 * Math.PI, 0.1, 0.1)
-        this.add(wall)
-
-        wall = new Wall(791, 484, 0.5 * Math.PI, 0.1, 0.1)
-        this.add(wall)
-
-        wall = new Wall(725, 461, 0, 0.1, 0.1)
-        this.add(wall)
-
-        wall = new Wall(725, 373, 0, 0.1, 0.1)
-        this.add(wall)
-
-        wall = new Wall(912, 348, 0.5 * Math.PI, 0.1, 0.1)
-        this.add(wall)
-
-        wall = new Wall(1000, 348, 0.5 * Math.PI, 0.1, 0.1)
-        this.add(wall)
-
-        wall = new Wall(1100, 300, 0.5 * Math.PI, 0.125, 0.125)
-        this.add(wall)
-
-        wall = new Wall(1183, 300, 0.5 * Math.PI, 0.125, 0.125)
-        this.add(wall)
-
-        wall = new Wall(77, 490, 0.5 * Math.PI, 0.1, 0.1)
-        this.add(wall)
-
-        wall = new Wall(77, 200, 0.5 * Math.PI, 0.1, 0.1)
-        this.add(wall)
-
-        wall = new Wall(165, 200, 0.5 * Math.PI, 0.1, 0.1)
-        this.add(wall)
-
-        wall = new Wall(470, 67, 0, 0.1, 0.1)
-        this.add(wall)
-
-        wall = new Wall(470, 117, 0, 0.1, 0.1)
-        this.add(wall)
-
-        wall = new Wall(890, 180, 0.5 * Math.PI, 0.1, 0.1)
-        this.add(wall)
-
-        wall = new Wall(802, 180, 0.5 * Math.PI, 0.1, 0.1)
-        this.add(wall)
-
-        wall = new Wall(714, 180, 0.5 * Math.PI, 0.1, 0.1)
-        this.add(wall)
-
-        let platform = new Platform(360, 490)
-        this.add(platform)
-
-        platform = new Platform(410, 490)
-        this.add(platform)
-
-        platform = new Platform(360, 320)
-        this.add(platform)
-
-        platform = new Platform(410, 320)
-        this.add(platform)
-
-        platform = new Platform(84, 340)
-        this.add(platform)
+        this.addPlatform(360, 490)
+        this.addPlatform(410, 490)
+        this.addPlatform(360, 320)
+        this.addPlatform(410, 320)
+        this.addPlatform(84, 340)
 
         let y = 0
         let x = 0
@@ -156,5 +117,35 @@ export class Level2 extends Scene {
             this.add(continuousPlatform)
             x += 150
         }
+    }
+    addWall(x, y, rotation, scale) {
+        const wall = new Wall(x, y, rotation, scale);
+        this.add(wall);
+    }
+    addSpikes(x, y, scale, width, height) {
+        const spikes = new Spikes(x, y, scale, width, height);
+        this.add(spikes);
+    }
+    addCrate(x, y) {
+        const crate = new Crate(x, y);
+        this.add(crate);
+    }
+    addPlatform(x, y) {
+        const platform = new Platform(x, y);
+        this.add(platform);
+    }
+    addDoor(x, y) {
+        const door = new Door(x, y);
+        this.add(door);
+        return door;
+    }
+    addPlate(x, y, door) {
+        const plate = new PressurePlate(x, y, door, this);
+        this.add(plate);
+        return plate;
+    }
+    addButton(x, y, door) {
+        const button = new Button(x, y, door, this);
+        this.add(button);
     }
 }
