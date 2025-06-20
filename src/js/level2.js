@@ -16,6 +16,10 @@ import { Ramp } from './ramp.js'
 import { HookPoint } from './hook-point.js';
 import { Button } from './button.js';
 import { LevelUI } from './LevelUI.js'
+import { CrackedWall } from './crackedWall.js';
+import { SecretWallHole } from './secretWallHole.js';
+import { SecretWall } from './secretWall.js';
+import { Elevator } from './elevator.js';
 import { Artifact } from './Artifact.js'
 
 export class Level2 extends Scene {
@@ -147,5 +151,26 @@ export class Level2 extends Scene {
     addButton(x, y, door) {
         const button = new Button(x, y, door, this);
         this.add(button);
+    }
+    addElevator(x, y, platformX, platformY, minY, maxY, inverted) {
+        const elevator = new Elevator(x, y, platformX, platformY, minY, maxY, inverted);
+        this.add(elevator);
+        return elevator;
+    }
+    addSecretWall(x, y) {
+        const secretWall = new SecretWall(x, y)
+        this.add(secretWall)
+    }
+    addCrackedWall(x, y) {
+        const crackedWall = new CrackedWall(x, y)
+        this.add(crackedWall)
+    }
+    addSecretWallHole(x, y) {
+        const secretWallHole = new SecretWallHole(x, y)
+        this.add(secretWallHole)
+    }
+    addHookpoint(x, y) {
+        const hook = new HookPoint(x, y)
+        this.add(hook)
     }
 }
