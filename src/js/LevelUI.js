@@ -9,7 +9,7 @@ export class LevelUI extends Actor {
         this.z = 1000;
         this.levelName = '';
         this.collectibles = 1;
-        this.ui = new UIManager();
+        this.ui = new UIManager(levelInstance);
     }
 
     onInitialize(engine) {
