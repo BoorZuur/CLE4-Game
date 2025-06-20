@@ -4,6 +4,10 @@ import { Player } from "./player.js";
 import { Platform } from "./platform.js";
 import { PressurePlate } from "./pressure-plate.js";
 import { Spikes } from "./spikes.js";
+import { ContinuousPlatform } from "./continuousPlatform.js";
+import { Cryptographer } from "./cryptographer.js";
+import { ControlPlatform } from "./controlPlatform.js"
+
 
 export class Crate extends Actor {
     constructor(x, y) {
@@ -17,7 +21,7 @@ export class Crate extends Actor {
         });
         this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation);
         this.graphics.use(Resources.Crate.toSprite());
-        this.scale = new Vector(0.05, 0.05);
+        this.scale = new Vector(0.055, 0.05);
         
         // Physics instellingen
         this.gravity = 7000;
@@ -29,11 +33,11 @@ export class Crate extends Actor {
     onInitialize() {
         this.on('precollision', (event) => this.handlePush(event));
         this.on('collisionstart', (event) => this.handleCollision(event));
-        this.on('collisionend', (event) => this.handleCollisionEnd(event));
+        this.on('collisionend', (event) => this.handleCollision(event));
     }
 
     handlePush(event) {
-        if (event.other.owner instanceof Player) {
+        if (event.other.owner instanceof Player || event.other.owner instanceof Cryptographer || event.other.owner instanceof ControlPlatform) {
             const player = event.other.owner;
             if (Math.abs(player.vel.x) > 50) {
                 const direction = player.vel.x > 0 ? 1 : -1;
@@ -46,7 +50,7 @@ export class Crate extends Actor {
         if (event.other.owner instanceof Platform || 
             event.other.owner instanceof PressurePlate|| 
             event.other.owner instanceof Spikes||
-        event.other.owner instanceof ContinuousPlatform) {
+            event.other.owner instanceof ContinuousPlatform) {
             this.isGrounded = true;
             this.vel.y = 0;
         }

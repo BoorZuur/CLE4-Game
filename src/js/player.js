@@ -1,4 +1,4 @@
-import { Actor, Engine, Keys, Vector, CollisionType, DegreeOfFreedom } from "excalibur"
+import { Actor, Engine, Keys, Vector, CollisionType, DegreeOfFreedom, CompositeCollider, Shape } from "excalibur"
 import { Resources } from "./resources.js"
 import { Projectile } from "./projectile.js"
 import { HookPoint } from "./hook-point.js"
@@ -8,13 +8,16 @@ import { PressurePlate } from "./pressure-plate.js"
 import { ControlPlatform } from "./controlPlatform.js"
 import { Spikes } from "./spikes.js"
 import { Door } from "./door.js"
+import { Button } from "./button.js"
 import { Crate } from "./crate.js"
+import { Wall } from "./wall.js"
+import { friendsGroup } from "./collisiongroups.js"
 
 export class Player extends Actor {
     sprite
 
     constructor(x, y) {
-        super({ width: 400, height: 900, collisionType: CollisionType.Active, anchor: Vector.Half })
+        super({ width: 400, height: 900, collisionType: CollisionType.Active, anchor: Vector.Half, collisionGroup: friendsGroup });
         this.pos = new Vector(x, y)
         this.scale = new Vector(0.08, 0.08)
         this.grappling = false;
@@ -22,19 +25,39 @@ export class Player extends Actor {
         this.grappleSpeed = 50;
         this.grappleCooldown = 0;
         this.grappleMaxCooldown = 60;
-        this.jumpForce = -700;
+        this.jumpForce = -400;
         this.isGrounded = false;
         this.gravity = 800;
         this.body.friction = 0;
 
+        this.onPlatform = false;
+        this.recentPlatform = null;
         this.sprite = Resources.Adventurer.toSprite()
         this.graphics.use(this.sprite)
         this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation)
     }
     onInitialize(engine) {
-        // Voeg deze regel toe om collisions te detecteren
-        this.on('collisionstart', (event) => this.handleCollision(event));
+        let capsule = new CompositeCollider([
+            Shape.Circle(300, new Vector(0, -200)),
+            Shape.Circle(300, new Vector(0, 200)),
+            Shape.Box(400, 300, Vector.Half, new Vector(0, 0))
+        ]);
+        this.collider.set(capsule);
 
+        this.on('collisionstart', (event) => this.handleCollision(event));
+        this.on('collisionend', (event) => this.collisionEnd(event));
+    }
+    handleCollision(event) {
+        // Speciale platform logica blijft hier
+        if (event.other.owner instanceof ControlPlatform) {
+            this.onPlatform = true;
+            this.recentPlatform = event.other.owner;
+        }
+
+        if (event.other.owner instanceof Spikes) {
+            this.pos.x = event.other.owner.respawnX;
+            this.pos.y = event.other.owner.respawnY;
+        }
     }
 
     #Shoot() {
@@ -65,6 +88,10 @@ export class Player extends Actor {
             // this.isGrounded = true;
             // this.vel.y = 0;
         }
+        if (event.other.owner instanceof ControlPlatform) {
+            this.onPlatform = true;
+            this.recentPlatform = event.other.owner;
+        }
         // Normal.y = -1 means collision from below (player hitting ceiling)
         else if (normal.y < -0.5) {
             console.log('Hit from below - hitting ceiling');
@@ -77,6 +104,13 @@ export class Player extends Actor {
         }
     }
 
+
+
+    collisionEnd(event) {
+        if (event.other.owner instanceof ControlPlatform) {
+            this.onPlatform = false;
+        }
+    }
 
     activateGrapple(hookPoint) {
         if (this.grappleCooldown <= 0 && !this.grappling) {
@@ -164,6 +198,14 @@ export class Player extends Actor {
             }
         }
 
+        // check of het platform op de clamp border is
+        if (this.recentPlatform && this.onPlatform && this.recentPlatform.pos.x <= this.recentPlatform.minX) {
+            xspeed -= this.recentPlatform.vel.x;
+        }
+        if (this.recentPlatform && this.onPlatform && this.recentPlatform.pos.x >= this.recentPlatform.maxX) {
+            xspeed -= this.recentPlatform.vel.x;
+        }
+
         // Gravity toepassen als je niet aan het grappelen bent
         if (!this.grappling) {
             this.vel.y += this.gravity * (delta / 1000);
@@ -177,6 +219,26 @@ export class Player extends Actor {
         // Schieten
         if (engine.input.keyboard.wasPressed(Keys.Q)) {
             this.#Shoot();
+        }
+
+        // if (this.onPlatform && !engine.input.keyboard.wasPressed(Keys.Space)) {
+        //     this.vel.y = 0
+        // }
+
+
+        let platformVel = 0;
+        if (this.recentPlatform) {
+            platformVel = this.recentPlatform.vel.clone()
+        }
+        if (this.onPlatform) {
+            if (!engine.input.keyboard.wasPressed(Keys.Space)) {
+                this.vel.y = 0
+            }
+            if (!engine.input.keyboard.isHeld(Keys.Left) && !engine.input.keyboard.isHeld(Keys.Right)) {
+                // this.vel.x = this.recentPlatform.vel.x;
+                const relativeVelocity = this.recentPlatform.vel.clone().add(this.vel.clone());
+                this.vel = relativeVelocity;
+            }
         }
     }
 }
