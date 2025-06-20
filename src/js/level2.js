@@ -23,6 +23,11 @@ import { Elevator } from './elevator.js';
 import { Artifact } from './Artifact.js'
 
 export class Level2 extends Scene {
+
+    collectibleCount = 0;
+    hasKey = false;
+    levelCompleted = false;
+
     constructor() {
         super();
 
@@ -43,6 +48,15 @@ export class Level2 extends Scene {
         this.levelUI.updateKeyStatus(false);
     }
 
+    onDeactivate() {
+        this.actors.forEach(actor => {
+            this.remove(actor);
+            actor.kill();
+        });
+
+        // Remove keyboard listener
+        this.engine.input.keyboard.off('press');
+    }
     onInitialize(engine) {
         let background = new Background()
         background.z = -20
