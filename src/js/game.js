@@ -13,7 +13,7 @@ import { Door } from './door.js'
 import { PressurePlate } from './pressure-plate.js'
 import { MainMenuScene } from './MainMenuScene.js'
 import { Level1 } from './Level1.js'
-import { Level2 } from './Level2.js'
+import { Level2 } from './level2.js'
 import { Level3 } from './level3.js'
 import { Color } from 'excalibur'
 import { Button } from './button.js'
@@ -38,7 +38,6 @@ export class Game extends Engine {
                 gravity: new Vector(0, 500)
             }
         })
-        this.showDebug(true)
         this.showDebug(true)
         this.start(ResourceLoader).then(() => this.startGame())
 
@@ -75,8 +74,10 @@ export class Game extends Engine {
         // this.add('menu', mainMenu);
         // const level1 = new Level1();
         // this.add('level1', level1);
-        // const level2 = new Level2();
-        // this.add('level2', level2)
+        const level2 = new Level2();
+        this.add('level2', level2);
+        const level3 = new Level3();
+        this.add('level3', level3)
 
         // this.goToScene('level2');
 
@@ -101,22 +102,22 @@ export class Game extends Engine {
         this.add(background)
         // this.add(ramp)
 
-        let y = 0
-        let x = 0
+    //     let y = 0
+    //     let x = 0
 
-        y = 50
-        for (let i = 0; i < 5; i++) {
-            let continuousPlatform = new ContinuousPlatform(10, y, 0.5 * Math.PI)
-            this.add(continuousPlatform)
-            y += 150
-        }
+    //     y = 50
+    //     for (let i = 0; i < 5; i++) {
+    //         let continuousPlatform = new ContinuousPlatform(10, y, 0.5 * Math.PI)
+    //         this.add(continuousPlatform)
+    //         y += 150
+    //     }
 
-        y = 50
-        for (let i = 0; i < 5; i++) {
-            let continuousPlatform = new ContinuousPlatform(1260, y, 1.5 * Math.PI)
-            this.add(continuousPlatform)
-            y += 150
-        }
+    //     y = 50
+    //     for (let i = 0; i < 5; i++) {
+    //         let continuousPlatform = new ContinuousPlatform(1260, y, 1.5 * Math.PI)
+    //         this.add(continuousPlatform)
+    //         y += 150
+    //     }
 
         x = 110
         for (let i = 0; i < 8; i++) {
@@ -125,21 +126,21 @@ export class Game extends Engine {
             x += 150
         }
 
-        this.addPlatform(85, 550)
+    //     this.addPlatform(85, 550)
 
         this.addPlatform(270, 550)
 
         this.addWall(450, 550, 0.5 * Math.PI)
 
-        this.addWall(480, 550, 0.5 * Math.PI)
+    //     this.addWall(480, 550, 0.5 * Math.PI)
 
-        this.addWall(640, 450, 0)
+    //     this.addWall(640, 450, 0)
 
-        this.addWall(640, 400, 0)
+    //     this.addWall(640, 400, 0)
 
-        this.addWall(1030, 450, 0)
+    //     this.addWall(1030, 450, 0)
 
-        this.addWall(1030, 400, 0)
+    //     this.addWall(1030, 400, 0)
 
         this.addPlatform(950, 490)
         this.addCrate(500, 300)

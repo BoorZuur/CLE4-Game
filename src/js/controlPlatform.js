@@ -11,10 +11,10 @@ export class ControlPlatform extends Actor {
     maxY
 
     constructor(posX, posY, minX, maxX, minY, maxY) {
-        super({ width: Resources.ControlPlatform.width, height: Resources.ControlPlatform.height, collisionGroup: platformP });
+        super({ width: Resources.AutoElevator.width, height: Resources.AutoElevator.height, collisionGroup: platformP });
         this.pos = new Vector(posX, posY);
-        this.scale = new Vector(0.1, 0.1);
-        this.graphics.use(Resources.ControlPlatform.toSprite());
+        this.scale = new Vector(0.09, 0.09);
+        this.graphics.use(Resources.AutoElevator.toSprite());
         this.minX = posX - minX;
         this.maxX = posX + maxX;
         this.minY = posY - minY;
