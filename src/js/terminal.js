@@ -1,4 +1,4 @@
-import { Actor, Vector, CollisionType, Keys } from 'excalibur';
+import { Actor, Vector, CollisionType, Keys, Axes, Buttons } from 'excalibur';
 import { Resources } from './resources.js';
 import { ControlPlatform } from './controlPlatform.js';
 import { Cryptographer } from './cryptographer.js';
@@ -31,6 +31,7 @@ export class Terminal extends Actor {
         this.scale = new Vector(scale, scale)
         this.graphics.use(Resources.Terminal.toSprite())
         this.body.collisionType = CollisionType.Passive;
+        this.initScale = scale;
         this.doorMode = doorMode
         this.door = null;
         this.objectX = objectX;
@@ -94,8 +95,8 @@ export class Terminal extends Actor {
             pos: new Vector(this.objectX + width, this.objectY + height),
             collisionType: CollisionType.Fixed,
         });
-        border.scale = new Vector((this.minX + this.maxX) / Resources.Border.width, (this.minY + this.maxY) / Resources.Border.width);
-        border.graphics.use(Resources.Border.toSprite());
+        border.scale = new Vector((this.minX + this.maxX) / Resources.GlowingBlueBorder.width, (this.minY + this.maxY) / Resources.GlowingBlueBorder.width);
+        border.graphics.use(Resources.GlowingBlueBorder.toSprite());
 
         this.platform = new ControlPlatform(this.objectX, this.objectY,
             this.minX, this.maxX, this.minY, this.maxY);
@@ -128,6 +129,19 @@ export class Terminal extends Actor {
     }
 
     onPreUpdate(engine) {
+        let controller = null
+        let controllerX = 0;
+        let controllerY = 0;
+        let button2 = false;
+
+        if (engine.controllers[1] !== null && engine.controllers[1] !== undefined) {
+            controller = engine.controllers[1];
+            controllerX = controller.getAxes(Axes.LeftStickX);
+            controllerY = controller.getAxes(Axes.LeftStickY);
+            if (controller.wasButtonPressed(Buttons.Face2)) button2 = true;
+        }
+
+
         if (this.onCooldown) {
             this.cooldownTimer--;
             if (this.cooldownTimer <= 0) {
@@ -158,7 +172,7 @@ export class Terminal extends Actor {
                 // this.scale = new Vector(0.1, 0.1);
             }
 
-            if (engine.input.keyboard.wasPressed(Keys.W)) {
+            if (engine.input.keyboard.wasPressed(Keys.W) || button2) {
                 if (this.isGreen) {
                     this.hacked = true;
                     this.interactionLabel.text = 'Hacked! Press "E" to exit';
@@ -177,10 +191,11 @@ export class Terminal extends Actor {
             } else {
                 let x = 0;
                 let y = 0;
-                if (engine.input.keyboard.isHeld(Keys.W)) y = -1;
-                if (engine.input.keyboard.isHeld(Keys.S)) y = 1;
-                if (engine.input.keyboard.isHeld(Keys.A)) x = -1;
-                if (engine.input.keyboard.isHeld(Keys.D)) x = 1;
+
+                if (engine.input.keyboard.isHeld(Keys.W) || controllerY < -0.5) y = -1;
+                if (engine.input.keyboard.isHeld(Keys.S) || controllerY > 0.5) y = 1;
+                if (engine.input.keyboard.isHeld(Keys.A) || controllerX < -0.5) x = -1;
+                if (engine.input.keyboard.isHeld(Keys.D) || controllerX > 0.5) x = 1;
                 this.movePlatform(x, y);
             }
         }

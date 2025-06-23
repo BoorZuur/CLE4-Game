@@ -1,4 +1,4 @@
-import { Actor, Vector, Keys, CollisionType, DegreeOfFreedom, CompositeCollider, Shape, Axes } from "excalibur"
+import { Actor, Vector, Keys, CollisionType, DegreeOfFreedom, CompositeCollider, Shape, Axes, Buttons } from "excalibur"
 import { Resources } from './resources.js'
 import { Terminal } from "./terminal.js";
 import { Spikes } from "./spikes.js";
@@ -58,10 +58,10 @@ export class Cryptographer extends Actor {
             Down: Keys.S
         }
 
-        if (engine.controllers[0] === null || engine.controllers[0] === undefined) {
+        if (engine.controllers[1] === null || engine.controllers[1] === undefined) {
             // console.log("er is geen gamepad")
         } else {
-            controller = engine.controllers[0]
+            controller = engine.controllers[1]
             xController = controller.getAxes(Axes.LeftStickX)
             yController = controller.getAxes(Axes.LeftStickY)
         }
@@ -97,7 +97,16 @@ export class Cryptographer extends Actor {
     }
 
     checkInteraction(engine) {
-        if (engine.input.keyboard.wasPressed(Keys.E) && this.nearTerminal) {
+        let controller = null
+        let button1 = false
+
+        if (engine.controllers[1] !== null && engine.controllers[1] !== undefined) {
+            controller = engine.controllers[1];
+            if (controller.wasButtonPressed(Buttons.Face1)) button1 = true
+        }
+
+
+        if (engine.input.keyboard.wasPressed(Keys.E) || button1 && this.nearTerminal) {
             this.interactWithTerminal(this.nearTerminal)
         }
     }

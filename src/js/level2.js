@@ -34,18 +34,18 @@ export class Level2 extends Scene {
     }
 
     onActivate() {
-        this.showLevelUI();
+        // this.showLevelUI();
     }
 
     showLevelUI() {
-        const levelUI = new LevelUI(this);
-        this.levelUI = levelUI;
-        this.add(this.levelUI)
-        console.log('level2 showLevelUI')
-        this.levelUI.updateLevelName('Level 2');
-        console.log('level2 updateLevelName')
-        this.levelUI.updateCollectibles(0);
-        this.levelUI.updateKeyStatus(false);
+        // const levelUI = new LevelUI(this);
+        // this.levelUI = levelUI;
+        // this.add(this.levelUI)
+        // console.log('level2 showLevelUI')
+        // this.levelUI.updateLevelName('Level 2');
+        // console.log('level2 updateLevelName')
+        // this.levelUI.updateCollectibles(0);
+        // this.levelUI.updateKeyStatus(false);
     }
 
     onDeactivate() {
@@ -75,10 +75,10 @@ export class Level2 extends Scene {
         let terminal = new Terminal(90, 438, 0.045, 240, 325, false, 130, 490, 60, 200)
         this.add(terminal)
 
-        this.addHookpoint(493, 490, 1.5 * Math.PI)
+        this.addHookpoint(493, 480, 1.5 * Math.PI)
 
 
-        this.addHookpoint(223, 200, 1.5 * Math.PI)
+        this.addHookpoint(223, 140, 1.5 * Math.PI)
 
         this.addWall(983, 673, 0.5 * Math.PI, 0.125)
         this.addWall(1093, 673, 0.5 * Math.PI, 0.125)
@@ -94,8 +94,8 @@ export class Level2 extends Scene {
         this.addWall(1100, 300, 0.5 * Math.PI, 0.125)
         this.addWall(1183, 300, 0.5 * Math.PI, 0.125)
         this.addWall(77, 490, 0.5 * Math.PI, 0.1)
-        this.addWall(77, 200, 0.5 * Math.PI, 0.1)
-        this.addWall(165, 200, 0.5 * Math.PI, 0.1)
+        this.addWall(77, 150, 0.5 * Math.PI, 0.1)
+        this.addWall(165, 150, 0.5 * Math.PI, 0.1)
         this.addWall(470, 67, 0, 0.1)
         this.addWall(470, 117, 0, 0.1)
         this.addWall(890, 180, 0.5 * Math.PI, 0.1)
@@ -107,6 +107,15 @@ export class Level2 extends Scene {
         this.addPlatform(360, 320)
         this.addPlatform(410, 320)
         this.addPlatform(84, 340)
+        this.addSecretWall(85, 120, 0.5 * Math.PI)
+        this.addSecretWall(85, 80, 0.5 * Math.PI)
+        this.addSecretWall(85, 40, 0.5 * Math.PI)
+        this.addCrackedWall(155, 85)
+        this.addSecretWallHole(155, 85)
+
+        let door = this.addDoor(900, 270)
+        this.addPlate(75, 310, door, true,0,15000)
+        this.addElevator(800, 250, 800, 300, 200, 200, false)
 
         let y = 0
         let x = 0
@@ -142,7 +151,7 @@ export class Level2 extends Scene {
             this.add(continuousPlatform)
             x += 150
         }
-        this.addElevator(150, 725)
+        this.addElevator(390, 470, 200, 650, 175, 100, false)
     }
     addWall(x, y, rotation, scale) {
         const wall = new Wall(x, y, rotation, scale);
@@ -165,8 +174,8 @@ export class Level2 extends Scene {
         this.add(door);
         return door;
     }
-    addPlate(x, y, door) {
-        const plate = new PressurePlate(x, y, door, this);
+    addPlate(x, y, door, type = false, rotation = 0, time = 0) {
+        const plate = new PressurePlate(x, y, door, this, rotation, type,time);
         this.add(plate);
         return plate;
     }
@@ -189,10 +198,11 @@ export class Level2 extends Scene {
     }
     addSecretWallHole(x, y) {
         const secretWallHole = new SecretWallHole(x, y)
+        secretWallHole.scale.x = 0.1;
         this.add(secretWallHole)
     }
-    addHookpoint(x, y) {
-        const hook = new HookPoint(x, y)
+    addHookpoint(x, y, rotation) {
+        const hook = new HookPoint(x, y, rotation)
         this.add(hook)
     }
 }

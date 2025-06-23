@@ -12,7 +12,7 @@ export class CrackedWall extends Actor {
         })
         this.z = 1
         this.rotation = 0.5 * Math.PI
-        this.scale = new Vector(0.1, 0.1)
+        this.scale = new Vector(0.15, 0.15)
         this.graphics.use(Resources.CrackedWall.toSprite())
     }
     gone(){

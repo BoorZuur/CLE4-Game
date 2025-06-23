@@ -13,7 +13,7 @@ export class SecretWall extends Actor {
             rotation,
             collisionType: CollisionType.Passive
         });
-
+        this.rotation = 0.5 *Math.PI
         // Default scale values if not provided
         if (!swidth) {
             swidth = 0.125;
