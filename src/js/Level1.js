@@ -22,8 +22,8 @@ import { Ramp } from './ramp.js'
 import { Button } from './button.js'
 import { Exit } from './Exit.js'
 import { Vector } from 'excalibur'
-import { Key } from './key.js'
-import { Artifact } from './artifact.js'
+import { Key } from './Key.js'
+import { Artifact } from './Artifact.js'
 
 
 

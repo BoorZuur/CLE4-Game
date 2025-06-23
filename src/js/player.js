@@ -1,4 +1,4 @@
-import { Actor, Engine, Keys, Vector, CollisionType, DegreeOfFreedom, CompositeCollider, Shape } from "excalibur"
+import { Actor, Engine, Keys, Vector, CollisionType, DegreeOfFreedom, CompositeCollider, Shape, Axes, Buttons } from "excalibur"
 import { Resources } from "./resources.js"
 import { Projectile } from "./projectile.js"
 import { HookPoint } from "./hook-point.js"
@@ -18,6 +18,7 @@ import { Color } from "excalibur"
 
 export class Player extends Actor {
     sprite
+    controller
 
     constructor(x, y) {
         super({ width: 400, height: 900, collisionType: CollisionType.Active, anchor: Vector.Half, collisionGroup: friendsGroup });
@@ -32,7 +33,7 @@ export class Player extends Actor {
         this.isGrounded = false;
         this.gravity = 800;
         this.body.friction = 0;
-
+        this.controller = null;
         this.onPlatform = false;
         this.recentPlatform = null;
         this.sprite = Resources.Adventurer.toSprite()
@@ -145,12 +146,31 @@ export class Player extends Actor {
         }
     }
 
+    updateControlller(engine) {
+        this.controller = {};
+        let con = engine.controllers[0]
+        if (engine.controllers[0] === null || engine.controllers[0] === undefined) {
+            this.controller.x = 0;
+            this.controller.y = 0;
+            this.controller.button1 = false;
+            this.controller.button2 = false;
+            this.controller.button3 = false;
+        } else {
+            this.controller.x = con.getAxes(Axes.LeftStickX)
+            this.controller.y = con.getAxes(Axes.LeftStickY);
+            this.controller.button1 = con.wasButtonPressed(Buttons.Face1);
+            this.controller.button2 = con.wasButtonPressed(Buttons.Face2);
+            this.controller.button3 = con.wasButtonPressed(Buttons.Face3);
+        }
+    }
+
     onPreUpdate(engine, delta) {
         super.onPreUpdate(engine, delta);
-        this.updateGrapple();
+        this.updateGrapple()
+        this.updateControlller(engine);
 
         // Grapple input
-        if (engine.input.keyboard.wasPressed(Keys.F)) {
+        if (engine.input.keyboard.wasPressed(Keys.F) || this.controller.button2) {
             const hookPoints = this.scene.actors.filter(a => a instanceof HookPoint);
             let closestHookPoint = null;
             let minDistance = Infinity;
@@ -175,16 +195,16 @@ export class Player extends Actor {
 
         // Alleen horizontale beweging als je niet aan het grappelen bent
         if (!this.grappling) {
-            if (engine.input.keyboard.isHeld(Keys.Left)) {
+            if (engine.input.keyboard.isHeld(Keys.Left) || this.controller.x < -0.5) {
                 xspeed = -100;
                 this.sprite.flipHorizontal = true;
             }
-            if (engine.input.keyboard.isHeld(Keys.Right)) {
+            if (engine.input.keyboard.isHeld(Keys.Right) || this.controller.x > 0.5) {
                 xspeed = 100;
                 this.sprite.flipHorizontal = false;
             }
             // Springen met spatiebalk
-            if (engine.input.keyboard.wasPressed(Keys.Space)) {
+            if (engine.input.keyboard.wasPressed(Keys.Space) || this.controller.button1) {
                 this.Jump();
             }
         }
@@ -208,7 +228,7 @@ export class Player extends Actor {
         }
 
         // Schieten
-        if (engine.input.keyboard.wasPressed(Keys.Q)) {
+        if (engine.input.keyboard.wasPressed(Keys.Q) || this.controller.button3) {
             this.#Shoot();
         }
 
@@ -222,10 +242,10 @@ export class Player extends Actor {
             platformVel = this.recentPlatform.vel.clone()
         }
         if (this.onPlatform) {
-            if (!engine.input.keyboard.wasPressed(Keys.Space)) {
+            if (!engine.input.keyboard.wasPressed(Keys.Space) && !this.controller.button1) {
                 this.vel.y = 0
             }
-            if (!engine.input.keyboard.isHeld(Keys.Left) && !engine.input.keyboard.isHeld(Keys.Right)) {
+            if (!engine.input.keyboard.isHeld(Keys.Left) || !this.controller.x < -0.5 && !engine.input.keyboard.isHeld(Keys.Right)|| !this.controller.x > 0.5) {
                 // this.vel.x = this.recentPlatform.vel.x;
                 const relativeVelocity = this.recentPlatform.vel.clone().add(this.vel.clone());
                 this.vel = relativeVelocity;
