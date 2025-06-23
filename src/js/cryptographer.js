@@ -1,4 +1,4 @@
-import { Actor, Vector, Keys, CollisionType, DegreeOfFreedom, CompositeCollider, Shape } from "excalibur"
+import { Actor, Vector, Keys, CollisionType, DegreeOfFreedom, CompositeCollider, Shape, Axes } from "excalibur"
 import { Resources } from './resources.js'
 import { Terminal } from "./terminal.js";
 import { Spikes } from "./spikes.js";
@@ -11,10 +11,10 @@ export class Cryptographer extends Actor {
     hitbox
 
     constructor(x, y) {
-        super({ 
+        super({
             collisionType: CollisionType.Active,
             collisionGroup: friendsGroup,
-         });
+        });
         this.pos = new Vector(x, y)
         this.scale = new Vector(0.08, 0.08)
         this.graphics.use(Resources.Cryptographer.toSprite())
@@ -24,7 +24,7 @@ export class Cryptographer extends Actor {
         // this.body.mas = 100
         this.interacting = false
         this.nearTerminal = null
-        
+
     }
 
     onInitialize(engine) {
@@ -44,35 +44,46 @@ export class Cryptographer extends Actor {
     }
 
     move(engine, delta) {
+        const kb = engine.input.keyboard
+        let controller = null
+        let xController = 0
+        let yController = 0
+        let xvel = 0
+        let yvel = 0
+        let move = 0
         const keys = {
             Left: Keys.A,
             Right: Keys.D,
             Up: Keys.W,
             Down: Keys.S
         }
-        const kb = engine.input.keyboard
-        let xvel = 0
-        let yvel = 0
-        let move = 0
 
-        if (kb.isHeld(keys.Left)) {
-            move = -5.5* delta
+        if (engine.controllers[0] === null || engine.controllers[0] === undefined) {
+            // console.log("er is geen gamepad")
+        } else {
+            controller = engine.controllers[0]
+            xController = controller.getAxes(Axes.LeftStickX)
+            yController = controller.getAxes(Axes.LeftStickY)
+        }
+
+        if (kb.isHeld(keys.Left) || xController < -0.5) {
+            move = -5.5 * delta
             xvel = -1
             if (!this.interacting) {
                 this.graphics.flipHorizontal = true
             }
         }
-        if (kb.isHeld(keys.Right)) {
+        if (kb.isHeld(keys.Right) || xController > 0.5) {
             move = 5.5 * delta
             xvel = 1
             if (!this.interacting) {
                 this.graphics.flipHorizontal = false
             }
         }
-        if (kb.isHeld(keys.Up)) {
+        if (kb.isHeld(keys.Up) || yController < -0.5) {
             yvel = -1
         }
-        if (kb.isHeld(keys.Down)) {
+        if (kb.isHeld(keys.Down) || yController > 0.5) {
             yvel = 1
         }
 
@@ -114,7 +125,7 @@ export class Cryptographer extends Actor {
             console.log('You hit the spikes!')
             this.pos.x = event.other.owner.respawnX
             this.pos.y = event.other.owner.respawnY
-        } if (event.other.owner instanceof Ramp) {}
+        } if (event.other.owner instanceof Ramp) { }
     }
 
     leftSomething(event) {

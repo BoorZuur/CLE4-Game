@@ -27,7 +27,7 @@ export class Elevator extends Actor {
         this.scale = new Vector(0.05, 0.05);
         this.pos = new Vector(x, y);
         this.z = 2;
-        this.platform
+        this.platform = null;
         this.platformX = platformX;
         this.platformY = platformY;
         this.minX = 0;
@@ -45,6 +45,7 @@ export class Elevator extends Actor {
         this.on('collisionend', (event) => this.handleCollisionEnd(event));
         this.platform = new ControlPlatform(this.platformX, this.platformY, this.minX, this.maxX, this.minY, this.maxY);
         this.platform.graphics.use(Resources.Elevator.toSprite());
+        this.platform.collider.useBoxCollider(Resources.Elevator.width, Resources.Elevator.height);
         this.scene.add(this.platform);
     }
 

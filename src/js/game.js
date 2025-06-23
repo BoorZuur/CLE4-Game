@@ -13,8 +13,8 @@ import { Door } from './door.js'
 import { PressurePlate } from './pressure-plate.js'
 import { MainMenuScene } from './MainMenuScene.js'
 import { Level1 } from './Level1.js'
-import { Level2 } from './Level2.js'
-import { Level3 } from './level3.js'
+import { Level2 } from './level2.js'
+import { Level3 } from './Level3.js'
 import { Color } from 'excalibur'
 import { Button } from './button.js'
 import { Crate } from './crate.js'
@@ -39,10 +39,10 @@ export class Game extends Engine {
             }
         })
         this.showDebug(true)
-        this.showDebug(true)
         this.start(ResourceLoader).then(() => this.startGame())
 
         window.game = this;
+        this.controllers = [];
 
         const transitions = {
             in: new FadeInOut({ duration: 400, direction: 'in', color: Color.Black }),
@@ -68,7 +68,7 @@ export class Game extends Engine {
         this.goToScene('level2');
         //     let cryptographer = new Cryptographer(100, 650)
         //     let player = new Player(100, 430)
-        //     let terminal = new Terminal(820, 640, 750, 550, false, 5, 5, 100, 100)
+        //     let terminal = new Terminal(820, 640, 0.08, 750, 550, false, 5, 5, 100, 100)
         //     let background = new Background()
         //     // let ramp = new Ramp(300, 660)
 
@@ -202,6 +202,14 @@ export class Game extends Engine {
         //     const button = new Button(x, y, door, this);
         //     this.add(button);
         // }
+    }
+
+    initGamepads() {
+        this.input.gamepads.enabled = true
+        this.input.gamepads.on('connect', (connectevent) => {
+            this.controllers.push(connectevent.gamepad)
+            console.log("gamepad connected", this.controllers)
+        })
     }
 }
 
