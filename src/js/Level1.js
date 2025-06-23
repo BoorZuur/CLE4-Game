@@ -20,6 +20,11 @@ import { SecretWallHole } from './secretWallHole.js'
 import { ContinuousPlatform } from './continuousPlatform.js'
 import { Ramp } from './ramp.js'
 import { Button } from './button.js'
+import { Exit } from './Exit.js'
+import { Vector } from 'excalibur'
+import { Key } from './Key.js'
+import { Artifact } from './Artifact.js'
+
 
 
 
@@ -69,7 +74,7 @@ export class Level1 extends Scene {
         console.log('onStartLevel')
         let cryptographer = new Cryptographer(100, 650)
         let player = new Player(100, 430)
-        let terminal = new Terminal(820, 640, 0.08, 750, 550, false, 5, 5, 100, 100)
+        let terminal = new Terminal(930, 640, 0.065, 750, 550, false, 5, 5, 100, 100)
         let background = new Background()
 
         this.add(terminal)
@@ -118,15 +123,14 @@ export class Level1 extends Scene {
         this.addWall(1030, 400, 0, 0.125)
 
         this.addPlatform(950, 490)
-        this.addCrate(500, 480)
 
         this.addPlatform(80, 700)
         this.addPlatform(170, 700)
         this.addPlatform(260, 700)
         this.addPlatform(350, 700)
         this.addPlatform(440, 700)
-        this.addPlatform(530, 700)
-        this.addPlatform(680, 700)
+        this.addPlatform(510, 700)
+        this.addPlatform(700, 700)
         this.addPlatform(770, 700)
         this.addPlatform(860, 700)
         this.addPlatform(950, 700)
@@ -140,12 +144,29 @@ export class Level1 extends Scene {
 
         let door = this.addDoor(1030, 590)
         this.addPlate(950, 470, door)
-        this.addPlate(1200, 685, door)
+        this.addPlate(1100, 680, door)
+        this.exit = new Exit(1200, 630, this)
+        this.exit.scale = new Vector(0.12, 0.12)
+        this.add(this.exit)
+
+        this.key = new Key(730, 390, this)
+        this.key.scale = new Vector(0.05, 0.05)
+        this.add(this.key)
+
+        this.addArtifact(270, 500)
+        this.addArtifact(950, 410)
+        this.addArtifact(1100, 630)
+        this.addCrate(500, 480)
+
     }
     onInitialize(engine) {
 
     }
 
+    addArtifact(x, y) {
+        const artifact = new Artifact(x, y, this)
+        this.add(artifact)
+    }
 
     addWall(x, y, rotation, scale) {
         const wall = new Wall(x, y, rotation, scale);

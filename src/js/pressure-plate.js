@@ -43,6 +43,20 @@ export class PressurePlate extends Actor {
                 this.linkedDoor.kill();
                 this.exists = false;
             }
+            if (event.other.owner instanceof Cryptographer || event.other.owner instanceof Player) {
+                if (event.other.owner.graphics.flipHorizontal) {
+                    event.other.owner.pos.x -= 10
+                } else {
+                    event.other.owner.pos.x += 10
+                }
+            }
+            this.on('collisionend', (event) => {
+                if (event.other.owner instanceof Player ||
+                    event.other.owner instanceof Cryptographer ||
+                    event.other.owner instanceof Crate ||
+                    event.other.owner instanceof ControlPlatform) {
+                }
+            })
         });
 
         this.on('collisionend', (event) => { 

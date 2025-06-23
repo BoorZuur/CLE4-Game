@@ -1,6 +1,7 @@
 import { Actor, Vector } from 'excalibur';
 import { Resources } from './resources.js';
 import { Player } from './player.js';
+import { Cryptographer } from './cryptographer.js';
 
 export class Artifact extends Actor {
     constructor(x, y, gameInstance) {
@@ -19,7 +20,7 @@ export class Artifact extends Actor {
     }
 
     handleCollision(event) {
-        if (event.other.owner instanceof Player) {
+        if (event.other.owner instanceof Player || event.other.owner instanceof Cryptographer) {
             this.kill();
             this.gameInstance.collectibleCount++;
             console.log(this.gameInstance.collectibleCount);

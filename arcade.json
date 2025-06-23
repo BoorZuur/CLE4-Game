@@ -1,0 +1,9 @@
+[
+    {
+        "name": "The Crypt",
+        "url": "http://boorzuur.github.io/CLE4-Game/game/",
+        "players" : 2,
+        "cover": "/home/martijn-tas/Development/CLE4-Game/public/images/TheCrypt.png",
+        "makecode" : false
+    }
+]

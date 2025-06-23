@@ -1,6 +1,7 @@
 import { Resources } from "./resources";
 import { Actor, Vector } from "excalibur";
 import { Player } from './player.js';
+import { Cryptographer } from './cryptographer.js';
 
 
 export class Key extends Actor {
@@ -17,7 +18,7 @@ export class Key extends Actor {
     }
 
     handleCollision(event) {
-        if (event.other.owner instanceof Player) {
+        if (event.other.owner instanceof Player || event.other.owner instanceof Cryptographer) {
             console.log('Key collected');
             this.kill();
             this.gameInstance.hasKey = true;

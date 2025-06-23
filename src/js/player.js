@@ -1,4 +1,4 @@
-import { Actor, Engine, Keys, Vector, CollisionType, DegreeOfFreedom, CompositeCollider, Shape } from "excalibur"
+import { Actor, Engine, Keys, Vector, CollisionType, DegreeOfFreedom, CompositeCollider, Shape, Axes, Buttons } from "excalibur"
 import { Resources } from "./resources.js"
 import { Projectile } from "./projectile.js"
 import { HookPoint } from "./hook-point.js"
@@ -12,9 +12,13 @@ import { Button } from "./button.js"
 import { Crate } from "./crate.js"
 import { Wall } from "./wall.js"
 import { friendsGroup } from "./collisiongroups.js"
+import { Ramp } from "./ramp.js"
+import { Color } from "excalibur"
+
 
 export class Player extends Actor {
     sprite
+    controller
 
     constructor(x, y) {
         super({ width: 400, height: 900, collisionType: CollisionType.Active, anchor: Vector.Half, collisionGroup: friendsGroup });
@@ -29,7 +33,7 @@ export class Player extends Actor {
         this.isGrounded = false;
         this.gravity = 800;
         this.body.friction = 0;
-
+        this.controller = null;
         this.onPlatform = false;
         this.recentPlatform = null;
         this.sprite = Resources.Adventurer.toSprite()
@@ -42,18 +46,7 @@ export class Player extends Actor {
         this.on('collisionstart', (event) => this.handleCollision(event));
         this.on('collisionend', (event) => this.collisionEnd(event));
     }
-    handleCollision(event) {
-        // Speciale platform logica blijft hier
-        if (event.other.owner instanceof ControlPlatform) {
-            this.onPlatform = true;
-            this.recentPlatform = event.other.owner;
-        }
 
-        if (event.other.owner instanceof Spikes) {
-            this.pos.x = event.other.owner.respawnX;
-            this.pos.y = event.other.owner.respawnY;
-        }
-    }
 
     #Shoot() {
         const direction = this.sprite.flipHorizontal ? -1 : 1;
@@ -75,7 +68,7 @@ export class Player extends Actor {
         }
 
         if (normal.y > 0.5) {
-            if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate || event.other.owner instanceof ContinuousPlatform || event.other.owner instanceof ControlPlatform) {
+            if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate || event.other.owner instanceof ContinuousPlatform || event.other.owner instanceof ControlPlatform || event.other.owner instanceof Ramp || event.other.owner instanceof Wall) {
                 this.isGrounded = true;
                 this.vel.y = 0;
             }
@@ -121,7 +114,6 @@ export class Player extends Actor {
             // Bereken richting en afstand naar grapple point
             const direction = this.grapplePoint.sub(this.pos);
             const distance = Math.sqrt(direction.x * direction.x + direction.y * direction.y);
-
             // Als we dichtbij zijn, stop met grappelen
             if (distance < 20) {
                 this.grappling = false;
@@ -154,12 +146,31 @@ export class Player extends Actor {
         }
     }
 
+    updateControlller(engine) {
+        this.controller = {};
+        let con = engine.controllers[0]
+        if (engine.controllers[0] === null || engine.controllers[0] === undefined) {
+            this.controller.x = 0;
+            this.controller.y = 0;
+            this.controller.button1 = false;
+            this.controller.button2 = false;
+            this.controller.button3 = false;
+        } else {
+            this.controller.x = con.getAxes(Axes.LeftStickX)
+            this.controller.y = con.getAxes(Axes.LeftStickY);
+            this.controller.button1 = con.wasButtonPressed(Buttons.Face1);
+            this.controller.button2 = con.wasButtonPressed(Buttons.Face2);
+            this.controller.button3 = con.wasButtonPressed(Buttons.Face3);
+        }
+    }
+
     onPreUpdate(engine, delta) {
         super.onPreUpdate(engine, delta);
-        this.updateGrapple();
+        this.updateGrapple()
+        this.updateControlller(engine);
 
         // Grapple input
-        if (engine.input.keyboard.wasPressed(Keys.F)) {
+        if (engine.input.keyboard.wasPressed(Keys.F) || this.controller.button2) {
             const hookPoints = this.scene.actors.filter(a => a instanceof HookPoint);
             let closestHookPoint = null;
             let minDistance = Infinity;
@@ -171,24 +182,29 @@ export class Player extends Actor {
                 }
             });
             if (closestHookPoint) {
-                this.activateGrapple(closestHookPoint);
-                console.log(`Grappling to point at ${closestHookPoint.pos.toString()}, distance: ${minDistance}`);
+                if (closestHookPoint.pos.y < this.pos.y) {
+                    this.activateGrapple(closestHookPoint);
+                    console.log(`Grappling to point at ${closestHookPoint.pos.toString()}, distance: ${minDistance}`);
+                }
+                else {
+                    console.log("Grapple point is below player");
+                }
             }
         }
         let xspeed = 0;
 
         // Alleen horizontale beweging als je niet aan het grappelen bent
         if (!this.grappling) {
-            if (engine.input.keyboard.isHeld(Keys.Left)) {
+            if (engine.input.keyboard.isHeld(Keys.Left) || this.controller.x < -0.5) {
                 xspeed = -100;
                 this.sprite.flipHorizontal = true;
             }
-            if (engine.input.keyboard.isHeld(Keys.Right)) {
+            if (engine.input.keyboard.isHeld(Keys.Right) || this.controller.x > 0.5) {
                 xspeed = 100;
                 this.sprite.flipHorizontal = false;
             }
             // Springen met spatiebalk
-            if (engine.input.keyboard.wasPressed(Keys.Space)) {
+            if (engine.input.keyboard.wasPressed(Keys.Space) || this.controller.button1) {
                 this.Jump();
             }
         }
@@ -212,7 +228,7 @@ export class Player extends Actor {
         }
 
         // Schieten
-        if (engine.input.keyboard.wasPressed(Keys.Q)) {
+        if (engine.input.keyboard.wasPressed(Keys.Q) || this.controller.button3) {
             this.#Shoot();
         }
 
@@ -226,10 +242,10 @@ export class Player extends Actor {
             platformVel = this.recentPlatform.vel.clone()
         }
         if (this.onPlatform) {
-            if (!engine.input.keyboard.wasPressed(Keys.Space)) {
+            if (!engine.input.keyboard.wasPressed(Keys.Space) && !this.controller.button1) {
                 this.vel.y = 0
             }
-            if (!engine.input.keyboard.isHeld(Keys.Left) && !engine.input.keyboard.isHeld(Keys.Right)) {
+            if (!engine.input.keyboard.isHeld(Keys.Left) || !this.controller.x < -0.5 && !engine.input.keyboard.isHeld(Keys.Right)|| !this.controller.x > 0.5) {
                 // this.vel.x = this.recentPlatform.vel.x;
                 const relativeVelocity = this.recentPlatform.vel.clone().add(this.vel.clone());
                 this.vel = relativeVelocity;
