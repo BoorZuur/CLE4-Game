@@ -1,5 +1,5 @@
 import { Actor, Vector, CollisionType, DegreeOfFreedom } from "excalibur"
-import { Resources } from "./resources.js" 
+import { Resources } from "./resources.js"
 import { Player } from "./player.js";
 import { Platform } from "./platform.js";
 import { PressurePlate } from "./pressure-plate.js";
@@ -22,7 +22,7 @@ export class Crate extends Actor {
         this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation);
         this.graphics.use(Resources.Crate.toSprite());
         this.scale = new Vector(0.055, 0.05);
-        
+
         // Physics instellingen
         this.gravity = 7000;
         this.isGrounded = false;
@@ -39,17 +39,26 @@ export class Crate extends Actor {
     handlePush(event) {
         if (event.other.owner instanceof Player || event.other.owner instanceof Cryptographer || event.other.owner instanceof ControlPlatform) {
             const player = event.other.owner;
-            if (Math.abs(player.vel.x) > 50) {
-                const direction = player.vel.x > 0 ? 1 : -1;
-                this.vel.x += direction * this.pushForce;
+
+            // Calculate the relative position to determine collision direction
+            const relativeX = player.pos.x - this.pos.x;
+            const relativeY = player.pos.y - this.pos.y;
+
+            // Only allow pushing from the sides (horizontal collision)
+            // Check if the collision is more horizontal than vertical
+            if (Math.abs(relativeX) > Math.abs(relativeY) * 1.5) {
+                if (Math.abs(player.vel.x) > 50) {
+                    const direction = player.vel.x > 0 ? 1 : -1;
+                    this.vel.x += direction * this.pushForce;
+                }
             }
         }
     }
 
     handleCollision(event) {
-        if (event.other.owner instanceof Platform || 
-            event.other.owner instanceof PressurePlate|| 
-            event.other.owner instanceof Spikes||
+        if (event.other.owner instanceof Platform ||
+            event.other.owner instanceof PressurePlate ||
+            event.other.owner instanceof Spikes ||
             event.other.owner instanceof ContinuousPlatform) {
             this.isGrounded = true;
             this.vel.y = 0;

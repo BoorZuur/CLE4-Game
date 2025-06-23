@@ -12,6 +12,9 @@ import { Button } from "./button.js"
 import { Crate } from "./crate.js"
 import { Wall } from "./wall.js"
 import { friendsGroup } from "./collisiongroups.js"
+import { Ramp } from "./ramp.js"
+import { Color } from "excalibur"
+
 
 export class Player extends Actor {
     sprite
@@ -42,18 +45,7 @@ export class Player extends Actor {
         this.on('collisionstart', (event) => this.handleCollision(event));
         this.on('collisionend', (event) => this.collisionEnd(event));
     }
-    handleCollision(event) {
-        // Speciale platform logica blijft hier
-        if (event.other.owner instanceof ControlPlatform) {
-            this.onPlatform = true;
-            this.recentPlatform = event.other.owner;
-        }
 
-        if (event.other.owner instanceof Spikes) {
-            this.pos.x = event.other.owner.respawnX;
-            this.pos.y = event.other.owner.respawnY;
-        }
-    }
 
     #Shoot() {
         const direction = this.sprite.flipHorizontal ? -1 : 1;
@@ -75,7 +67,7 @@ export class Player extends Actor {
         }
 
         if (normal.y > 0.5) {
-            if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate || event.other.owner instanceof ContinuousPlatform || event.other.owner instanceof ControlPlatform) {
+            if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate || event.other.owner instanceof ContinuousPlatform || event.other.owner instanceof ControlPlatform || event.other.owner instanceof Ramp || event.other.owner instanceof Wall) {
                 this.isGrounded = true;
                 this.vel.y = 0;
             }
@@ -121,7 +113,6 @@ export class Player extends Actor {
             // Bereken richting en afstand naar grapple point
             const direction = this.grapplePoint.sub(this.pos);
             const distance = Math.sqrt(direction.x * direction.x + direction.y * direction.y);
-
             // Als we dichtbij zijn, stop met grappelen
             if (distance < 20) {
                 this.grappling = false;
@@ -159,7 +150,7 @@ export class Player extends Actor {
         this.updateGrapple();
 
         // Grapple input
-        if (engine.input.keyboard.wasPressed(Keys.E)) {
+        if (engine.input.keyboard.wasPressed(Keys.F)) {
             const hookPoints = this.scene.actors.filter(a => a instanceof HookPoint);
             let closestHookPoint = null;
             let minDistance = Infinity;
@@ -171,8 +162,13 @@ export class Player extends Actor {
                 }
             });
             if (closestHookPoint) {
-                this.activateGrapple(closestHookPoint);
-                console.log(`Grappling to point at ${closestHookPoint.pos.toString()}, distance: ${minDistance}`);
+                if (closestHookPoint.pos.y < this.pos.y) {
+                    this.activateGrapple(closestHookPoint);
+                    console.log(`Grappling to point at ${closestHookPoint.pos.toString()}, distance: ${minDistance}`);
+                }
+                else {
+                    console.log("Grapple point is below player");
+                }
             }
         }
         let xspeed = 0;
