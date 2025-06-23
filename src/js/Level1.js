@@ -24,6 +24,9 @@ import { Exit } from './Exit.js'
 import { Vector } from 'excalibur'
 import { Key } from './key.js'
 import { Artifact } from './artifact.js'
+import { InteractionLabel } from './interactionLabel.js'
+
+
 
 
 
@@ -77,6 +80,9 @@ export class Level1 extends Scene {
         let terminal = new Terminal(930, 640, 0.065, 750, 550, false, 5, 5, 100, 100)
         let background = new Background()
 
+        cryptographer.z = 1001
+        player.z = 1001
+
         this.add(terminal)
         this.add(cryptographer)
         this.add(player)
@@ -109,6 +115,21 @@ export class Level1 extends Scene {
         this.addPlatform(85, 550)
 
         this.addPlatform(270, 550)
+
+        this.addCryptographerInteractionLabel(270, 630, 'You may not be able to jump, but you control the level')
+        this.addCryptographerInteractionLabel(920, 530, 'Hack terminals to control platforms')
+
+        this.addInteractionLabel(270, 380, 'You may notice some people have some trouble jumping.')
+        this.addInteractionLabel(270, 400, 'Thats why you will have to help each other reach certain places')
+        this.addInteractionLabel(870, 430, 'Stand on pressure plates to open doors')
+        this.addInteractionLabel(1160, 550, 'Press I to open the door')
+
+
+        this.addPlayerInteractionLabel(600, 590, 'Some heights are too great to jump.')
+        this.addPlayerInteractionLabel(600, 620, 'Press F to grapple to the hook point.')
+
+        this.addInteractionLabel(780, 355, 'You will need the key to open the exit')
+
 
         this.addWall(450, 550, 0.5 * Math.PI, 0.125)
 
@@ -161,6 +182,23 @@ export class Level1 extends Scene {
     }
     onInitialize(engine) {
 
+    }
+
+    addPlayerInteractionLabel(x, y, text) {
+        const interactionLabel = new InteractionLabel(x, y, text, 10, 1.2, 'Green')
+        this.add(interactionLabel)
+        interactionLabel.z = 3
+    }
+
+    addCryptographerInteractionLabel(x, y, text) {
+        const interactionLabel = new InteractionLabel(x, y, text, 10, 1.2, 'Pink')
+        this.add(interactionLabel)
+        interactionLabel.z = 3
+    }
+    addInteractionLabel(x, y, text) {
+        const interactionLabel = new InteractionLabel(x, y, text, 10, 1.2, 'White')
+        this.add(interactionLabel)
+        interactionLabel.z = 3
     }
 
     addArtifact(x, y) {
