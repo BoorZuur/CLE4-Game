@@ -63,7 +63,7 @@ export class Terminal extends Actor {
         if (event.other.owner instanceof Cryptographer) {
             this.cryptographer = event.other.owner;
             if (!this.interactionLabel) {
-                this.interactionLabel = new InteractionLabel(0, -1000, 'Press "E" to use terminal', 50, 'White')
+                this.interactionLabel = new InteractionLabel(0, -1000, 'Press "E" to use terminal', 50, 5, 'White')
                 this.addChild(this.interactionLabel)
             }
         }
@@ -77,7 +77,7 @@ export class Terminal extends Actor {
             }
             this.graphics.use(Resources.Terminal.toSprite());
             this.graphics.flipHorizontal = false;
-            this.scale = new Vector(this.initScale, this.initScale);
+            // this.scale = new Vector(scale, scale);
             this.isGreen = false;
             this.minigameTimer = 0;
             this.onCooldown = false;
