@@ -159,7 +159,7 @@ export class Player extends Actor {
         this.updateGrapple();
 
         // Grapple input
-        if (engine.input.keyboard.wasPressed(Keys.E)) {
+        if (engine.input.keyboard.wasPressed(Keys.F)) {
             const hookPoints = this.scene.actors.filter(a => a instanceof HookPoint);
             let closestHookPoint = null;
             let minDistance = Infinity;

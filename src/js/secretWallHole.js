@@ -12,8 +12,8 @@ export class SecretWallHole extends Actor {
             collisionType: CollisionType.Passive
         })
         this.z = -1
-        this.rotation = 0
-        this.scale = new Vector(0.1, 0.1)
+        this.rotation = 1*Math.PI
+        this.scale = new Vector(0.15, 0.15)
         this.graphics.use(Resources.SecretHoleWall.toSprite())
     }
 }
