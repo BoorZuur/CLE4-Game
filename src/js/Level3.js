@@ -15,8 +15,12 @@ import { Crate } from './crate.js'
 import { Ramp } from './ramp.js'
 import { HookPoint } from './hook-point.js';
 import { Button } from './button.js';
-// import { LevelUI } from './LevelUI.js'
+import { LevelUI } from './LevelUI.js'
 // import { Artifact } from './Artifact.js'
+import { Elevator } from './elevator.js';
+import { SecretWall } from './secretWall.js';
+import { CrackedWall } from './crackedWall.js';
+import { SecretWallHole } from './secretWallHole.js';
 
 export class Level3 extends Scene {
 
@@ -30,69 +34,69 @@ export class Level3 extends Scene {
     }
 
     onActivate() {
-        this.showLevelUI();
+        // this.showLevelUI();
     }
-    // addElevator(x, y, platformX, platformY, minY, maxY, inverted) {
-        //     const elevator = new Elevator(x, y, platformX, platformY, minY, maxY, inverted);
-        //     this.add(elevator);
-        //     return elevator;
-        // }
-        // addSecretWall(x, y) {
-        //     const secretWall = new SecretWall(x, y)
-        //     this.add(secretWall)
-        // }
-        // addCrackedWall(x, y) {
-        //     const crackedWall = new CrackedWall(x, y)
-        //     this.add(crackedWall)
-        // }
-        // addSecretWallHole(x, y) {
-        //     const secretWallHole = new SecretWallHole(x, y)
-        //     this.add(secretWallHole)
-        // }
-        // addWall(x, y, angle) {
-        //     const wall = new Wall(x, y, angle);
-        //     this.add(wall);
-        // }
-        // addHookpoint(x, y) {
-        //     const hook = new HookPoint(x, y)
-        //     this.add(hook)
-        // }
-        // addSpikes(x, y, scale, respawnX, respawnY) {
-        //     const spikes = new Spikes(x, y, scale, respawnX, respawnY);
-        //     this.add(spikes);
-        // }
-        // addCrate(x, y) {
-        //     const crate = new Crate(x, y);
-        //     this.add(crate);
-        // }
-        // addPlatform(x, y) {
-        //     const platform = new Platform(x, y);
-        //     this.add(platform);
-        // }
-        // addDoor(x, y) {
-        //     const door = new Door(x, y);
-        //     this.add(door);
-        //     return door;
-        // }
-        // addPlate(x, y, door) {
-        //     const plate = new PressurePlate(x, y, door, this);
-        //     this.add(plate);
-        //     return plate;
-        // }
-        // addButton(x, y, door) {
-        //     const button = new Button(x, y, door, this);
-        //     this.add(button);
-        // }
-    showLevelUI() {
-        const levelUI = new LevelUI(this);
-        this.levelUI = levelUI;
-        this.add(this.levelUI)
-        console.log('level3 showLevelUI')
-        this.levelUI.updateLevelName('Level 2');
-        console.log('level3 updateLevelName')
-        this.levelUI.updateCollectibles(0);
-        this.levelUI.updateKeyStatus(false);
+    addElevator(x, y, platformX, platformY, minY, maxY, inverted) {
+        const elevator = new Elevator(x, y, platformX, platformY, minY, maxY, inverted);
+        this.add(elevator);
+        return elevator;
     }
+    addSecretWall(x, y) {
+        const secretWall = new SecretWall(x, y)
+        this.add(secretWall)
+    }
+    addCrackedWall(x, y) {
+        const crackedWall = new CrackedWall(x, y)
+        this.add(crackedWall)
+    }
+    addSecretWallHole(x, y) {
+        const secretWallHole = new SecretWallHole(x, y)
+        this.add(secretWallHole)
+    }
+    addWall(x, y, angle, scale) {
+        const wall = new Wall(x, y, angle, scale);
+        this.add(wall);
+    }
+    addHookpoint(x, y, rotation) {
+        const hook = new HookPoint(x, y, rotation)
+        this.add(hook)
+    }
+    addSpikes(x, y, scale, respawnX, respawnY) {
+        const spikes = new Spikes(x, y, scale, respawnX, respawnY);
+        this.add(spikes);
+    }
+    addCrate(x, y) {
+        const crate = new Crate(x, y);
+        this.add(crate);
+    }
+    addPlatform(x, y) {
+        const platform = new Platform(x, y);
+        this.add(platform);
+    }
+    addDoor(x, y) {
+        const door = new Door(x, y);
+        this.add(door);
+        return door;
+    }
+    addPlate(x, y, door) {
+        const plate = new PressurePlate(x, y, door, this);
+        this.add(plate);
+        return plate;
+    }
+    addButton(x, y, door) {
+        const button = new Button(x, y, door, this);
+        this.add(button);
+    }
+    // showLevelUI() {
+    //     const levelUI = new LevelUI(this);
+    //     this.levelUI = levelUI;
+    //     this.add(this.levelUI)
+    //     console.log('level3 showLevelUI')
+    //     this.levelUI.updateLevelName('Level 2');
+    //     console.log('level3 updateLevelName')
+    //     this.levelUI.updateCollectibles(0);
+    //     this.levelUI.updateKeyStatus(false);
+    // }
     onDeactivate() {
         this.actors.forEach(actor => {
             this.remove(actor);
@@ -111,8 +115,16 @@ export class Level3 extends Scene {
         let ramp = new Ramp(1055, 673)
         this.add(ramp)
 
+        let terminal = new Terminal(1200, 618, 0.04, 1030, 530, false, 160, 110, 270, 50)
+        this.add(terminal)
+
         this.addHookpoint(946, 477, 1.5 * Math.PI)
-        this.addCrate(915, 390)
+        this.addHookpoint(1100, 108, 0.5 * Math.PI)
+        
+        this.addCrate(912, 390)
+        this.addCrate(221, 30)
+
+        this.addPlatform(720, 130)
 
         this.addWall(1169, 673, 0.5 * Math.PI, 0.125)
         this.addWall(1184, 673, 0.5 * Math.PI, 0.125)
@@ -132,13 +144,37 @@ export class Level3 extends Scene {
         this.addWall(890, 480, 0.5 * Math.PI, 0.1)
         this.addWall(270, 393, 0.5 * Math.PI, 0.1)
         this.addWall(230, 415, 0, 0.1)
-
+        this.addWall(777, 350, 0.5 * Math.PI, 0.1)
+        this.addWall(840, 350, 0.5 * Math.PI, 0.1)
+        this.addWall(928, 350, 0.5 * Math.PI, 0.1)
+        this.addWall(840, 310, 0.5 * Math.PI, 0.1)
+        this.addWall(777, 310, 0.5 * Math.PI, 0.1)
+        this.addWall(1169, 250, 0.5 * Math.PI, 0.125)
+        this.addWall(1184, 250, 0.5 * Math.PI, 0.125)
+        this.addWall(221, 266, 0.5 * Math.PI, 0.1)
+        this.addWall(1169, 150, 0.5 * Math.PI, 0.125)
+        this.addWall(1184, 150, 0.5 * Math.PI, 0.125)
+        this.addWall(1169, 120, 0.5 * Math.PI, 0.125)
+        this.addWall(1184, 120, 0.5 * Math.PI, 0.125)
+        this.addWall(221, 120, 0.5 * Math.PI, 0.1)
+        this.addWall(86, 40, 0.5 * Math.PI, 0.125)
+        this.addWall(117, 40, 0.5 * Math.PI, 0.125)
+        this.addWall(410, 189, 0, 0.125)
+        this.addWall(410, 159, 0, 0.125)
+        this.addWall(535, 66, 0, 0.1)
+        
         let x = 710
         for (let i = 0; i < 8; i++) {
             this.addWall(x, 480, 0.5 * Math.PI, 0.1)
             x -= 88
         }
-
+        
+        x = 1069
+        for (let i = 0; i < 10; i++) {
+            this.addWall(x, 266, 0.5 * Math.PI, 0.1)
+            x -= 88
+        }
+        
         let y = 0
         x = 0
 
@@ -169,39 +205,5 @@ export class Level3 extends Scene {
             this.add(continuousPlatform)
             x += 150
         }
-    }
-    addWall(x, y, rotation, scale) {
-        const wall = new Wall(x, y, rotation, scale);
-        this.add(wall);
-    }
-    addSpikes(x, y, scale, width, height) {
-        const spikes = new Spikes(x, y, scale, width, height);
-        this.add(spikes);
-    }
-    addCrate(x, y) {
-        const crate = new Crate(x, y);
-        this.add(crate);
-    }
-    addPlatform(x, y) {
-        const platform = new Platform(x, y);
-        this.add(platform);
-    }
-    addDoor(x, y) {
-        const door = new Door(x, y);
-        this.add(door);
-        return door;
-    }
-    addPlate(x, y, door) {
-        const plate = new PressurePlate(x, y, door, this);
-        this.add(plate);
-        return plate;
-    }
-    addButton(x, y, door) {
-        const button = new Button(x, y, door, this);
-        this.add(button);
-    }
-    addHookpoint(x, y, rotation) {
-        const hookpoint = new HookPoint(x, y, rotation);
-        this.add(hookpoint)
     }
 }
