@@ -37,6 +37,8 @@ const Resources = {
     Elevator: new ImageSource('images/Ceiling.png'),
     CrackedWall: new ImageSource('images/CrackedWall.png'),
     SecretHoleWall: new ImageSource('images/SecretHoleWall.png'),
+    BlueBorder: new ImageSource('images/BlueBorder.png'),
+    GlowingBlueBorder: new ImageSource('images/GlowingBlueBorder.png'),
 }
 
 const ResourceLoader = new Loader()
