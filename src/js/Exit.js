@@ -1,5 +1,5 @@
 import { Resources } from './resources.js';
-import { Actor, Vector } from 'excalibur';
+import { Actor, Vector, Buttons } from 'excalibur';
 import { Player } from './player.js';
 import { Cryptographer } from './cryptographer.js';
 import { Keys } from 'excalibur';
@@ -45,15 +45,27 @@ export class Exit extends Actor {
     }
 
     onPreUpdate(engine, delta) {
+        let interact1 = false;
+        let interact2 = false;
+
+        if (engine.controllers[0]) {
+            interact1 = engine.controllers[0].wasButtonPressed(Buttons.Face4);
+        } else if (engine.controllers[1]) {
+            interact2 = engine.controllers[0].wasButtonPressed(Buttons.Face4);
+        }
         if (this.AllNearExit) {
-            if (engine.input.keyboard.wasPressed(Keys.I) && this.gameInstance.hasKey) {
-                this.gameInstance.levelCompleted = true;
-                console.log('Level completed: ' + this.gameInstance.levelCompleted);
-                this.gameInstance.levelUI.FinishLevel();
+            if (engine.input.keyboard.wasPressed(Keys.I) || interact1 || interact2) {
+                if (this.gameInstance.hasKey) {
+                    this.gameInstance.levelCompleted = true;
+                    console.log('Level completed: ' + this.gameInstance.levelCompleted);
+                    this.gameInstance.levelUI.FinishLevel();
+                }
             }
         }
-        if (engine.input.keyboard.wasPressed(Keys.I) && !this.gameInstance.hasKey) {
-            console.log('No key');
+        if (engine.input.keyboard.wasPressed(Keys.I) || interact1 || interact2) {
+            if (!this.gameInstance.hasKey) {
+                console.log('No key');
+            }
         }
 
     }
