@@ -68,7 +68,7 @@ export class Game extends Engine {
         this.goToScene('level2');
         //     let cryptographer = new Cryptographer(100, 650)
         //     let player = new Player(100, 430)
-        //     let terminal = new Terminal(820, 640, 750, 550, false, 5, 5, 100, 100)
+        //     let terminal = new Terminal(820, 640, 0.08, 750, 550, false, 5, 5, 100, 100)
         //     let background = new Background()
         //     // let ramp = new Ramp(300, 660)
 

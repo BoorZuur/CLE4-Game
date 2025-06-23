@@ -59,7 +59,7 @@ export class Cryptographer extends Actor {
         }
 
         if (engine.controllers[0] === null || engine.controllers[0] === undefined) {
-            console.log("er is geen gamepad")
+            // console.log("er is geen gamepad")
         } else {
             controller = engine.controllers[0]
             xController = controller.getAxes(Axes.LeftStickX)

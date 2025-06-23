@@ -58,6 +58,10 @@ export class Level2 extends Scene {
         this.engine.input.keyboard.off('press');
     }
     onInitialize(engine) {
+        let cryptographer = new Cryptographer(100, 500)
+        let player = new Player(100, 500)
+        this.add(cryptographer)
+        this.add(player)
         let background = new Background()
         background.z = -20
         let ramp = new Ramp(870, 673)
@@ -71,11 +75,10 @@ export class Level2 extends Scene {
         let terminal = new Terminal(90, 438, 0.045, 240, 325, false, 130, 490, 60, 200)
         this.add(terminal)
 
-        let hookpoint = new HookPoint(493, 490, 1.5 * Math.PI)
-        this.add(hookpoint)
+        this.addHookpoint(493, 490, 1.5 * Math.PI)
 
-        hookpoint = new HookPoint(223, 200, 1.5 * Math.PI)
-        this.add(hookpoint)
+
+        this.addHookpoint(223, 200, 1.5 * Math.PI)
 
         this.addWall(983, 673, 0.5 * Math.PI, 0.125)
         this.addWall(1093, 673, 0.5 * Math.PI, 0.125)
@@ -114,13 +117,17 @@ export class Level2 extends Scene {
             this.add(continuousPlatform)
             y += 150
         }
-
-        x = 110
-        for (let i = 0; i < 8; i++) {
-            let continuousPlatform = new ContinuousPlatform(x, 720, 0)
-            this.add(continuousPlatform)
-            x += 150
-        }
+        this.addPlatform(0, 725)
+        this.addPlatform(125, 725)
+        this.addPlatform(250, 725)
+        this.addPlatform(375, 725)
+        this.addPlatform(500, 725)
+        this.addPlatform(625, 725)
+        this.addPlatform(750, 725)
+        this.addPlatform(875, 725)
+        this.addPlatform(1000, 725)
+        this.addPlatform(1125, 725)
+        this.addPlatform(1250, 725)
 
         y = 50
         for (let i = 0; i < 5; i++) {
@@ -135,6 +142,7 @@ export class Level2 extends Scene {
             this.add(continuousPlatform)
             x += 150
         }
+        this.addElevator(150, 725)
     }
     addWall(x, y, rotation, scale) {
         const wall = new Wall(x, y, rotation, scale);
