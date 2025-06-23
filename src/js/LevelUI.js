@@ -1,4 +1,4 @@
-import { Actor, Label, Color, Keys, Vector, Timer, TextAlign, Font, FontUnit, vec } from 'excalibur';
+import { Actor, Label, Color, Keys, Vector, Timer, TextAlign, Font, FontUnit, vec, Buttons } from 'excalibur';
 import { Resources } from './resources.js';
 import { UIManager } from './UIManager.js';
 
@@ -18,12 +18,26 @@ export class LevelUI extends Actor {
     }
 
     onPreUpdate(engine) {
+        let interact1 = false;
+        let interact2 = false;
+
+        if (engine.controllers[0]) {
+            interact1 = engine.controllers[0].wasButtonPressed(Buttons.LeftBumper)
+            // interact1 = con1.wasButtonPressed(Buttons.LeftBumper)
+        } else if (engine.controllers[1]) {
+            interact2 = engine.controllers[1][wasButtonPressed(Buttons.LeftBumper)];
+        }
+
         // if (engine.input.keyboard.isHeld(Keys.P)) {
         //     this.ui.show();
         // }
         // else {
         //     this.ui.hide();
         // }
+
+        if (interact1 || interact2) {
+            this.ui.nextLevelButtonPressed();
+        }
     }
 
     setupPixelConversion(engine) {
