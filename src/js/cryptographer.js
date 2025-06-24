@@ -51,6 +51,7 @@ export class Cryptographer extends Actor {
         let xvel = 0
         let yvel = 0
         let move = 0
+        this.angularVelocity = 0
         const keys = {
             Left: Keys.A,
             Right: Keys.D,
@@ -82,9 +83,36 @@ export class Cryptographer extends Actor {
         }
         if (kb.isHeld(keys.Up) || yController < -0.5) {
             yvel = -1
+            // rotate the cryptographer to face up
+            if (!this.interacting) {
+                if (this.graphics.flipHorizontal) {
+                    this.angularVelocity = +1
+                } else {
+                    this.angularVelocity = -1
+                }
+            }
         }
         if (kb.isHeld(keys.Down) || yController > 0.5) {
             yvel = 1
+            if (!this.interacting) {
+                if (this.graphics.flipHorizontal) {
+                    this.angularVelocity = -1
+                } else {
+                    this.angularVelocity = +1
+                }
+            }
+        }
+
+        const maxRotation = 359 * Math.PI / 180
+        const minRotation = 330 * Math.PI / 180
+        const maxFlippedRotation = 30 * Math.PI / 180
+        const minFlippedRotation = 1 * Math.PI / 180
+        
+        if (this.graphics.flipHorizontal) {
+            // if flipped, rotate to face down
+            this.rotation = Math.max(Math.min(this.rotation, maxFlippedRotation), minFlippedRotation)
+        } else {
+            this.rotation = Math.max(Math.min(this.rotation, maxRotation), minRotation)
         }
 
         if (this.interacting) {
