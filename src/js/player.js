@@ -246,7 +246,7 @@ export class Player extends Actor {
             if (!engine.input.keyboard.wasPressed(Keys.Space) && !this.controller.button1) {
                 this.vel.y = 0
             }
-            if (!engine.input.keyboard.isHeld(Keys.Left) || !this.controller.x < -0.5 && !engine.input.keyboard.isHeld(Keys.Right)|| !this.controller.x > 0.5) {
+            if (!engine.input.keyboard.isHeld(Keys.Left) && !engine.input.keyboard.isHeld(Keys.Right) && this.controller.x === 0) {
                 // this.vel.x = this.recentPlatform.vel.x;
                 const relativeVelocity = this.recentPlatform.vel.clone().add(this.vel.clone());
                 this.vel = relativeVelocity;

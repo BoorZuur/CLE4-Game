@@ -18,26 +18,7 @@ export class UIManager {
         this.nextLevelButton = document.querySelector('#NextLevelButton');
         this.currentLevel = 1
 
-        this.nextLevelButton.addEventListener('click', () => {
-            // Get the game instance from the window object
-            const game = window.game;
-            if (this.currentLevel <= 2) {
-                this.LevelCompletedUI.style.display = 'none';
-                this.levelCutOff.style.display = 'none';
-                this.LevelUI.style.display = 'block';
-                this.hide()
-                game.goToScene('level2');
-                this.currentLevel = 2
-            }
-            else if (this.currentLevel == 2) {
-                game.goToScene('level3');
-                this.currentLevel = 3
-            }
-            else if (this.currentLevel == 3) {
-                game.goToScene('level4');
-                this.currentLevel = 4
-            }
-        });
+        this.nextLevelButton.addEventListener('click', (event) => this.nextLevelButtonPressed(event));
         this.levelCutOff.style.display = 'none';
 
         // Hide UI by default
@@ -107,5 +88,24 @@ export class UIManager {
         if (this.completedCollectible3) this.completedCollectible3.src = this.collectibleElement3.src;
     }
 
-
+    nextLevelButtonPressed() {
+        // Get the game instance from the window object
+        const game = window.game;
+        if (this.currentLevel <= 2) {
+            this.LevelCompletedUI.style.display = 'none';
+            this.levelCutOff.style.display = 'none';
+            this.LevelUI.style.display = 'block';
+            this.hide()
+            game.goToScene('level2');
+            this.currentLevel = 2
+        }
+        else if (this.currentLevel == 2) {
+            game.goToScene('level3');
+            this.currentLevel = 3
+        }
+        else if (this.currentLevel == 3) {
+            game.goToScene('level4');
+            this.currentLevel = 4
+        }
+    }
 }
