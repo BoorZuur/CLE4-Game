@@ -1,4 +1,4 @@
-import { Actor, Engine, Keys, Vector, CollisionType, DegreeOfFreedom, CompositeCollider, Shape, Axes, Buttons } from "excalibur"
+import { Actor, Engine, Keys, Vector, CollisionType, DegreeOfFreedom, CompositeCollider, Shape, Axes, Buttons, Line } from "excalibur"
 import { Resources } from "./resources.js"
 import { Projectile } from "./projectile.js"
 import { HookPoint } from "./hook-point.js"
@@ -27,7 +27,7 @@ export class Player extends Actor {
         this.scale = new Vector(0.08, 0.08)
         this.grappling = false;
         this.grapplePoint = null;
-        this.grappleSpeed = 50;
+        this.grappleSpeed = 5;
         this.grappleCooldown = 0;
         this.grappleMaxCooldown = 60;
         this.jumpForce = -400;
@@ -40,6 +40,7 @@ export class Player extends Actor {
         this.sprite = Resources.Adventurer.toSprite()
         this.graphics.use(this.sprite)
         this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation)
+        this.showGrappleLine = false;
     }
     onInitialize(engine) {
 
