@@ -36,7 +36,8 @@ export class Game extends Engine {
             physics: {
                 solver: SolverStrategy.Realistic,
                 gravity: new Vector(0, 500)
-            }
+            },
+            suppressPlayButton: true,
         })
         // this.showDebug(true)
         this.start(ResourceLoader).then(() => this.startGame())
