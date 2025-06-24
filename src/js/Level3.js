@@ -53,6 +53,8 @@ export class Level3 extends Scene {
     addSecretWall(x, y) {
         const secretWall = new SecretWall(x, y)
         this.add(secretWall)
+        secretWall.scale = 0.1
+        secretWall.z = 100
     }
     addCrackedWall(x, y) {
         const crackedWall = new CrackedWall(x, y)
@@ -61,6 +63,8 @@ export class Level3 extends Scene {
     addSecretWallHole(x, y) {
         const secretWallHole = new SecretWallHole(x, y)
         this.add(secretWallHole)
+        secretWallHole.graphics.flipHorizontal = true
+        secretWallHole.scale.x = 0.1
     }
     addWall(x, y, angle, scale) {
         const wall = new Wall(x, y, angle, scale);
@@ -112,13 +116,17 @@ export class Level3 extends Scene {
         const checkPoint = new Checkpoint(x, y, this);
         this.add(checkPoint);
     }
+    addArtifact(x, y) {
+        const artifact = new Artifact(x, y, this)
+        this.add(artifact)
+    }
 
     showLevelUI() {
         const levelUI = new LevelUI(this);
         this.levelUI = levelUI;
         this.add(this.levelUI)
         console.log('level3 showLevelUI')
-        this.levelUI.updateLevelName('Level 2');
+        this.levelUI.updateLevelName('Level 3');
         console.log('level3 updateLevelName')
         this.levelUI.updateCollectibles(0);
         this.levelUI.updateKeyStatus(false);
@@ -156,14 +164,14 @@ export class Level3 extends Scene {
 
         let cryptographer = new Cryptographer(300, 650)
         this.add(cryptographer)
-        let player = new Player(350, 650)
-        // let player = new Player(730, 70)
+        // let player = new Player(350, 650)
+        let player = new Player(400, 60)
         this.add(player)
 
         let ramp = new Ramp(1055, 673)
         this.add(ramp)
 
-        let terminal = new Terminal(1200, 603, 0.06, 1030, 530, false, 130, 120, 270, 50)
+        let terminal = new Terminal(1200, 603, 0.06, 1030, 530, false, 130, 140, 270, 50)
         this.add(terminal)
 
         //pos nog goed zetten
@@ -184,8 +192,19 @@ export class Level3 extends Scene {
         }
 
 
+
+        let key = new Key(1178, 60)
+        this.add(key)
+        key.rotation = 0.5 * Math.PI
+
         this.addCheckPoint(260, 348)
         this.addCheckPoint(670, 435)
+        this.addCheckPoint(410, 83)
+
+        this.addElevator(250, 245, 340, 240, 125, 0, false)
+
+        // this.addSecretWallHole(1143, 454)
+        // this.addSecretWall(1240, 454)
 
 
         this.addHookpoint(1102, 525, 0.5 * Math.PI)
@@ -200,11 +219,17 @@ export class Level3 extends Scene {
         this.addWall(710, 300, 0, 0.1)
         this.addWall(900, 300, 0, 0.1)
 
+        this.addArtifact(720, 75)
+        this.addArtifact(1210, 460)
+        this.addArtifact(190, 415)
+
+
+
         // door1 is de deur naar de Exit
         let door1 = new Door(180, 640)
         this.add(door1)
         door1.scale = new Vector(0.135, 0.135)
-        this.addPlate(1233, 320, door1, false, 1.5 * Math.PI)
+        this.addPlate(1235, 320, door1, false, 1.5 * Math.PI)
 
         // door2 is de deur voor area rechtsonder voor de player
         let door2 = new Door(900, 400, new Vector(0.15, 0.15))
@@ -231,6 +256,11 @@ export class Level3 extends Scene {
         this.add(door6)
         this.addButton(560, 75, door6, false)
 
+        //door7 is voor de deur bij de sleutel
+        let door7 = new Door(1140, 60, new Vector(0.13, 0.13))
+        this.add(door7)
+        this.addButton(40, 85, door7, false)
+
 
         // this.addButton(250, 435, 0.5 * Math.PI)
         this.addCrate(221, 30)
@@ -243,8 +273,10 @@ export class Level3 extends Scene {
         // this.addDoor(180, 650)
         // this.addDoor(580, 660)
 
+
         let smallDoor = new Door(300, 435, new Vector(0.1, 0.1))
         this.add(smallDoor)
+        this.addPlate(1235, 200, smallDoor, false, 1.5 * Math.PI)
 
         let exit = new Exit(90, 650, this)
         exit.scale = new Vector(0.12, 0.12)
@@ -299,11 +331,20 @@ export class Level3 extends Scene {
         this.addWall(1184, 150, 0.5 * Math.PI, 0.125)
         this.addWall(1169, 120, 0.5 * Math.PI, 0.125)
         this.addWall(1184, 120, 0.5 * Math.PI, 0.125)
-        this.addWall(221, 120, 0.5 * Math.PI, 0.1)
+
+        this.addWall(210, 116, 1.5 * Math.PI, 0.07)
+
         this.addWall(86, 40, 0.5 * Math.PI, 0.125)
+
+
         this.addWall(117, 40, 0.5 * Math.PI, 0.125)
+
+        // this.addWall(410, 186, 0.5 * Math.PI, 0.065)
+
         this.addWall(410, 189, 0, 0.125)
         this.addWall(410, 159, 0, 0.125)
+        // let player = new Player(400, 60)
+        // this.add(player)
         this.addWall(535, 59, 0, 0.1)
 
         let x = 710

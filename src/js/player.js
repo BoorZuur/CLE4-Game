@@ -69,11 +69,20 @@ export class Player extends Actor {
         }
 
         if (normal.y > 0.5) {
-            if (event.other.owner instanceof Platform || event.other.owner instanceof Elevator || event.other.owner instanceof HookPoint || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate || event.other.owner instanceof ContinuousPlatform || event.other.owner instanceof ControlPlatform || event.other.owner instanceof Ramp || event.other.owner instanceof Wall) {
+            if (event.other.owner instanceof Platform ||
+                event.other.owner instanceof Elevator ||
+                event.other.owner instanceof HookPoint ||
+                event.other.owner instanceof PressurePlate ||
+                event.other.owner instanceof Crate ||
+                event.other.owner instanceof ContinuousPlatform ||
+                event.other.owner instanceof ControlPlatform ||
+                event.other.owner instanceof Ramp ||
+                event.other.owner instanceof Wall ||
+                event.other.owner instanceof Elevator) {
                 this.isGrounded = true;
                 this.vel.y = 0;
             }
-            // console.log('Hit from above - landing on platform');
+            console.log('Hit from above - landing on platform');
             // this.isGrounded = true;
             // this.vel.y = 0;
         }
@@ -83,11 +92,11 @@ export class Player extends Actor {
         }
         // Normal.y = -1 means collision from below (player hitting ceiling)
         else if (normal.y < -0.5) {
-            // console.log('Hit from below - hitting ceiling');
+            console.log('Hit from below - hitting ceiling');
         }
         // Normal.x indicates side collision (left or right wall)
         else if (Math.abs(normal.x) > 0.5) {
-            // console.log('Hit from side - wall collision');
+            console.log('Hit from side - wall collision');
             // Don't set grounded for wall collisions
             // Allow sliding down
         }

@@ -15,6 +15,7 @@ export class Terminal extends Actor {
     maxX
     minY
     maxY
+    border
     interactionLabel
     interacting
     hacked
@@ -112,12 +113,14 @@ export class Terminal extends Actor {
 
         border.z = -1
         this.scene.add(border)
+        this.border = border
+        this.border.graphics.opacity = 0
         this.scene.add(this.platform);
     }
 
     createDoor() {
         this.door = new Door(this.objectX, this.objectY);
-        this.door.scale = new Vector(0.15,0.15)
+        this.door.scale = new Vector(0.15, 0.15)
         this.door.graphics.use(Resources.ControllableDoor.toSprite());
         this.scene.add(this.door);
     }
@@ -208,6 +211,9 @@ export class Terminal extends Actor {
                 }
             }
         } else if (this.interacting && this.hacked) {
+            if (this.border) {
+                this.border.graphics.opacity = 1
+            }
             if (this.doorMode && this.door) {
                 this.door.kill();
             } else {

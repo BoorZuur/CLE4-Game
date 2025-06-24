@@ -4,6 +4,7 @@ import { ControlPlatform } from "./controlPlatform";
 import { PressurePlate } from "./pressure-plate";
 import { Cryptographer } from "./cryptographer";
 import { Player } from "./player";
+import { Crate } from "./crate";
 
 export class Elevator extends Actor {
 
@@ -66,14 +67,14 @@ export class Elevator extends Actor {
     }
 
     handleCollision(event) {
-        if (event.other.owner instanceof Cryptographer || event.other.owner instanceof Player) {
+        if (event.other.owner instanceof Cryptographer || event.other.owner instanceof Player || event.other.owner instanceof Crate) {
             this.onPlatform = true;
             console.log("onPlatform", this.onPlatform);
         }
     }
 
     handleCollisionEnd(event) {
-        if (event.other.owner instanceof Cryptographer || event.other.owner instanceof Player) {
+        if (event.other.owner instanceof Cryptographer || event.other.owner instanceof Player || event.other.owner instanceof Crate) {
             this.onPlatform = false;
             console.log("onPlatform", this.onPlatform);
         }
