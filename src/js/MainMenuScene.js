@@ -1,7 +1,6 @@
 // src/js/MainMenuScene.js
 import { Scene, Label, Color, Keys, Actor, Vector, Timer, TextAlign, Buttons } from 'excalibur';
 import { Resources } from './resources.js';
-import { InteractionLabel } from './interactionLabel.js';
 
 
 export class MainMenuScene extends Scene {
@@ -45,42 +44,21 @@ export class MainMenuScene extends Scene {
                 engine.goToScene('level1');
             }
         });
-
-        //testings
-        this.interactions = new InteractionLabel(350, 30, 'Press Space to Start', 15, 2, 'White');
-        this.add(this.interactions);
     }
 
     onPreUpdate(engine) {
         let interact1 = false;
         let interact2 = false;
-        //testings
-        let allButtons1 = [];
-        let allButtons2 = [];
-        let joystick1 = [];
-        let joystick2 = [];
 
         if (engine.controllers[0]) {
             interact1 = engine.controllers[0].wasButtonPressed(Buttons.Face1);
-            //testings
-            allButtons1 = engine.controllers[0]._buttons;
-            joystick1 = engine.controllers[0]._axes;
         } else if (engine.controllers[1]) {
             interact2 = engine.controllers[1].wasButtonPressed(Buttons.Face1);
-            //testings
-            allButtons2 = engine.controllers[1]._buttons;
-            joystick2 = engine.controllers[1]._axes;
         }
 
         if (interact1 || interact2) {
             engine.goToScene('level1');
         }
-
-        //testings
-        let keyboardInteraction = engine.input.keyboard.getKeys();
-        this.interactions.text = `keyboard: ${keyboardInteraction}\nGamepad pressed buttons: ${allButtons1.join(', ')}\nGamepad joystick axes: ${joystick1.join(', ')}\nGamepad 2 pressed buttons: ${allButtons2.join(', ')}\nGamepad 2 joystick axes: ${joystick2.join(', ')}`;
-
-
     }
 
     onDeactivate() {  // Remove ctx if you're not using it
