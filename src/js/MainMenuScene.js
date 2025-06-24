@@ -1,5 +1,5 @@
 // src/js/MainMenuScene.js
-import { Scene, Label, Color, Keys, Actor, Vector, Timer, TextAlign } from 'excalibur';
+import { Scene, Label, Color, Keys, Actor, Vector, Timer, TextAlign, Buttons } from 'excalibur';
 import { Resources } from './resources.js';
 
 
@@ -46,8 +46,19 @@ export class MainMenuScene extends Scene {
         });
     }
 
-    onpreupdate(engine) {
+    onPreUpdate(engine) {
+        let interact1 = false;
+        let interact2 = false;
 
+        if (engine.controllers[0]) {
+            interact1 = engine.controllers[0].wasButtonPressed(Buttons.Face1);
+        } else if (engine.controllers[1]) {
+            interact2 = engine.controllers[1].wasButtonPressed(Buttons.Face1);
+        }
+
+        if (interact1 || interact2) {
+            engine.goToScene('level1');
+        }
     }
 
     onDeactivate() {  // Remove ctx if you're not using it
