@@ -11,13 +11,22 @@ export class Artifact extends Actor {
         });
         this.z = -2
         this.pos = new Vector(x, y);
-        this.scale = new Vector(0.05, 0.05);
+        this.baseScale = new Vector(0.05, 0.05); // base scale
+        this.scale = this.baseScale.clone();
+        this.time = 0; // for animation
         this.on('collisionstart', (event) => this.handleCollision(event));
         this.gameInstance = gameInstance;
     }
 
     onInitialize(engine) {
         this.graphics.use(Resources.Artifact.toSprite());
+    }
+
+    onPreUpdate(engine, delta) {
+        // Pulsate using sine wave
+        this.time += delta / 1000; // convert ms to seconds
+        const pulse = 1 + Math.sin(this.time * 2) * 0.2; // slow, gentle pulse
+        this.scale = this.baseScale.scale(pulse);
     }
 
     handleCollision(event) {

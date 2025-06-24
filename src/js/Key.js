@@ -14,7 +14,14 @@ export class Key extends Actor {
         this.graphics.use(Resources.Key.toSprite());
         this.scale = new Vector(0.05, 0.05);
         this.on('collisionstart', (event) => this.handleCollision(event));
+        this.time = 0 // for animation
         this.gameInstance = gameInstance;
+    }
+
+    onPreUpdate(engine, delta) {
+        // Rotate back and forth using sine wave
+        this.time += delta / 1000
+        this.rotation = Math.sin(this.time * 2) * 0.3 // radians, adjust 0.3 for angle
     }
 
     handleCollision(event) {
