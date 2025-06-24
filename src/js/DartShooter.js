@@ -19,7 +19,7 @@ export class DartShooter extends Actor {
             fcn: () => {
                 this.shootDart()
             },
-            interval: 1500, // milliseconds
+            interval: 700, // milliseconds
             repeats: true
         })
         this.engine.add(ShootTimer)
@@ -29,5 +29,6 @@ export class DartShooter extends Actor {
     shootDart() {
         let dart = new Dart(this.pos.x, this.pos.y + 10, this.respawnX, this.respawnY);
         this.instance.add(dart);
+        dart.scale = new Vector(0.04, 0.04);
     }
 }

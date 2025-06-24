@@ -1,5 +1,5 @@
 // src/js/MainMenuScene.js
-import { Scene, Label, Color, Keys } from 'excalibur';
+import { Scene, Label, Color, Keys, Vector } from 'excalibur';
 import { Resources } from './resources.js';
 import { Cryptographer } from './cryptographer.js'
 import { Terminal } from './terminal.js'
@@ -16,17 +16,26 @@ import { Ramp } from './ramp.js'
 import { HookPoint } from './hook-point.js';
 import { Button } from './button.js';
 import { LevelUI } from './LevelUI.js'
-// import { Artifact } from './Artifact.js'
+import { Artifact } from './Artifact.js'
 import { Elevator } from './elevator.js';
 import { SecretWall } from './secretWall.js';
 import { CrackedWall } from './crackedWall.js';
 import { SecretWallHole } from './secretWallHole.js';
+import { InteractionLabel } from './interactionLabel.js';
+import { Exit } from './exit.js';
+import { DartShooter } from './DartShooter.js';
+import { Checkpoint } from './Checkpoint.js';
+import { Key } from './key.js';
+import { FlatPlatform } from './flatplatform.js';
+
 
 export class Level3 extends Scene {
 
     collectibleCount = 0;
     hasKey = false;
     levelCompleted = false;
+    respawnX = 325;
+    respawnY = 650;
 
     constructor() {
         super();
@@ -34,7 +43,7 @@ export class Level3 extends Scene {
     }
 
     onActivate() {
-        // this.showLevelUI();
+        this.showLevelUI();
     }
     addElevator(x, y, platformX, platformY, minY, maxY, inverted) {
         const elevator = new Elevator(x, y, platformX, platformY, minY, maxY, inverted);
@@ -61,8 +70,8 @@ export class Level3 extends Scene {
         const hook = new HookPoint(x, y, rotation)
         this.add(hook)
     }
-    addSpikes(x, y, scale, respawnX, respawnY) {
-        const spikes = new Spikes(x, y, scale, respawnX, respawnY);
+    addSpikes(x, y, scale) {
+        const spikes = new Spikes(x, y, scale, this.respawnX, this.respawnY);
         this.add(spikes);
     }
     addCrate(x, y) {
@@ -75,28 +84,45 @@ export class Level3 extends Scene {
     }
     addDoor(x, y) {
         const door = new Door(x, y);
+        door.scale = new Vector(0.15, 0.15);
         this.add(door);
         return door;
     }
-    addPlate(x, y, door) {
-        const plate = new PressurePlate(x, y, door, this);
+    addPlate(x, y, door, type = false, rotation = 0, time = 0) {
+        const plate = new PressurePlate(x, y, door, this, rotation, type, time);
         this.add(plate);
         return plate;
     }
-    addButton(x, y, door) {
-        const button = new Button(x, y, door, this);
+    addButton(x, y, door, flipped) {
+        const button = new Button(x, y, door, this, flipped);
+        button.scale = new Vector(0.07, 0.07);
         this.add(button);
     }
-    // showLevelUI() {
-    //     const levelUI = new LevelUI(this);
-    //     this.levelUI = levelUI;
-    //     this.add(this.levelUI)
-    //     console.log('level3 showLevelUI')
-    //     this.levelUI.updateLevelName('Level 2');
-    //     console.log('level3 updateLevelName')
-    //     this.levelUI.updateCollectibles(0);
-    //     this.levelUI.updateKeyStatus(false);
-    // }
+    addElevator(x, y, platformX, platformY, minY, maxY, inverted) {
+        const elevator = new Elevator(x, y, platformX, platformY, minY, maxY, inverted);
+        this.add(elevator);
+        return elevator;
+    }
+
+    addDartShooter(x, y, respawnX, respawnY) {
+        const dartShooter = new DartShooter(x, y, this, respawnX, respawnY);
+        this.add(dartShooter);
+    }
+    addCheckPoint(x, y) {
+        const checkPoint = new Checkpoint(x, y, this);
+        this.add(checkPoint);
+    }
+
+    showLevelUI() {
+        const levelUI = new LevelUI(this);
+        this.levelUI = levelUI;
+        this.add(this.levelUI)
+        console.log('level3 showLevelUI')
+        this.levelUI.updateLevelName('Level 2');
+        console.log('level3 updateLevelName')
+        this.levelUI.updateCollectibles(0);
+        this.levelUI.updateKeyStatus(false);
+    }
     onDeactivate() {
         this.actors.forEach(actor => {
             this.remove(actor);
@@ -106,32 +132,146 @@ export class Level3 extends Scene {
         // Remove keyboard listener
         this.engine.input.keyboard.off('press');
     }
+    updateCheckPoint(currentCheckPointX, currentCheckPointY) {
+        this.currentCheckPointX = currentCheckPointX
+        this.currentCheckPointY = currentCheckPointY
+        console.log(this.currentCheckPointX + ' ' + this.currentCheckPointY);
+        this.actors.forEach(actor => {
+            if (actor instanceof Spikes) {
+                actor.respawnX = this.currentCheckPointX
+                actor.respawnY = this.currentCheckPointY
+            }
+            if (actor instanceof DartShooter) {
+                actor.respawnX = this.currentCheckPointX
+                actor.respawnY = this.currentCheckPointY
+            }
+        });
+
+    }
 
     onInitialize(engine) {
         let background = new Background()
         background.z = -20
         this.add(background)
 
+        let cryptographer = new Cryptographer(300, 650)
+        this.add(cryptographer)
+        let player = new Player(350, 650)
+        // let player = new Player(730, 70)
+        this.add(player)
+
         let ramp = new Ramp(1055, 673)
         this.add(ramp)
 
-        let terminal = new Terminal(1200, 618, 0.04, 1030, 530, false, 160, 110, 270, 50)
+        let terminal = new Terminal(1200, 603, 0.06, 1030, 530, false, 130, 120, 270, 50)
         this.add(terminal)
 
-        this.addHookpoint(946, 477, 1.5 * Math.PI)
+        //pos nog goed zetten
+        let terminal2 = new Terminal(490, 663, 0.05, 550, 370, false, 190, 50, 12, 60)
+        this.add(terminal2)
+        terminal2.setPlatformScale(0.05, 0.1)
+
+        let terminal3 = new Terminal(650, 663, 0.05, 100, 240, false, 50, 50, 180, 180)
+        this.add(terminal3)
+
+        let terminal4 = new Terminal(800, 663, 0.05, 780, 200, false, 400, 550, 10, 10)
+        this.add(terminal4)
+
+        let dartposX = 400
+        for (let i = 0; i < 8; i++) {
+            this.addDartShooter(dartposX, 300, this.respawnX, this.respawnY)
+            dartposX += 30
+        }
+
+
+        this.addCheckPoint(260, 348)
+        this.addCheckPoint(670, 435)
+
+
+        this.addHookpoint(1102, 525, 0.5 * Math.PI)
         this.addHookpoint(1100, 108, 0.5 * Math.PI)
-        
-        this.addCrate(912, 390)
+        this.addHookpoint(437, 587, 0.5 * Math.PI)
+        this.addHookpoint(787, 470, 1.5 * Math.PI)
+        this.addHookpoint(787, 470, 1.5 * Math.PI)
+
+        // hookpoint na de dartshooters
+        // this.addHookpoint(325, 385, 1.5 * Math.PI)
+
+        this.addWall(710, 300, 0, 0.1)
+        this.addWall(900, 300, 0, 0.1)
+
+        // door1 is de deur naar de Exit
+        let door1 = new Door(180, 640)
+        this.add(door1)
+        door1.scale = new Vector(0.135, 0.135)
+        this.addPlate(1233, 320, door1, false, 1.5 * Math.PI)
+
+        // door2 is de deur voor area rechtsonder voor de player
+        let door2 = new Door(900, 400, new Vector(0.15, 0.15))
+        this.add(door2)
+        this.addButton(1233, 65, door2, true)
+
+        // door3 is de deur naar de area rechtonder voor de cryptographer
+        let door3 = new Door(900, 660, new Vector(0.15, 0.15))
+        this.add(door3)
+        this.addPlate(730, 455, door3, false, 0)
+
+        //door4 is voor de middelste terminal
+        let door4 = new Door(580, 660, new Vector(0.15, 0.15))
+        this.add(door4)
+        this.addButton(685, 325, door4, true)
+
+        //door5 is voor de terminal rechtsonder
+        let door5 = new Door(1135, 600, new Vector(0.15, 0.15))
+        this.add(door5)
+        this.addButton(250, 435, door5, false)
+
+        //door6 is voor de deur boven/midden
+        let door6 = new Door(900, 100, new Vector(0.15, 0.15))
+        this.add(door6)
+        this.addButton(560, 75, door6, false)
+
+
+        // this.addButton(250, 435, 0.5 * Math.PI)
         this.addCrate(221, 30)
 
-        this.addPlatform(720, 130)
+        // this.addPlatform(720, 130)
+        let flatPlatform = new FlatPlatform(720, 115)
+        this.add(flatPlatform)
 
+
+        // this.addDoor(180, 650)
+        // this.addDoor(580, 660)
+
+        let smallDoor = new Door(300, 435, new Vector(0.1, 0.1))
+        this.add(smallDoor)
+
+        let exit = new Exit(90, 650, this)
+        exit.scale = new Vector(0.12, 0.12)
+        this.add(exit)
+
+        let spikesX = 464
+        for (let i = 0; i < 12; i++) {
+            this.addSpikes(spikesX, 233, 0.05)
+            spikesX += 59
+        }
+        spikesX = 61
+        for (let i = 0; i < 3; i++) {
+            this.addSpikes(spikesX, 447, 0.05)
+            spikesX += 59
+        }
+
+
+
+        this.addWall(900, 156, 0.5 * Math.PI, 0.1)
+        this.addWall(900, 38, 0.5 * Math.PI, 0.1)
         this.addWall(1169, 673, 0.5 * Math.PI, 0.125)
         this.addWall(1184, 673, 0.5 * Math.PI, 0.125)
         this.addWall(1159, 533, 0.5 * Math.PI, 0.1)
         this.addWall(1196, 533, 0.5 * Math.PI, 0.1)
         this.addWall(1159, 383, 0.5 * Math.PI, 0.1)
         this.addWall(1196, 383, 0.5 * Math.PI, 0.1)
+
         this.addWall(890, 595, 0.5 * Math.PI, 0.1)
         this.addWall(802, 595, 0.5 * Math.PI, 0.1)
         this.addWall(714, 595, 0.5 * Math.PI, 0.1)
@@ -144,11 +284,14 @@ export class Level3 extends Scene {
         this.addWall(890, 480, 0.5 * Math.PI, 0.1)
         this.addWall(270, 393, 0.5 * Math.PI, 0.1)
         this.addWall(230, 415, 0, 0.1)
-        this.addWall(777, 350, 0.5 * Math.PI, 0.1)
-        this.addWall(840, 350, 0.5 * Math.PI, 0.1)
-        this.addWall(928, 350, 0.5 * Math.PI, 0.1)
-        this.addWall(840, 310, 0.5 * Math.PI, 0.1)
-        this.addWall(777, 310, 0.5 * Math.PI, 0.1)
+
+
+        // this.addWall(777, 350, 0.5 * Math.PI, 0.1)
+        // this.addWall(840, 350, 0.5 * Math.PI, 0.1)
+        // this.addWall(928, 350, 0.5 * Math.PI, 0.1)
+        // this.addWall(840, 310, 0.5 * Math.PI, 0.1)
+        // this.addWall(777, 310, 0.5 * Math.PI, 0.1)
+
         this.addWall(1169, 250, 0.5 * Math.PI, 0.125)
         this.addWall(1184, 250, 0.5 * Math.PI, 0.125)
         this.addWall(221, 266, 0.5 * Math.PI, 0.1)
@@ -161,20 +304,22 @@ export class Level3 extends Scene {
         this.addWall(117, 40, 0.5 * Math.PI, 0.125)
         this.addWall(410, 189, 0, 0.125)
         this.addWall(410, 159, 0, 0.125)
-        this.addWall(535, 66, 0, 0.1)
-        
+        this.addWall(535, 59, 0, 0.1)
+
         let x = 710
         for (let i = 0; i < 8; i++) {
             this.addWall(x, 480, 0.5 * Math.PI, 0.1)
             x -= 88
         }
-        
+
+        this.addWall(730, 480, 0.5 * Math.PI, 0.1)
+
         x = 1069
         for (let i = 0; i < 10; i++) {
             this.addWall(x, 266, 0.5 * Math.PI, 0.1)
             x -= 88
         }
-        
+
         let y = 0
         x = 0
 
@@ -201,7 +346,7 @@ export class Level3 extends Scene {
 
         x = 110
         for (let i = 0; i < 8; i++) {
-            let continuousPlatform = new ContinuousPlatform(x, 0, Math.PI)
+            let continuousPlatform = new ContinuousPlatform(x, -7, Math.PI)
             this.add(continuousPlatform)
             x += 150
         }

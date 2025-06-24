@@ -10,6 +10,7 @@ export class LevelUI extends Actor {
         this.levelName = '';
         this.collectibles = 1;
         this.ui = new UIManager(levelInstance);
+        this.uiVisible = true;
     }
 
     onInitialize(engine) {
@@ -18,12 +19,15 @@ export class LevelUI extends Actor {
     }
 
     onPreUpdate(engine) {
-        // if (engine.input.keyboard.isHeld(Keys.P)) {
-        //     this.ui.show();
-        // }
-        // else {
-        //     this.ui.hide();
-        // }
+        if (engine.input.keyboard.wasPressed(Keys.P)) {
+            this.uiVisible = !this.uiVisible;
+
+            if (this.uiVisible) {
+                this.ui.show();
+            } else {
+                this.ui.hide();
+            }
+        }
     }
 
     setupPixelConversion(engine) {

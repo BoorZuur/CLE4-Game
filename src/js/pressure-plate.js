@@ -9,7 +9,7 @@ import { pressure } from './collisiongroups.js';
 import { ControlPlatform } from "./controlPlatform.js";
 
 export class PressurePlate extends Actor {
-    constructor(x, y, linkedDoor, gameInstance, rotation, type,time) {
+    constructor(x, y, linkedDoor, gameInstance, rotation, type, time) {
         super({
             width: 1000,
             height: 500,
@@ -23,7 +23,7 @@ export class PressurePlate extends Actor {
         this.gameInstance = gameInstance;
         this.exists = true;
         this.type = type || false;
-        this.time = time || 0 
+        this.time = time || 0
         this.scale = new Vector(0.05, 0.05);
         this.rotation = rotation || 0;
         pressure.canCollide(platformP);
@@ -43,7 +43,7 @@ export class PressurePlate extends Actor {
                 this.linkedDoor.kill();
                 this.exists = false;
             }
-            if (event.other.owner instanceof Cryptographer || event.other.owner instanceof Player) {
+            if (event.other.owner instanceof Cryptographer) {
                 if (event.other.owner.graphics.flipHorizontal) {
                     event.other.owner.pos.x -= 10
                 } else {
@@ -59,14 +59,14 @@ export class PressurePlate extends Actor {
             })
         });
 
-        this.on('collisionend', (event) => { 
+        this.on('collisionend', (event) => {
             if ((event.other.owner instanceof Player ||
                 event.other.owner instanceof Cryptographer ||
                 event.other.owner instanceof Crate ||
                 event.other.owner instanceof ControlPlatform) &&
                 this.linkedDoor && !this.exists) {
-                
-                if (this.type) { 
+
+                if (this.type) {
                     const plateTimer = new Timer({
                         fcn: () => {
                             console.log('Timer expired - resetting door');

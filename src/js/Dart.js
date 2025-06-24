@@ -14,12 +14,12 @@ export class Dart extends Actor {
         this.scale = new Vector(0.03, 0.03);
         this.on('collisionstart', (event) => {
             if (event.other.owner instanceof Player) {
-                console.log('Dart hit player');
+                // console.log('Dart hit player');
                 event.other.owner.pos.x = this.respawnX
                 event.other.owner.pos.y = this.respawnY
             }
             if (event.other.owner instanceof Wall || event.other.owner instanceof Platform || event.other.owner instanceof ContinuousPlatform || event.other.owner instanceof ControlPlatform) {
-                console.log('Dart hit wall');
+                // console.log('Dart hit wall');
                 this.kill()
             }
         });

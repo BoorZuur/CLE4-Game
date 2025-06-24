@@ -24,6 +24,8 @@ export class Terminal extends Actor {
     nextSwitchTime = 0
     onCooldown = false
     cooldownTimer
+    pendingScaleX
+    pendingScaleY
 
     constructor(posX, posY, scale, objectX, objectY, doorMode, minX, maxX, minY, maxY) {
         super({ width: Resources.Terminal.width, height: Resources.Terminal.height });
@@ -101,6 +103,13 @@ export class Terminal extends Actor {
         this.platform = new ControlPlatform(this.objectX, this.objectY,
             this.minX, this.maxX, this.minY, this.maxY);
 
+        // Apply pending scale if it exists
+        if (this.pendingScaleX !== undefined && this.pendingScaleY !== undefined) {
+            this.platform.scale = new Vector(this.pendingScaleX, this.pendingScaleY);
+            this.pendingScaleX = undefined;
+            this.pendingScaleY = undefined;
+        }
+
         border.z = -1
         this.scene.add(border)
         this.scene.add(this.platform);
@@ -114,6 +123,18 @@ export class Terminal extends Actor {
 
     setNextSwitchTime() {
         this.nextSwitchTime = Math.random() * 30 + 30;
+    }
+
+
+    //Method voor scale van platforn aanpassen
+    setPlatformScale(scaleX, scaleY) {
+        if (this.platform) {
+            this.platform.scale = new Vector(scaleX, scaleY);
+        } else {
+            // Store the scale to apply later when platform is created
+            this.pendingScaleX = scaleX;
+            this.pendingScaleY = scaleY;
+        }
     }
 
     movePlatform(x, y) {

@@ -65,8 +65,8 @@ export class Game extends Engine {
     startGame() {
         this.initGamepads();
         // this.goToScene('menu');
-        this.goToScene('level1');
-        
+        this.goToScene('level3');
+
         //     let cryptographer = new Cryptographer(100, 650)
         //     let player = new Player(100, 430)
         //     let terminal = new Terminal(820, 640, 0.08, 750, 550, false, 5, 5, 100, 100)

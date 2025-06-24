@@ -39,6 +39,7 @@ const Resources = {
     SecretHoleWall: new ImageSource('images/SecretHoleWall.png'),
     BlueBorder: new ImageSource('images/BlueBorder.png'),
     GlowingBlueBorder: new ImageSource('images/GlowingBlueBorder.png'),
+    FlatPlatform: new ImageSource('images/FlatPlatform.png'),
 }
 
 const ResourceLoader = new Loader()
