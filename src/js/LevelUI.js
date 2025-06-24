@@ -10,6 +10,7 @@ export class LevelUI extends Actor {
         this.levelName = '';
         this.collectibles = 1;
         this.ui = new UIManager(levelInstance);
+        this.uiVisible = true; // Track the current state
     }
 
     onInitialize(engine) {
@@ -23,26 +24,23 @@ export class LevelUI extends Actor {
 
         if (engine.controllers[0]) {
             interact1 = engine.controllers[0].wasButtonPressed(Buttons.LeftBumper)
-            // interact1 = con1.wasButtonPressed(Buttons.LeftBumper)
         } else if (engine.controllers[1]) {
-            interact2 = engine.controllers[1][wasButtonPressed(Buttons.LeftBumper)];
+            interact2 = engine.controllers[1].wasButtonPressed(Buttons.LeftBumper); // Fixed syntax error
         }
 
-        if (engine.input.keyboard.isHeld(Keys.P)) {
-            this.ui.show();
-        }
-        else {
-            this.ui.hide();
+        // Toggle UI with P key
+        if (engine.input.keyboard.wasPressed(Keys.P)) {
+            this.uiVisible = !this.uiVisible; // Toggle the state
+
+            if (this.uiVisible) {
+                this.ui.show();
+            } else {
+                this.ui.hide();
+            }
         }
 
         if (interact1 || interact2) {
             this.ui.nextLevelButtonPressed();
-        }
-        if (engine.input.keyboard.isHeld(Keys.P)) {
-            this.ui.show();
-        }
-        else {
-            this.ui.hide();
         }
     }
 
