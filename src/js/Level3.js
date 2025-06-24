@@ -22,10 +22,10 @@ import { SecretWall } from './secretWall.js';
 import { CrackedWall } from './crackedWall.js';
 import { SecretWallHole } from './secretWallHole.js';
 import { InteractionLabel } from './interactionLabel.js';
-import { Exit } from './exit.js';
+import { Exit } from './Exit.js';
 import { DartShooter } from './DartShooter.js';
 import { Checkpoint } from './Checkpoint.js';
-import { Key } from './key.js';
+import { Key } from './Key.js';
 import { FlatPlatform } from './flatplatform.js';
 
 

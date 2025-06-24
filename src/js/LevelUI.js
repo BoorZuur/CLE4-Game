@@ -8,6 +8,7 @@ export class LevelUI extends Actor {
         super();
         this.z = 1000;
         this.levelName = '';
+        this.levelCompleted = false;
         this.collectibles = 1;
         this.ui = new UIManager(levelInstance);
         this.uiVisible = true; // Track the current state
@@ -21,15 +22,20 @@ export class LevelUI extends Actor {
     onPreUpdate(engine) {
         let interact1 = false;
         let interact2 = false;
+        let interact3 = false;
+        let interact4 = false;
 
         if (engine.controllers[0]) {
             interact1 = engine.controllers[0].wasButtonPressed(Buttons.LeftBumper)
-        } else if (engine.controllers[1]) {
-            interact2 = engine.controllers[1].wasButtonPressed(Buttons.LeftBumper); // Fixed syntax error
+            interact3 = engine.controllers[0].wasButtonPressed(Buttons.RightBumper);
+        } 
+        if (engine.controllers[1]) {
+            interact2 = engine.controllers[1].wasButtonPressed(Buttons.LeftBumper);
+            interact4 = engine.controllers[1].wasButtonPressed(Buttons.RightBumper);
         }
 
         // Toggle UI with P key
-        if (engine.input.keyboard.wasPressed(Keys.P)) {
+        if (engine.input.keyboard.wasPressed(Keys.P) || interact3 || interact4) {
             this.uiVisible = !this.uiVisible; // Toggle the state
 
             if (this.uiVisible) {
@@ -40,7 +46,10 @@ export class LevelUI extends Actor {
         }
 
         if (interact1 || interact2) {
-            this.ui.nextLevelButtonPressed();
+            if (this.levelCompleted) {
+                this.levelCompleted = false;
+                this.ui.nextLevelButtonPressed()
+            }
         }
     }
 
@@ -79,6 +88,7 @@ export class LevelUI extends Actor {
     FinishLevel() {
         this.ui.hideLevelUI();
         this.ui.showLevelCompletedUI();
+        this.levelCompleted = true;
     }
 
     onDeinitialize(engine) {
