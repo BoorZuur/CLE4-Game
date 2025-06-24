@@ -47,33 +47,33 @@ export class UIManager {
 
     updateCollectibles(collectibles) {
         if (collectibles == 0) {
-            if (this.collectibleElement1) this.collectibleElement1.src = '/images/UIArtifact.png';
-            if (this.collectibleElement2) this.collectibleElement2.src = '/images/UIArtifact.png';
-            if (this.collectibleElement3) this.collectibleElement3.src = '/images/UIArtifact.png';
+            if (this.collectibleElement1) this.collectibleElement1.src = './images/UIArtifact.png';
+            if (this.collectibleElement2) this.collectibleElement2.src = './images/UIArtifact.png';
+            if (this.collectibleElement3) this.collectibleElement3.src = './images/UIArtifact.png';
         }
         else if (collectibles == 1) {
-            if (this.collectibleElement1) this.collectibleElement1.src = '/images/Artifact.png';
-            if (this.collectibleElement2) this.collectibleElement2.src = '/images/UIArtifact.png';
-            if (this.collectibleElement3) this.collectibleElement3.src = '/images/UIArtifact.png';
+            if (this.collectibleElement1) this.collectibleElement1.src = './images/Artifact.png';
+            if (this.collectibleElement2) this.collectibleElement2.src = './images/UIArtifact.png';
+            if (this.collectibleElement3) this.collectibleElement3.src = './images/UIArtifact.png';
         }
         else if (collectibles == 2) {
-            if (this.collectibleElement1) this.collectibleElement1.src = '/images/Artifact.png';
-            if (this.collectibleElement2) this.collectibleElement2.src = '/images/Artifact.png';
-            if (this.collectibleElement3) this.collectibleElement3.src = '/images/UIArtifact.png';
+            if (this.collectibleElement1) this.collectibleElement1.src = './images/Artifact.png';
+            if (this.collectibleElement2) this.collectibleElement2.src = './images/Artifact.png';
+            if (this.collectibleElement3) this.collectibleElement3.src = './images/UIArtifact.png';
         }
         else if (collectibles == 3) {
-            if (this.collectibleElement1) this.collectibleElement1.src = '/images/Artifact.png';
-            if (this.collectibleElement2) this.collectibleElement2.src = '/images/Artifact.png';
-            if (this.collectibleElement3) this.collectibleElement3.src = '/images/Artifact.png';
+            if (this.collectibleElement1) this.collectibleElement1.src = './images/Artifact.png';
+            if (this.collectibleElement2) this.collectibleElement2.src = './images/Artifact.png';
+            if (this.collectibleElement3) this.collectibleElement3.src = './images/Artifact.png';
         }
     }
 
     updateKeyStatus(hasKey) {
         if (hasKey) {
-            if (this.keyElement) this.keyElement.src = '/images/Key.png';
+            if (this.keyElement) this.keyElement.src = './images/Key.png';
         }
         else {
-            if (this.keyElement) this.keyElement.src = '/images/UIKey.png';
+            if (this.keyElement) this.keyElement.src = './images/UIKey.png';
         }
     }
 

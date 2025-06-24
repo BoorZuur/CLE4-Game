@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --outDir=docs/game --base=./"
+    "build": "vite build --outDir=docs/game --base=/game/"
   },
   "devDependencies": {
     "vite": "^6.2.1"
