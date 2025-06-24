@@ -27,10 +27,6 @@ import { Artifact } from './Artifact.js'
 import { InteractionLabel } from './interactionLabel.js'
 
 
-
-
-
-
 export class Level1 extends Scene {
 
 
