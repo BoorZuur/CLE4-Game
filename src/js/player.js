@@ -14,12 +14,14 @@ import { Wall } from "./wall.js"
 import { friendsGroup } from "./collisiongroups.js"
 import { Ramp } from "./ramp.js"
 import { Color } from "excalibur"
+import { lineActor } from "./grapplineLine.js"
 import { Elevator } from "./elevator.js"
 
 
 export class Player extends Actor {
     sprite
     controller
+    grappleLine = null
 
     constructor(x, y) {
         super({ width: 400, height: 900, collisionType: CollisionType.Active, anchor: Vector.Half, collisionGroup: friendsGroup });
@@ -116,6 +118,13 @@ export class Player extends Actor {
             this.grappling = true;
             this.grapplePoint = hookPoint.pos.clone();
             console.log(`Grappling to: ${this.grapplePoint.toString()}`);
+            // Remove old line if it exists
+            if (this.grappleLine) {
+                this.scene.remove(this.grappleLine);
+            }
+            // Store the line actor
+            this.grappleLine = new lineActor(this.pos.clone(), hookPoint.pos.clone());
+            this.scene.add(this.grappleLine);
             this.vel = new Vector(0, 0);
         }
     }
@@ -136,6 +145,11 @@ export class Player extends Actor {
                     this.grapplePoint.x,
                     this.grapplePoint.y - 50
                 );
+                // Remove the line when done
+                if (this.grappleLine) {
+                    this.scene.remove(this.grappleLine);
+                    this.grappleLine = null;
+                }
                 return;
             }
 
@@ -154,6 +168,11 @@ export class Player extends Actor {
             this.vel = new Vector(0, 0);
         } else if (this.grappleCooldown > 0) {
             this.grappleCooldown--;
+            // Remove the line if cooldown is active
+            if (this.grappleLine) {
+                this.scene.remove(this.grappleLine);
+                this.grappleLine = null;
+            }
         }
     }
 
@@ -179,6 +198,10 @@ export class Player extends Actor {
         super.onPreUpdate(engine, delta);
         this.updateGrapple()
         this.updateControlller(engine);
+
+        if (this.grappleLine) {
+            this.grappleLine.setStart(this.pos.clone());
+        }
 
         // Grapple input
         if (engine.input.keyboard.wasPressed(Keys.F) || this.controller.button2) {
