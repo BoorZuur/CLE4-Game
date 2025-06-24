@@ -1,7 +1,6 @@
 // src/js/MainMenuScene.js
 import { Scene, Label, Color, Keys, Actor, Vector, Timer, TextAlign, Buttons } from 'excalibur';
 import { Resources } from './resources.js';
-import { InteractionLabel } from './interactionLabel.js';
 
 
 export class MainMenuScene extends Scene {
