@@ -39,7 +39,7 @@ export class Projectile extends Actor {
         event.other.owner.kill();
         this.kill()
     }
-        if (event.other.owner instanceof Wall || event.other.owner instanceof Platform || event.other.owner instanceof Door || event.other.onwer instanceof ControlPlatform || event.other.onwer instanceof  Crate || event.other.onwer instanceof  ContinuousPlatform && !(event.other.owner instanceof Button)) {
+        if (event.other.owner instanceof Wall || event.other.owner instanceof Platform || event.other.owner instanceof Door || event.other.owner instanceof ControlPlatform || event.other.owner instanceof  Crate || event.other.owner instanceof  ContinuousPlatform && !(event.other.owner instanceof Button)) {
             this.kill();
         }
     }
