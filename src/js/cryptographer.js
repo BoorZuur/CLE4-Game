@@ -108,12 +108,19 @@ export class Cryptographer extends Actor {
         const minRotation = 330 * Math.PI / 180
         const maxFlippedRotation = 30 * Math.PI / 180
         const minFlippedRotation = 1 * Math.PI / 180
-        
+
         if (this.graphics.flipHorizontal) {
-            // if flipped, rotate to face down
-            this.rotation = Math.max(Math.min(this.rotation, maxFlippedRotation), minFlippedRotation)
+            if (this.rotation > maxFlippedRotation + 1) {
+                this.rotation = minFlippedRotation
+            } else {
+                this.rotation = Math.min(Math.max(this.rotation, minFlippedRotation), maxFlippedRotation)
+            }
         } else {
-            this.rotation = Math.max(Math.min(this.rotation, maxRotation), minRotation)
+            if (this.rotation < minRotation - 1) {
+                this.rotation = maxRotation
+            } else {
+                this.rotation = Math.min(Math.max(this.rotation, minRotation), maxRotation)
+            }
         }
 
         if (this.interacting) {
@@ -142,7 +149,7 @@ export class Cryptographer extends Actor {
         }
     }
 
-    handleRespawn(event){
+    handleRespawn(event) {
         this.pos = new Vector(x, y)
     }
 
