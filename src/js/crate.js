@@ -34,6 +34,7 @@ export class Crate extends Actor {
         this.on('precollision', (event) => this.handlePush(event));
         this.on('collisionstart', (event) => this.handleCollision(event));
         this.on('collisionend', (event) => this.handleCollision(event));
+        this.on('exitviewport', (event) => this.handleRespawn(event));
     }
 
     handlePush(event) {
@@ -63,6 +64,10 @@ export class Crate extends Actor {
             this.isGrounded = true;
             this.vel.y = 0;
         }
+    }
+
+    handleRespawn(event){
+        this.pos = new Vector(x, y)
     }
 
     onPreUpdate(engine, delta) {
