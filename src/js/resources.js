@@ -40,6 +40,8 @@ const Resources = {
     BlueBorder: new ImageSource('images/BlueBorder.png'),
     GlowingBlueBorder: new ImageSource('images/GlowingBlueBorder.png'),
     FlatPlatform: new ImageSource('images/FlatPlatform.png'),
+    UIArtifact: new ImageSource('images/UIArtifact.png'),
+    UIKey: new ImageSource('images/UIKey.png'),
 }
 
 const ResourceLoader = new Loader()
