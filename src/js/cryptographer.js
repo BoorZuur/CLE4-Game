@@ -106,8 +106,10 @@ export class Cryptographer extends Actor {
         }
 
 
-        if (engine.input.keyboard.wasPressed(Keys.E) || button1 && this.nearTerminal) {
-            this.interactWithTerminal(this.nearTerminal)
+        if (engine.input.keyboard.wasPressed(Keys.E) || button1) {
+            if (this.nearTerminal) {
+                this.interactWithTerminal(this.nearTerminal)
+            }
         }
     }
 
@@ -144,7 +146,7 @@ export class Cryptographer extends Actor {
                 this.nearTerminal.interacting = false
                 this.nearTerminal.movePlatform(0, 0)
             }
-            this.nearTerminal = null
+            this.nearTerminal = null;
         }
     }
 }

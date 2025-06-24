@@ -9,7 +9,7 @@ import { pressure } from './collisiongroups.js';
 import { ControlPlatform } from "./controlPlatform.js";
 
 export class PressurePlate extends Actor {
-    constructor(x, y, linkedDoor, gameInstance, rotation, type, time) {
+    constructor(x, y, linkedDoor, gameInstance, rotation, type, time, deletetype) {
         super({
             width: 1000,
             height: 500,
@@ -22,6 +22,7 @@ export class PressurePlate extends Actor {
         this.linkedDoor = linkedDoor;
         this.gameInstance = gameInstance;
         this.exists = true;
+        this.delete = deletetype || false
         this.type = type || false;
         this.time = time || 0
         this.scale = new Vector(0.05, 0.05);
@@ -65,6 +66,9 @@ export class PressurePlate extends Actor {
                 event.other.owner instanceof Crate ||
                 event.other.owner instanceof ControlPlatform) &&
                 this.linkedDoor && !this.exists) {
+                if (this.delete) {
+                    return;
+                }
 
                 if (this.type) {
                     const plateTimer = new Timer({

@@ -14,6 +14,7 @@ import { Wall } from "./wall.js"
 import { friendsGroup } from "./collisiongroups.js"
 import { Ramp } from "./ramp.js"
 import { Color } from "excalibur"
+import { Elevator } from "./elevator.js"
 
 
 export class Player extends Actor {
@@ -68,7 +69,7 @@ export class Player extends Actor {
         }
 
         if (normal.y > 0.5) {
-            if (event.other.owner instanceof Platform || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate || event.other.owner instanceof ContinuousPlatform || event.other.owner instanceof ControlPlatform || event.other.owner instanceof Ramp || event.other.owner instanceof Wall) {
+            if (event.other.owner instanceof Platform || event.other.owner instanceof Elevator || event.other.owner instanceof HookPoint || event.other.owner instanceof PressurePlate || event.other.owner instanceof Crate || event.other.owner instanceof ContinuousPlatform || event.other.owner instanceof ControlPlatform || event.other.owner instanceof Ramp || event.other.owner instanceof Wall) {
                 this.isGrounded = true;
                 this.vel.y = 0;
             }
@@ -245,7 +246,7 @@ export class Player extends Actor {
             if (!engine.input.keyboard.wasPressed(Keys.Space) && !this.controller.button1) {
                 this.vel.y = 0
             }
-            if (!engine.input.keyboard.isHeld(Keys.Left) || !this.controller.x < -0.5 && !engine.input.keyboard.isHeld(Keys.Right) || !this.controller.x > 0.5) {
+            if (!engine.input.keyboard.isHeld(Keys.Left) && !engine.input.keyboard.isHeld(Keys.Right) && this.controller.x === 0) {
                 // this.vel.x = this.recentPlatform.vel.x;
                 const relativeVelocity = this.recentPlatform.vel.clone().add(this.vel.clone());
                 this.vel = relativeVelocity;

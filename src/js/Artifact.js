@@ -9,6 +9,7 @@ export class Artifact extends Actor {
             width: Resources.Artifact.width,
             height: Resources.Artifact.height,
         });
+        this.z = -2
         this.pos = new Vector(x, y);
         this.scale = new Vector(0.05, 0.05);
         this.on('collisionstart', (event) => this.handleCollision(event));

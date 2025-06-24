@@ -5,8 +5,8 @@ export class Door extends Actor {
     constructor(x, y, scale) {
         super({
             pos: new Vector(x, y),
-            width: 300,
-            height: 1000,
+            width: Resources.Door.width,
+            height: Resources.Door.height,
             anchor: Vector.Half,
             collisionType: CollisionType.Fixed
         });

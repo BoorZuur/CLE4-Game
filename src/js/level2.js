@@ -1,5 +1,5 @@
 // src/js/MainMenuScene.js
-import { Scene, Label, Color, Keys } from 'excalibur';
+import { Scene, Label, Color, Keys , Vector} from 'excalibur';
 import { Resources } from './resources.js';
 import { Cryptographer } from './cryptographer.js'
 import { Terminal } from './terminal.js'
@@ -21,6 +21,8 @@ import { SecretWallHole } from './secretWallHole.js';
 import { SecretWall } from './secretWall.js';
 import { Elevator } from './elevator.js';
 import { Artifact } from './Artifact.js'
+import { Key } from './Key.js';
+import { Exit } from './Exit.js';
 
 export class Level2 extends Scene {
 
@@ -34,18 +36,18 @@ export class Level2 extends Scene {
     }
 
     onActivate() {
-        // this.showLevelUI();
+        this.showLevelUI();
     }
 
     showLevelUI() {
-        // const levelUI = new LevelUI(this);
-        // this.levelUI = levelUI;
-        // this.add(this.levelUI)
-        // console.log('level2 showLevelUI')
-        // this.levelUI.updateLevelName('Level 2');
-        // console.log('level2 updateLevelName')
-        // this.levelUI.updateCollectibles(0);
-        // this.levelUI.updateKeyStatus(false);
+        const levelUI = new LevelUI(this);
+        this.levelUI = levelUI;
+        this.add(this.levelUI)
+        console.log('level2 showLevelUI')
+        this.levelUI.updateLevelName('Level 2');
+        console.log('level2 updateLevelName')
+        this.levelUI.updateCollectibles(0);
+        this.levelUI.updateKeyStatus(false);
     }
 
     onDeactivate() {
@@ -64,12 +66,12 @@ export class Level2 extends Scene {
         this.add(player)
         let background = new Background()
         background.z = -20
-        let ramp = new Ramp(870, 673)
+        let ramp = new Ramp(870, 678)
 
         this.add(background)
         this.add(ramp)
 
-        ramp = new Ramp(985, 300)
+        ramp = new Ramp(985, 302)
         this.add(ramp)
 
         let terminal = new Terminal(90, 438, 0.045, 240, 325, false, 130, 490, 60, 200)
@@ -80,9 +82,9 @@ export class Level2 extends Scene {
 
         this.addHookpoint(223, 140, 1.5 * Math.PI)
 
-        this.addWall(983, 673, 0.5 * Math.PI, 0.125)
-        this.addWall(1093, 673, 0.5 * Math.PI, 0.125)
-        this.addWall(1183, 673, 0.5 * Math.PI, 0.125)
+        this.addWall(983, 677, 0.5 * Math.PI, 0.125)
+        this.addWall(1093, 677, 0.5 * Math.PI, 0.125)
+        this.addWall(1183, 677, 0.5 * Math.PI, 0.125)
         this.addWall(1194, 484, 0.5 * Math.PI, 0.1)
         this.addWall(967, 484, 0.5 * Math.PI, 0.1)
         this.addWall(879, 484, 0.5 * Math.PI, 0.1)
@@ -98,9 +100,9 @@ export class Level2 extends Scene {
         this.addWall(165, 150, 0.5 * Math.PI, 0.1)
         this.addWall(470, 67, 0, 0.1)
         this.addWall(470, 117, 0, 0.1)
-        this.addWall(890, 180, 0.5 * Math.PI, 0.1)
-        this.addWall(802, 180, 0.5 * Math.PI, 0.1)
-        this.addWall(714, 180, 0.5 * Math.PI, 0.1)
+        this.addWall(890, 178, 0.5 * Math.PI, 0.1)
+        this.addWall(802, 178, 0.5 * Math.PI, 0.1)
+        this.addWall(714, 178, 0.5 * Math.PI, 0.1)
 
         this.addPlatform(360, 490)
         this.addPlatform(410, 490)
@@ -114,8 +116,28 @@ export class Level2 extends Scene {
         this.addSecretWallHole(155, 85)
 
         let door = this.addDoor(900, 270)
-        this.addPlate(75, 310, door, true,0,15000)
-        this.addElevator(800, 250, 800, 300, 200, 200, false)
+        this.addPlate(75, 310, door, true, 0, 15000)
+        this.addElevator(850, 150, 1085, 600, 125, 100, true)
+        this.addElevator(750, 150, 800, 440, 100, 100, true)
+        let door2 = this.addDoor(980, 580)
+        this.addButton(1230, 200, door2, true)
+        this.addTerminal(1175, 600, 0.075, 900, 90, true)
+        this.addTerminal(1185, 410, 0.075, 800, 90, true)
+        this.addHookpoint(950, 170, 1.5 * Math.PI)
+        this.addPlate(520, 120, door,false,0,0,true)
+        this.addWall(535, 150, 0.5 * Math.PI, 0.1)
+        this.addHookpoint(590, 140, 1.5 * Math.PI)
+        this.exit = new Exit(1100, 225, this)
+        this.exit.scale = new Vector(0.12, 0.12)
+        this.add(this.exit)
+        this.addHookpoint(680, 210, 0)
+        this.key = new Key(900, 425, this)
+        this.key.scale = new Vector(0.05, 0.05)
+        this.add(this.key)
+
+        this.addArtifact(375,250)
+        this.addArtifact(80,80)
+        this.addArtifact(800,425)
 
         let y = 0
         let x = 0
@@ -153,6 +175,14 @@ export class Level2 extends Scene {
         }
         this.addElevator(390, 470, 200, 650, 175, 100, false)
     }
+    addArtifact(x, y) {
+        const artifact = new Artifact(x, y, this)
+        this.add(artifact)
+    }
+    addTerminal(posX, posY, scale, objectX, objectY, doorMode, minX, maxX, minY, maxY) {
+        let terminal = new Terminal(posX, posY, scale, objectX, objectY, doorMode, minX, maxX, minY, maxY)
+        this.add(terminal)
+    }
     addWall(x, y, rotation, scale) {
         const wall = new Wall(x, y, rotation, scale);
         this.add(wall);
@@ -174,13 +204,13 @@ export class Level2 extends Scene {
         this.add(door);
         return door;
     }
-    addPlate(x, y, door, type = false, rotation = 0, time = 0) {
-        const plate = new PressurePlate(x, y, door, this, rotation, type,time);
+    addPlate(x, y, door, type = false, rotation = 0, time = 0, deletetype) {
+        const plate = new PressurePlate(x, y, door, this, rotation, type, time, deletetype);
         this.add(plate);
         return plate;
     }
-    addButton(x, y, door) {
-        const button = new Button(x, y, door, this);
+    addButton(x, y, door, flipped) {
+        const button = new Button(x, y, door, this, flipped);
         this.add(button);
     }
     addElevator(x, y, platformX, platformY, minY, maxY, inverted) {

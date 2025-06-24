@@ -38,7 +38,7 @@ export class Game extends Engine {
                 gravity: new Vector(0, 500)
             }
         })
-        this.showDebug(true)
+        // this.showDebug(true)
         this.start(ResourceLoader).then(() => this.startGame())
 
         window.game = this;
@@ -64,8 +64,8 @@ export class Game extends Engine {
 
     startGame() {
         this.initGamepads();
-        // this.goToScene('menu');
-        this.goToScene('level3');
+        this.goToScene('menu');
+        this.goToScene('level1');
 
         //     let cryptographer = new Cryptographer(100, 650)
         //     let player = new Player(100, 430)

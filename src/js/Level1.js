@@ -22,8 +22,8 @@ import { Ramp } from './ramp.js'
 import { Button } from './button.js'
 import { Exit } from './Exit.js'
 import { Vector } from 'excalibur'
-import { Key } from './key.js'
-import { Artifact } from './artifact.js'
+import { Key } from './Key.js'
+import { Artifact } from './Artifact.js'
 import { InteractionLabel } from './interactionLabel.js'
 
 
@@ -263,7 +263,7 @@ export class Level1 extends Scene {
         const levelUI = new LevelUI(this);
         this.levelUI = levelUI;
         this.add(levelUI)
-        // this.collectibleCount = 0;
+        this.collectibleCount = 0;
 
         levelUI.updateLevelName('Level 1');
 
