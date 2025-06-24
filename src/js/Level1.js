@@ -225,7 +225,7 @@ export class Level1 extends Scene {
         const levelUI = new LevelUI(this);
         this.levelUI = levelUI;
         this.add(levelUI)
-        // this.collectibleCount = 0;
+        this.collectibleCount = 0;
 
         levelUI.updateLevelName('Level 1');
 

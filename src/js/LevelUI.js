@@ -18,12 +18,12 @@ export class LevelUI extends Actor {
     }
 
     onPreUpdate(engine) {
-        // if (engine.input.keyboard.isHeld(Keys.P)) {
-        //     this.ui.show();
-        // }
-        // else {
-        //     this.ui.hide();
-        // }
+        if (engine.input.keyboard.isHeld(Keys.P)) {
+            this.ui.show();
+        }
+        else {
+            this.ui.hide();
+        }
     }
 
     setupPixelConversion(engine) {

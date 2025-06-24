@@ -108,6 +108,7 @@ export class Terminal extends Actor {
 
     createDoor() {
         this.door = new Door(this.objectX, this.objectY);
+        this.door.scale = new Vector(0.15,0.15)
         this.door.graphics.use(Resources.ControllableDoor.toSprite());
         this.scene.add(this.door);
     }

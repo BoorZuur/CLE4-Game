@@ -2,16 +2,16 @@ import { Actor, Vector, CollisionType } from "excalibur"
 import { Resources } from "./resources.js"
 
 export class Door extends Actor {
-    constructor(x, y) {
+    constructor(x, y, scale) {
         super({
             pos: new Vector(x, y),
-            width: 300,
-            height: 1000,
+            width: Resources.Door.width,
+            height: Resources.Door.height,
             anchor: Vector.Half,
             collisionType: CollisionType.Fixed
         });
         this.graphics.use(Resources.Door.toSprite());
-        this.scale = new Vector(0.22, 0.22);
+        this.scale = scale || new Vector(0.22, 0.22);
         this.doorX = x;
         this.doorY = y;
         this.z = -1
