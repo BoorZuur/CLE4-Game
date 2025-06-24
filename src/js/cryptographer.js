@@ -36,6 +36,7 @@ export class Cryptographer extends Actor {
         this.collider.set(this.hitbox)
         this.on('collisionstart', (event) => this.hitSomething(event))
         this.on('collisionend', (event) => this.leftSomething(event))
+        this.on('exitviewport', (event) => this.handleRespawn(event));
     }
 
     onPreUpdate(engine, delta) {
@@ -111,6 +112,10 @@ export class Cryptographer extends Actor {
                 this.interactWithTerminal(this.nearTerminal)
             }
         }
+    }
+
+    handleRespawn(event){
+        this.pos = new Vector(x, y)
     }
 
     interactWithTerminal(terminal) {

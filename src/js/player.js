@@ -49,6 +49,7 @@ export class Player extends Actor {
 
         this.on('collisionstart', (event) => this.handleCollision(event));
         this.on('collisionend', (event) => this.collisionEnd(event));
+        this.on('exitviewport', (event) => this.handleRespawn(event));
     }
 
 
@@ -174,6 +175,10 @@ export class Player extends Actor {
                 this.grappleLine = null;
             }
         }
+    }
+
+    handleRespawn(event){
+        this.pos = new Vector(x, y)
     }
 
     updateControlller(engine) {
