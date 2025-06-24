@@ -28,12 +28,12 @@ export class LevelUI extends Actor {
             interact2 = engine.controllers[1][wasButtonPressed(Buttons.LeftBumper)];
         }
 
-        // if (engine.input.keyboard.isHeld(Keys.P)) {
-        //     this.ui.show();
-        // }
-        // else {
-        //     this.ui.hide();
-        // }
+        if (engine.input.keyboard.isHeld(Keys.P)) {
+            this.ui.show();
+        }
+        else {
+            this.ui.hide();
+        }
 
         if (interact1 || interact2) {
             this.ui.nextLevelButtonPressed();
