@@ -102,11 +102,12 @@ export class Level3 extends Scene {
         const button = new Button(x, y, door, this, flipped);
         button.scale = new Vector(0.07, 0.07);
         this.add(button);
+        button.z = -1
     }
     addElevator(x, y, platformX, platformY, minY, maxY, inverted) {
         const elevator = new Elevator(x, y, platformX, platformY, minY, maxY, inverted);
         this.add(elevator);
-        return elevator;
+        elevator.z = 0
     }
     addDartShooter(x, y, respawnX, respawnY) {
         const dartShooter = new DartShooter(x, y, this, respawnX, respawnY);
@@ -200,11 +201,12 @@ export class Level3 extends Scene {
         this.add(this.key)
         this.key.rotation = 0.5 * Math.PI
 
-        this.addCheckPoint(260, 348)
-        this.addCheckPoint(670, 435)
+        this.addCheckPoint(260, 352)
+        this.addCheckPoint(670, 437)
         this.addCheckPoint(410, 83)
+        this.addCheckPoint(1178, 72)
 
-        this.addElevator(250, 245, 340, 240, 125, 0, false)
+        this.addElevator(250, 243, 340, 240, 125, 0, false)
 
         // this.addSecretWallHole(1143, 454)
         // this.addSecretWall(1240, 454)

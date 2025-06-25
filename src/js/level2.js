@@ -97,14 +97,20 @@ export class Level2 extends Scene {
         this.addWall(1000, 348, 0.5 * Math.PI, 0.1)
         this.addWall(1100, 303, 0.5 * Math.PI, 0.125)
         this.addWall(1183, 303, 0.5 * Math.PI, 0.125)
-        this.addWall(77, 490, 0.5 * Math.PI, 0.1)
-        this.addWall(77, 150, 0.5 * Math.PI, 0.1)
-        this.addWall(165, 150, 0.5 * Math.PI, 0.1)
-        this.addWall(470, 67, 0, 0.1)
-        this.addWall(470, 117, 0, 0.1)
+        this.addWall(75, 490, 0.5 * Math.PI, 0.1)
+        this.addWall(75, 150, 0.5 * Math.PI, 0.1)
+        this.addWall(163, 150, 0.5 * Math.PI, 0.1)
+
+        this.addWall(517, 67, 0, 0.1)
+        this.addWall(517, 117, 0, 0.1)
+
         this.addWall(890, 178, 0.5 * Math.PI, 0.1)
         this.addWall(802, 178, 0.5 * Math.PI, 0.1)
         this.addWall(714, 178, 0.5 * Math.PI, 0.1)
+
+        this.addWall(538, 178, 0.5 * Math.PI, 0.1)
+        this.addWall(626, 178, 0.5 * Math.PI, 0.1)
+
 
         this.addPlatform(360, 490)
         this.addPlatform(410, 490)
@@ -118,12 +124,12 @@ export class Level2 extends Scene {
         this.addSecretWallHole(155, 85)
 
         let door = this.addDoor(900, 270)
-        this.addPlate(75, 310, door, true, 0, 15000)
+        this.addPlate(75, 315, door, true, 0, 15000)
 
 
         //rechtse elevators
-        this.addElevator(850, 150, 1085, 600, 125, 100, true)
-        this.addElevator(750, 150, 792, 440, 100, 100, true)
+        this.addElevator(840, 155, 1085, 600, 125, 100, true)
+        this.addElevator(720, 155, 792, 440, 100, 100, true)
 
         this.addWall(882, 348, 0.5 * Math.PI, 0.1)
 
@@ -132,14 +138,12 @@ export class Level2 extends Scene {
 
 
         let door2 = this.addDoor(980, 580)
-        this.addButton(1230, 200, door2, true)
+        this.addButton(1230, 235, door2, true)
         this.addTerminal(1185, 614, 0.06, 900, 90, true)
-        this.addTerminal(1185, 424, 0.06, 800, 90, true)
+        this.addTerminal(1185, 424, 0.06, 780, 90, true)
         this.addHookpoint(950, 170, 1.5 * Math.PI)
-        this.addPlate(520, 120, door, false, 0, 0, true)
-        this.addWall(535, 150, 0.5 * Math.PI, 0.1)
+        this.addPlate(590, 154, door, false, 0, 0, true)
         // this.addHookpoint(590, 140, 1.5 * Math.PI)
-        this.addWall(625, 150, 1.5 * Math.PI, 0.1)
         this.exit = new Exit(1100, 225, this)
         this.exit.scale = new Vector(0.12, 0.12)
         this.add(this.exit)
@@ -159,6 +163,7 @@ export class Level2 extends Scene {
         for (let i = 0; i < 5; i++) {
             let continuousPlatform = new ContinuousPlatform(10, y, 0.5 * Math.PI)
             this.add(continuousPlatform)
+            continuousPlatform.z = 4
             y += 150
         }
         this.addPlatform(0, 725)
@@ -177,6 +182,7 @@ export class Level2 extends Scene {
         for (let i = 0; i < 5; i++) {
             let continuousPlatform = new ContinuousPlatform(1260, y, 1.5 * Math.PI)
             this.add(continuousPlatform)
+            continuousPlatform.z = 4
             y += 150
         }
 
@@ -184,13 +190,15 @@ export class Level2 extends Scene {
         for (let i = 0; i < 8; i++) {
             let continuousPlatform = new ContinuousPlatform(x, 0, Math.PI)
             this.add(continuousPlatform)
+            continuousPlatform.z = 4
             x += 150
         }
-        this.addElevator(390, 470, 170, 650, 175, 100, false)
+        this.addElevator(390, 466, 168, 650, 175, 100, false)
     }
     addArtifact(x, y) {
         const artifact = new Artifact(x, y, this)
         this.add(artifact)
+        artifact.z = -6
     }
     addTerminal(posX, posY, scale, objectX, objectY, doorMode, minX, maxX, minY, maxY) {
         let terminal = new Terminal(posX, posY, scale, objectX, objectY, doorMode, minX, maxX, minY, maxY)
@@ -199,6 +207,7 @@ export class Level2 extends Scene {
     addWall(x, y, rotation, scale) {
         const wall = new Wall(x, y, rotation, scale);
         this.add(wall);
+        wall.z = 4
     }
     addSpikes(x, y, scale, width, height) {
         const spikes = new Spikes(x, y, scale, width, height);
@@ -211,6 +220,7 @@ export class Level2 extends Scene {
     addPlatform(x, y) {
         const platform = new Platform(x, y);
         this.add(platform);
+        platform.z = 2
     }
     addDoor(x, y) {
         const door = new Door(x, y);
@@ -225,24 +235,28 @@ export class Level2 extends Scene {
     addButton(x, y, door, flipped) {
         const button = new Button(x, y, door, this, flipped);
         this.add(button);
+        button.scale = new Vector(0.07, 0.07)
     }
     addElevator(x, y, platformX, platformY, minY, maxY, inverted) {
         const elevator = new Elevator(x, y, platformX, platformY, minY, maxY, inverted);
         this.add(elevator);
-        return elevator;
+        elevator.z = 1
     }
     addSecretWall(x, y) {
         const secretWall = new SecretWall(x, y)
         this.add(secretWall)
+        secretWall.z = 2
     }
     addCrackedWall(x, y) {
         const crackedWall = new CrackedWall(x, y)
         this.add(crackedWall)
+        crackedWall.z = 2
     }
     addSecretWallHole(x, y) {
         const secretWallHole = new SecretWallHole(x, y)
         secretWallHole.scale.x = 0.1;
         this.add(secretWallHole)
+        secretWallHole.z = 1
     }
     addHookpoint(x, y, rotation) {
         const hook = new HookPoint(x, y, rotation)

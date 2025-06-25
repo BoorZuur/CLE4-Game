@@ -137,7 +137,7 @@ export class Level1 extends Scene {
 
         this.addWall(640, 400, 0, 0.125)
 
-        this.addWall(1030, 450, 0, 0.125)
+        this.addWall(1030, 508, 0, 0.125)
 
         this.addWall(1030, 400, 0, 0.125)
 
@@ -161,7 +161,9 @@ export class Level1 extends Scene {
         this.addHookpoint(550, 535, 1.5 * Math.PI)
 
 
-        let door = this.addDoor(1030, 590)
+        let door = this.addDoor(1030, 620)
+        door.scale = new Vector(0.15, 0.15)
+        door.z = -2
         this.addPlate(950, 470, door)
         this.addPlate(1100, 680, door)
         this.exit = new Exit(1200, 630, this)
