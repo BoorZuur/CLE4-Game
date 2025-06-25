@@ -66,8 +66,10 @@ export class Exit extends Actor {
         if (engine.input.keyboard.wasPressed(Keys.I) || interact1 || interact2) {
             if (!this.gameInstance.hasKey) {
                 console.log('No key');
-                Resources.DingDong.volume = 0.6;
-                Resources.DingDong.play();
+                if (this.AllNearExit) {
+                    Resources.DingDong.volume = 0.6;
+                    Resources.DingDong.play();
+                }
             }
         }
 
