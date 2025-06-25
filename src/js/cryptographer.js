@@ -86,6 +86,7 @@ export class Cryptographer extends Actor {
         if (kb.isHeld(keys.Right) || xController > 0.5) {
             move = 5.5 * delta
             xvel = 1
+
             if (!this.interacting) {
                 this.graphics.flipHorizontal = false
             }
@@ -96,8 +97,18 @@ export class Cryptographer extends Actor {
             if (!this.interacting && this.canRotate) {
                 if (this.graphics.flipHorizontal) {
                     this.angularVelocity = +1
+                    xvel *= 2
                 } else {
                     this.angularVelocity = -1
+                    xvel *= 2
+                }
+            }
+        } else {
+            if (!this.interacting && this.canRotate) {
+                if (this.graphics.flipHorizontal) {
+                    this.angularVelocity = -1
+                } else {
+                    this.angularVelocity = +1
                 }
             }
         }
