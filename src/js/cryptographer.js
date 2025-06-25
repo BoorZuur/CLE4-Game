@@ -23,8 +23,8 @@ export class Cryptographer extends Actor {
         // this.body.bounciness = 0
         // this.body.friction = 0.5
         // this.body.mas = 100
-        this.respawnX = x.clone()
-        this.respawnY = y.clone()
+        this.respawnX = x
+        this.respawnY = y
         if (canRotate === undefined || canRotate === null) {
             this.canRotate = true
         } else {

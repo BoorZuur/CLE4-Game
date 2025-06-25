@@ -35,8 +35,8 @@ export class Player extends Actor {
         this.grappleMaxCooldown = 60;
         this.jumpForce = -400;
         this.isGrounded = false;
-        this.respawnX = x.clone()
-        this.respawnY = y.clone()
+        this.respawnX = x
+        this.respawnY = y
         this.gravity = 800;
         this.body.friction = 0;
         this.controller = null;

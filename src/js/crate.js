@@ -22,8 +22,8 @@ export class Crate extends Actor {
         this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation);
         this.graphics.use(Resources.Crate.toSprite());
         this.scale = new Vector(0.055, 0.05);
-        this.respawnX = x.clone()
-        this.respawnY = y.clone()
+        this.respawnX = x
+        this.respawnY = y
 
         // Physics instellingen
         this.gravity = 7000;
