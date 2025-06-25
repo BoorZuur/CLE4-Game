@@ -9,8 +9,9 @@ export class Cryptographer extends Actor {
     interacting
     nearTerminal
     hitbox
+    canRotate
 
-    constructor(x, y) {
+    constructor(x, y, canRotate) {
         super({
             collisionType: CollisionType.Active,
             collisionGroup: friendsGroup,
@@ -22,6 +23,13 @@ export class Cryptographer extends Actor {
         // this.body.bounciness = 0
         // this.body.friction = 0.5
         // this.body.mas = 100
+        if (canRotate === undefined || canRotate === null) {
+            this.canRotate = true
+        } else {
+            this.canRotate = canRotate
+        }
+        
+        console.log("Cryptographer can rotate: " + this.canRotate)
         this.interacting = false
         this.nearTerminal = null
 
@@ -52,6 +60,7 @@ export class Cryptographer extends Actor {
         let xvel = 0
         let yvel = 0
         let move = 0
+        this.angularVelocity = 0
         const keys = {
             Left: Keys.A,
             Right: Keys.D,
@@ -77,15 +86,60 @@ export class Cryptographer extends Actor {
         if (kb.isHeld(keys.Right) || xController > 0.5) {
             move = 5.5 * delta
             xvel = 1
+
             if (!this.interacting) {
                 this.graphics.flipHorizontal = false
             }
         }
         if (kb.isHeld(keys.Up) || yController < -0.5) {
             yvel = -1
+            // rotate the cryptographer to face up
+            if (!this.interacting && this.canRotate) {
+                if (this.graphics.flipHorizontal) {
+                    this.angularVelocity = +1
+                    xvel *= 2
+                } else {
+                    this.angularVelocity = -1
+                    xvel *= 2
+                }
+            }
+        } else {
+            if (!this.interacting && this.canRotate) {
+                if (this.graphics.flipHorizontal) {
+                    this.angularVelocity = -1
+                } else {
+                    this.angularVelocity = +1
+                }
+            }
         }
         if (kb.isHeld(keys.Down) || yController > 0.5) {
             yvel = 1
+            if (!this.interacting && this.canRotate) {
+                if (this.graphics.flipHorizontal) {
+                    this.angularVelocity = -1
+                } else {
+                    this.angularVelocity = +1
+                }
+            }
+        }
+
+        const maxRotation = 359 * Math.PI / 180
+        const minRotation = 330 * Math.PI / 180
+        const maxFlippedRotation = 30 * Math.PI / 180
+        const minFlippedRotation = 1 * Math.PI / 180
+
+        if (this.graphics.flipHorizontal) {
+            if (this.rotation > maxFlippedRotation + 1) {
+                this.rotation = minFlippedRotation
+            } else {
+                this.rotation = Math.min(Math.max(this.rotation, minFlippedRotation), maxFlippedRotation)
+            }
+        } else {
+            if (this.rotation < minRotation - 1) {
+                this.rotation = maxRotation
+            } else {
+                this.rotation = Math.min(Math.max(this.rotation, minRotation), maxRotation)
+            }
         }
 
         if (this.interacting) {
@@ -114,7 +168,7 @@ export class Cryptographer extends Actor {
         }
     }
 
-    handleRespawn(event){
+    handleRespawn(event) {
         this.pos = new Vector(x, y)
     }
 
@@ -122,14 +176,16 @@ export class Cryptographer extends Actor {
         if (this.interacting) {
             this.interacting = false
             this.nearTerminal.interacting = false
-            this.nearTerminal.interactionLabel.text = 'Press "E" to use terminal'
+            // this.nearTerminal.interactionLabel.text = 'Press "E" to use terminal'
+            Resources.TerminalExit.play();
             if (!this.nearTerminal.doorMode) {
                 this.nearTerminal.movePlatform(0, 0)
             }
         } else {
             this.interacting = true
             this.nearTerminal.interacting = true
-            this.nearTerminal.interactionLabel.text = 'Press "E" to stop using terminal'
+            // this.nearTerminal.interactionLabel.text = 'Press "E" to stop using terminal'
+            Resources.TerminalEnter.play();
             this.vel = new Vector(0, 0)
         }
     }
@@ -141,6 +197,7 @@ export class Cryptographer extends Actor {
             console.log('You hit the spikes!')
             this.pos.x = event.other.owner.respawnX
             this.pos.y = event.other.owner.respawnY
+            Resources.Fall.play();
         } if (event.other.owner instanceof Ramp) { }
     }
 

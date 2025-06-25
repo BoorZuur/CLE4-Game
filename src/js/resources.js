@@ -1,5 +1,6 @@
 import { ImageSource, Sound, Resource, Loader } from 'excalibur'
 import { Ramp } from './ramp'
+import { Terminal } from './terminal'
 
 // voeg hier jouw eigen resources toe
 const Resources = {
@@ -42,6 +43,21 @@ const Resources = {
     FlatPlatform: new ImageSource('images/FlatPlatform.png'),
     UIArtifact: new ImageSource('images/UIArtifact.png'),
     UIKey: new ImageSource('images/UIKey.png'),
+    CoinSound: new Sound('sounds/coin.mp3'),
+    BackgroundMusic: new Sound('sounds/BackgroundTheme.mp3'),
+    DingDong: new Sound('sounds/DingDong.mp3'),
+    DoorOpen: new Sound('sounds/DoorOpen.mp3'),
+    Fall: new Sound('sounds/Fall.mp3'),
+    GrappleSound: new Sound('sounds/Grapple.mp3'),
+    SecretSound: new Sound('sounds/Secret.mp3'),
+    TerminalEnter: new Sound('sounds/TerminalEnter.mp3'),
+    TerminalExit: new Sound('sounds/TerminalExit.mp3'),
+    TerminalHacked: new Sound('sounds/TerminalHacked.mp3'),
+    TerminalError: new Sound('sounds/TerminalError.mp3'),
+    KeySound: new Sound('sounds/Key.mp3'),
+    LevelCompleted: new Sound('sounds/LevelCompleted.mp3'),
+    Slingshot: new Sound('sounds/Slingshot.mp3'),
+    DingSound: new Sound('sounds/DingSound.mp3'),
 }
 
 const ResourceLoader = new Loader()

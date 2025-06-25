@@ -66,7 +66,7 @@ export class Terminal extends Actor {
         if (event.other.owner instanceof Cryptographer) {
             this.cryptographer = event.other.owner;
             if (!this.interactionLabel) {
-                this.interactionLabel = new InteractionLabel(0, -1000, 'Press "E" to use terminal', 50, 5, 'White')
+                this.interactionLabel = new InteractionLabel(0, -1000, '', 50, 5, 'White')
                 this.addChild(this.interactionLabel)
             }
         }
@@ -174,15 +174,15 @@ export class Terminal extends Actor {
             this.cooldownTimer--;
             if (this.cooldownTimer <= 0) {
                 this.onCooldown = false;
-                if (this.interactionLabel) {
-                    this.interactionLabel.text = 'Press "E" to use terminal';
-                }
+                // if (this.interactionLabel) {
+                //     this.interactionLabel.text = 'Press "E" to use terminal';
+                // }
             }
         }
 
         if (this.interacting && !this.hacked && !this.onCooldown) {
             this.minigameTimer++;
-            this.interactionLabel.text = 'When green, press "W" to hack.';
+            // this.interactionLabel.text = 'When green, press "W" to hack.';
 
             if (this.minigameTimer > this.nextSwitchTime) {
                 this.isGreen = !this.isGreen;
@@ -203,13 +203,15 @@ export class Terminal extends Actor {
             if (engine.input.keyboard.wasPressed(Keys.W) || button2) {
                 if (this.isGreen) {
                     this.hacked = true;
-                    this.interactionLabel.text = 'Hacked! Press "E" to exit';
+                    // this.interactionLabel.text = 'Hacked! Press "E" to exit';
+                    Resources.TerminalHacked.play();
                 } else {
                     this.onCooldown = true;
                     this.cooldownTimer = 120;
-                    this.interactionLabel.text = 'Failed! Cooldown...';
+                    // this.interactionLabel.text = 'Failed! Cooldown...';
                     this.graphics.use(Resources.Terminal.toSprite());
                     this.graphics.flipHorizontal = false;
+                    Resources.TerminalError.play();
                     // this.scale = new Vector(0.08, 0.08);
                 }
             }

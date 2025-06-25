@@ -35,5 +35,6 @@ export class Button extends Actor {
 
     activate() {
         this.linkedDoor.kill();
+        Resources.DoorOpen.play();
     }
 }

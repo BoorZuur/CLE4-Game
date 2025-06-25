@@ -56,6 +56,8 @@ export class Player extends Actor {
 
     #Shoot() {
         const direction = this.sprite.flipHorizontal ? -1 : 1;
+        Resources.Slingshot.volume = 0.2;
+        Resources.Slingshot.play();
         this.scene.add(new Projectile(this.pos.x, this.pos.y, direction));
     }
     Jump() {
@@ -71,6 +73,7 @@ export class Player extends Actor {
         if (event.other.owner instanceof Spikes) {
             this.pos.x = event.other.owner.respawnX
             this.pos.y = event.other.owner.respawnY
+            Resources.Fall.play();
         }
 
         if (normal.y > 0.5) {
@@ -121,6 +124,7 @@ export class Player extends Actor {
             this.grappling = true;
             this.grapplePoint = hookPoint.pos.clone();
             console.log(`Grappling to: ${this.grapplePoint.toString()}`);
+            Resources.GrappleSound.play();
             // Remove old line if it exists
             if (this.grappleLine) {
                 this.scene.remove(this.grappleLine);

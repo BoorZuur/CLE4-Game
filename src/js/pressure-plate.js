@@ -41,6 +41,7 @@ export class PressurePlate extends Actor {
                 event.other.owner instanceof ControlPlatform) &&
                 this.linkedDoor) {
                 console.log("Pressure plate activated");
+                Resources.DoorOpen.play();
                 this.linkedDoor.kill();
                 this.exists = false;
             }
