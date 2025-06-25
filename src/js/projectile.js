@@ -37,6 +37,7 @@ export class Projectile extends Actor {
     }
     if (event.other.owner instanceof CrackedWall) {
         console.log("hallo");
+        Resources.SecretSound.play();
         event.other.owner.kill();
         this.kill()
     }
