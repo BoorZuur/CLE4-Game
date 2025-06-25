@@ -71,7 +71,7 @@ export class Level1 extends Scene {
     onStartLevel() {
 
         console.log('onStartLevel')
-        let cryptographer = new Cryptographer(100, 650)
+        let cryptographer = new Cryptographer(100, 650, false)
         let player = new Player(100, 430)
         let terminal = new Terminal(930, 640, 0.065, 750, 550, false, 5, 5, 100, 100)
         let background = new Background()

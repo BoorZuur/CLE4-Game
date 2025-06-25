@@ -9,8 +9,9 @@ export class Cryptographer extends Actor {
     interacting
     nearTerminal
     hitbox
+    canRotate
 
-    constructor(x, y) {
+    constructor(x, y, canRotate) {
         super({
             collisionType: CollisionType.Active,
             collisionGroup: friendsGroup,
@@ -22,6 +23,13 @@ export class Cryptographer extends Actor {
         // this.body.bounciness = 0
         // this.body.friction = 0.5
         // this.body.mas = 100
+        if (canRotate === undefined || canRotate === null) {
+            this.canRotate = true
+        } else {
+            this.canRotate = canRotate
+        }
+        
+        console.log("Cryptographer can rotate: " + this.canRotate)
         this.interacting = false
         this.nearTerminal = null
 
@@ -85,7 +93,7 @@ export class Cryptographer extends Actor {
         if (kb.isHeld(keys.Up) || yController < -0.5) {
             yvel = -1
             // rotate the cryptographer to face up
-            if (!this.interacting) {
+            if (!this.interacting && this.canRotate) {
                 if (this.graphics.flipHorizontal) {
                     this.angularVelocity = +1
                 } else {
@@ -95,7 +103,7 @@ export class Cryptographer extends Actor {
         }
         if (kb.isHeld(keys.Down) || yController > 0.5) {
             yvel = 1
-            if (!this.interacting) {
+            if (!this.interacting && this.canRotate) {
                 if (this.graphics.flipHorizontal) {
                     this.angularVelocity = -1
                 } else {
@@ -157,7 +165,7 @@ export class Cryptographer extends Actor {
         if (this.interacting) {
             this.interacting = false
             this.nearTerminal.interacting = false
-            this.nearTerminal.interactionLabel.text = 'Press "E" to use terminal'
+            // this.nearTerminal.interactionLabel.text = 'Press "E" to use terminal'
             Resources.TerminalExit.play();
             if (!this.nearTerminal.doorMode) {
                 this.nearTerminal.movePlatform(0, 0)
@@ -165,7 +173,7 @@ export class Cryptographer extends Actor {
         } else {
             this.interacting = true
             this.nearTerminal.interacting = true
-            this.nearTerminal.interactionLabel.text = 'Press "E" to stop using terminal'
+            // this.nearTerminal.interactionLabel.text = 'Press "E" to stop using terminal'
             Resources.TerminalEnter.play();
             this.vel = new Vector(0, 0)
         }
