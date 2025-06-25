@@ -158,6 +158,7 @@ export class Cryptographer extends Actor {
             this.interacting = false
             this.nearTerminal.interacting = false
             this.nearTerminal.interactionLabel.text = 'Press "E" to use terminal'
+            Resources.TerminalExit.play();
             if (!this.nearTerminal.doorMode) {
                 this.nearTerminal.movePlatform(0, 0)
             }
@@ -165,6 +166,7 @@ export class Cryptographer extends Actor {
             this.interacting = true
             this.nearTerminal.interacting = true
             this.nearTerminal.interactionLabel.text = 'Press "E" to stop using terminal'
+            Resources.TerminalEnter.play();
             this.vel = new Vector(0, 0)
         }
     }
@@ -176,6 +178,7 @@ export class Cryptographer extends Actor {
             console.log('You hit the spikes!')
             this.pos.x = event.other.owner.respawnX
             this.pos.y = event.other.owner.respawnY
+            Resources.Fall.play();
         } if (event.other.owner instanceof Ramp) { }
     }
 

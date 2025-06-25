@@ -27,6 +27,7 @@ export class Key extends Actor {
     handleCollision(event) {
         if (event.other.owner instanceof Player || event.other.owner instanceof Cryptographer) {
             console.log('Key collected');
+            Resources.KeySound.play();
             this.kill();
             this.gameInstance.hasKey = true;
             this.gameInstance.levelUI.updateKeyStatus(true);

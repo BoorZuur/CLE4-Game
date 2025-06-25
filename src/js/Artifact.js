@@ -31,6 +31,8 @@ export class Artifact extends Actor {
 
     handleCollision(event) {
         if (event.other.owner instanceof Player || event.other.owner instanceof Cryptographer) {
+            Resources.CoinSound.volume = 0.2; // Set volume to 50%
+            Resources.CoinSound.play();
             this.kill();
             this.gameInstance.collectibleCount++;
             console.log(this.gameInstance.collectibleCount);

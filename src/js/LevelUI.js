@@ -88,6 +88,7 @@ export class LevelUI extends Actor {
     FinishLevel() {
         this.ui.hideLevelUI();
         this.ui.showLevelCompletedUI();
+        Resources.LevelCompleted.play();
         this.levelCompleted = true;
     }
 

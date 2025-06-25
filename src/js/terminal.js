@@ -201,12 +201,14 @@ export class Terminal extends Actor {
                 if (this.isGreen) {
                     this.hacked = true;
                     this.interactionLabel.text = 'Hacked! Press "E" to exit';
+                    Resources.TerminalHacked.play();
                 } else {
                     this.onCooldown = true;
                     this.cooldownTimer = 120;
                     this.interactionLabel.text = 'Failed! Cooldown...';
                     this.graphics.use(Resources.Terminal.toSprite());
                     this.graphics.flipHorizontal = false;
+                    Resources.TerminalError.play();
                     // this.scale = new Vector(0.08, 0.08);
                 }
             }

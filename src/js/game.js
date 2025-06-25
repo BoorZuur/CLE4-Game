@@ -65,6 +65,10 @@ export class Game extends Engine {
 
     startGame() {
         this.initGamepads();
+
+        Resources.BackgroundMusic.loop = true;
+        Resources.BackgroundMusic.play();
+
         this.goToScene('menu');
         // this.goToScene('level1');
 
