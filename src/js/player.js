@@ -91,7 +91,7 @@ export class Player extends Actor {
                 this.isGrounded = true;
                 this.vel.y = 0;
             }
-            console.log('Hit from above - landing on platform');
+            // console.log('Hit from above - landing on platform');
             // this.isGrounded = true;
             // this.vel.y = 0;
         }
@@ -101,11 +101,11 @@ export class Player extends Actor {
         }
         // Normal.y = -1 means collision from below (player hitting ceiling)
         else if (normal.y < -0.5) {
-            console.log('Hit from below - hitting ceiling');
+            // console.log('Hit from below - hitting ceiling');
         }
         // Normal.x indicates side collision (left or right wall)
         else if (Math.abs(normal.x) > 0.5) {
-            console.log('Hit from side - wall collision');
+            //  console.log('Hit from side - wall collision');
             // Don't set grounded for wall collisions
             // Allow sliding down
         }
@@ -123,7 +123,7 @@ export class Player extends Actor {
         if (this.grappleCooldown <= 0 && !this.grappling) {
             this.grappling = true;
             this.grapplePoint = hookPoint.pos.clone();
-            console.log(`Grappling to: ${this.grapplePoint.toString()}`);
+            // console.log(`Grappling to: ${this.grapplePoint.toString()}`);
             Resources.GrappleSound.play();
             // Remove old line if it exists
             if (this.grappleLine) {
@@ -229,10 +229,10 @@ export class Player extends Actor {
             if (closestHookPoint) {
                 if (closestHookPoint.pos.y < this.pos.y) {
                     this.activateGrapple(closestHookPoint);
-                    console.log(`Grappling to point at ${closestHookPoint.pos.toString()}, distance: ${minDistance}`);
+                    // console.log(`Grappling to point at ${closestHookPoint.pos.toString()}, distance: ${minDistance}`);
                 }
                 else {
-                    console.log("Grapple point is below player");
+                    // console.log("Grapple point is below player");
                 }
             }
         }

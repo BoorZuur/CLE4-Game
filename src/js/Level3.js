@@ -159,6 +159,8 @@ export class Level3 extends Scene {
     }
 
     onInitialize(engine) {
+        console.log('Level3 onInitialize called');
+
         let background = new Background()
         background.z = -20
         this.add(background)

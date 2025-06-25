@@ -1,5 +1,3 @@
-
-
 export class UIManager {
     constructor(levelInstance) {
         this.levelInstance = levelInstance;
@@ -35,15 +33,53 @@ export class UIManager {
         this.RestartGameButton = document.querySelector('#RestartGameButton');
         this.GameCompletedUI = document.querySelector('.GameCompleted');
 
-        this.RestartGameButton.addEventListener('click', (event) => this.RestartGameButtonPressed(event));
-        this.nextLevelButton.addEventListener('click', (event) => this.nextLevelButtonPressed(event));
-        this.nextButtonWelcome.addEventListener('click', (event) => this.WelcomeButtonPressed(event));
-        this.nextButtonControls.addEventListener('click', (event) => this.ControlsButtonPressed(event));
-        this.nextButtonMechanics.addEventListener('click', (event) => this.MechanicsButtonPressed(event));
-        this.nextButtonGoal.addEventListener('click', (event) => this.GoalButtonPressed(event));
-        this.nextButtonLevel2Mechanics.addEventListener('click', (event) => this.Level2MechanicsButtonPressed(event));
-        this.nextButtonLevel2Mechanics2.addEventListener('click', (event) => this.Level2Mechanics2ButtonPressed(event));
-        this.nextButtonLevel3Mechanics.addEventListener('click', (event) => this.Level3MechanicsButtonPressed(event));
+        // Remove any existing event listeners before adding new ones
+        if (this.RestartGameButton) {
+            this.RestartGameButton.removeEventListener('click', this.RestartGameButtonPressed);
+            this.RestartGameButton.addEventListener('click', (event) => this.RestartGameButtonPressed(event));
+        }
+
+        if (this.nextLevelButton) {
+            // Remove any existing event listeners
+            this.nextLevelButton.removeEventListener('click', this.nextLevelButtonPressed);
+            this.nextLevelButton.addEventListener('click', (event) => this.nextLevelButtonPressed(event));
+        }
+
+        if (this.nextButtonWelcome) {
+            this.nextButtonWelcome.removeEventListener('click', this.WelcomeButtonPressed);
+            this.nextButtonWelcome.addEventListener('click', (event) => this.WelcomeButtonPressed(event));
+        }
+
+        if (this.nextButtonControls) {
+            this.nextButtonControls.removeEventListener('click', this.ControlsButtonPressed);
+            this.nextButtonControls.addEventListener('click', (event) => this.ControlsButtonPressed(event));
+        }
+
+        if (this.nextButtonMechanics) {
+            this.nextButtonMechanics.removeEventListener('click', this.MechanicsButtonPressed);
+            this.nextButtonMechanics.addEventListener('click', (event) => this.MechanicsButtonPressed(event));
+        }
+
+        if (this.nextButtonGoal) {
+            this.nextButtonGoal.removeEventListener('click', this.GoalButtonPressed);
+            this.nextButtonGoal.addEventListener('click', (event) => this.GoalButtonPressed(event));
+        }
+
+        if (this.nextButtonLevel2Mechanics) {
+            this.nextButtonLevel2Mechanics.removeEventListener('click', this.Level2MechanicsButtonPressed);
+            this.nextButtonLevel2Mechanics.addEventListener('click', (event) => this.Level2MechanicsButtonPressed(event));
+        }
+
+        if (this.nextButtonLevel2Mechanics2) {
+            this.nextButtonLevel2Mechanics2.removeEventListener('click', this.Level2Mechanics2ButtonPressed);
+            this.nextButtonLevel2Mechanics2.addEventListener('click', (event) => this.Level2Mechanics2ButtonPressed(event));
+        }
+
+        if (this.nextButtonLevel3Mechanics) {
+            this.nextButtonLevel3Mechanics.removeEventListener('click', this.Level3MechanicsButtonPressed);
+            this.nextButtonLevel3Mechanics.addEventListener('click', (event) => this.Level3MechanicsButtonPressed(event));
+        }
+
         this.levelCutOff.style.display = 'none';
 
         // Hide UI by default
@@ -189,22 +225,24 @@ export class UIManager {
     }
 
     nextLevelButtonPressed() {
-        // Get the game instance from the window object
+        console.log('nextLevelButtonPressed called, currentLevel:', this.currentLevel);
         const game = window.game;
         if (this.currentLevel < 2) {
             this.LevelCompletedUI.style.display = 'none';
             this.levelCutOff.style.display = 'none';
             this.LevelUI.style.display = 'block';
             this.hide()
-            this.currentLevel = 2
             game.goToScene('level2');
+            // this.currentLevel = 2
         }
         else if (this.currentLevel == 2) {
+            console.log('Transitioning from Level 2 to Level 3');
             this.LevelCompletedUI.style.display = 'none';
             this.levelCutOff.style.display = 'none';
             this.LevelUI.style.display = 'block';
             this.hide()
-            this.currentLevel = 3
+            // this.currentLevel = 3
+            console.log('Set currentLevel to 3, calling goToScene');
             game.goToScene('level3');
         }
         else if (this.currentLevel == 3) {
