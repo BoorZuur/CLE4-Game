@@ -70,6 +70,7 @@ export class Elevator extends Actor {
         if (event.other.owner instanceof Cryptographer || event.other.owner instanceof Player || event.other.owner instanceof Crate) {
             this.onPlatform = true;
             console.log("onPlatform", this.onPlatform);
+            Resources.DingSound.play();
         }
     }
 
@@ -77,6 +78,7 @@ export class Elevator extends Actor {
         if (event.other.owner instanceof Cryptographer || event.other.owner instanceof Player || event.other.owner instanceof Crate) {
             this.onPlatform = false;
             console.log("onPlatform", this.onPlatform);
+            Resources.DingSound.play();
         }
     }
 }

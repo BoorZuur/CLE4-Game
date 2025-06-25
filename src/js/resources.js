@@ -57,6 +57,7 @@ const Resources = {
     KeySound: new Sound('sounds/Key.mp3'),
     LevelCompleted: new Sound('sounds/LevelCompleted.mp3'),
     Slingshot: new Sound('sounds/Slingshot.mp3'),
+    DingSound: new Sound('sounds/DingSound.mp3'),
 }
 
 const ResourceLoader = new Loader()
