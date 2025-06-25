@@ -35,6 +35,8 @@ export class Player extends Actor {
         this.grappleMaxCooldown = 60;
         this.jumpForce = -400;
         this.isGrounded = false;
+        this.respawnX = x.clone()
+        this.respawnY = y.clone()
         this.gravity = 800;
         this.body.friction = 0;
         this.controller = null;
@@ -184,7 +186,7 @@ export class Player extends Actor {
     }
 
     handleRespawn(event) {
-        this.pos = new Vector(x, y)
+        this.pos = new Vector(this.respawnX, this.respawnY)
     }
 
     updateControlller(engine) {
