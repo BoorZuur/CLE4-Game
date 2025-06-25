@@ -1,5 +1,5 @@
 // src/js/MainMenuScene.js
-import { Scene, Label, Color, Keys , Vector} from 'excalibur';
+import { Scene, Label, Color, Keys, Vector } from 'excalibur';
 import { Resources } from './resources.js';
 import { Cryptographer } from './cryptographer.js'
 import { Terminal } from './terminal.js'
@@ -37,12 +37,14 @@ export class Level2 extends Scene {
 
     onActivate() {
         this.showLevelUI();
+        this.levelUI.ui.showTutorialUI();
     }
 
     showLevelUI() {
         const levelUI = new LevelUI(this);
         this.levelUI = levelUI;
         this.add(this.levelUI)
+        this.levelUI.ui.currentLevel = 2;
         console.log('level2 showLevelUI')
         this.levelUI.updateLevelName('Level 2');
         console.log('level2 updateLevelName')
@@ -71,7 +73,7 @@ export class Level2 extends Scene {
         this.add(background)
         this.add(ramp)
 
-        ramp = new Ramp(985, 302)
+        ramp = new Ramp(987, 302)
         this.add(ramp)
 
         let terminal = new Terminal(90, 438, 0.045, 240, 325, false, 130, 490, 60, 200)
@@ -82,9 +84,9 @@ export class Level2 extends Scene {
 
         this.addHookpoint(223, 140, 1.5 * Math.PI)
 
-        this.addWall(983, 677, 0.5 * Math.PI, 0.125)
-        this.addWall(1093, 677, 0.5 * Math.PI, 0.125)
-        this.addWall(1183, 677, 0.5 * Math.PI, 0.125)
+        this.addWall(983, 678, 0.5 * Math.PI, 0.125)
+        this.addWall(1093, 678, 0.5 * Math.PI, 0.125)
+        this.addWall(1183, 678, 0.5 * Math.PI, 0.125)
         this.addWall(1194, 484, 0.5 * Math.PI, 0.1)
         this.addWall(967, 484, 0.5 * Math.PI, 0.1)
         this.addWall(879, 484, 0.5 * Math.PI, 0.1)
@@ -93,8 +95,8 @@ export class Level2 extends Scene {
         this.addWall(725, 373, 0, 0.1)
         this.addWall(912, 348, 0.5 * Math.PI, 0.1)
         this.addWall(1000, 348, 0.5 * Math.PI, 0.1)
-        this.addWall(1100, 300, 0.5 * Math.PI, 0.125)
-        this.addWall(1183, 300, 0.5 * Math.PI, 0.125)
+        this.addWall(1100, 303, 0.5 * Math.PI, 0.125)
+        this.addWall(1183, 303, 0.5 * Math.PI, 0.125)
         this.addWall(77, 490, 0.5 * Math.PI, 0.1)
         this.addWall(77, 150, 0.5 * Math.PI, 0.1)
         this.addWall(165, 150, 0.5 * Math.PI, 0.1)
@@ -117,14 +119,24 @@ export class Level2 extends Scene {
 
         let door = this.addDoor(900, 270)
         this.addPlate(75, 310, door, true, 0, 15000)
+
+
+        //rechtse elevators
         this.addElevator(850, 150, 1085, 600, 125, 100, true)
-        this.addElevator(750, 150, 800, 440, 100, 100, true)
+        this.addElevator(750, 150, 792, 440, 100, 100, true)
+
+        this.addWall(882, 348, 0.5 * Math.PI, 0.1)
+
+        this.addWall(1176, 484, 0.5 * Math.PI, 0.1)
+        this.addWall(992, 484, 0.5 * Math.PI, 0.1)
+
+
         let door2 = this.addDoor(980, 580)
         this.addButton(1230, 200, door2, true)
-        this.addTerminal(1175, 600, 0.075, 900, 90, true)
-        this.addTerminal(1185, 410, 0.075, 800, 90, true)
+        this.addTerminal(1185, 614, 0.06, 900, 90, true)
+        this.addTerminal(1185, 424, 0.06, 800, 90, true)
         this.addHookpoint(950, 170, 1.5 * Math.PI)
-        this.addPlate(520, 120, door,false,0,0,true)
+        this.addPlate(520, 120, door, false, 0, 0, true)
         this.addWall(535, 150, 0.5 * Math.PI, 0.1)
         // this.addHookpoint(590, 140, 1.5 * Math.PI)
         this.addWall(625, 150, 1.5 * Math.PI, 0.1)
@@ -136,9 +148,9 @@ export class Level2 extends Scene {
         this.key.scale = new Vector(0.05, 0.05)
         this.add(this.key)
 
-        this.addArtifact(375,250)
-        this.addArtifact(80,80)
-        this.addArtifact(800,425)
+        this.addArtifact(375, 250)
+        this.addArtifact(80, 80)
+        this.addArtifact(800, 425)
 
         let y = 0
         let x = 0
@@ -174,7 +186,7 @@ export class Level2 extends Scene {
             this.add(continuousPlatform)
             x += 150
         }
-        this.addElevator(390, 470, 200, 650, 175, 100, false)
+        this.addElevator(390, 470, 170, 650, 175, 100, false)
     }
     addArtifact(x, y) {
         const artifact = new Artifact(x, y, this)

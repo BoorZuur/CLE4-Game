@@ -7,22 +7,22 @@ export class lineActor extends Actor {
     this.start = start.clone();
     this.end = end.clone();
     this.line = new Line({
-        start: this.start,
-        end: this.end,
-        color: Color.Red,
-        thickness: 10,
-      });
-      this.graphics.anchor = Vector.Zero,
+      start: this.start,
+      end: this.end,
+      color: Color.Brown,
+      thickness: 10,
+    });
+    this.graphics.anchor = Vector.Zero,
       this.graphics.use(this.line);
   }
 
   setStart(newStart) {
-        this.start = newStart.clone();
-        this.line.start = this.start;
-    }
+    this.start = newStart.clone();
+    this.line.start = this.start;
+  }
 
-    setEnd(newEnd) {
-        this.end = newEnd.clone();
-        this.line.end = this.end;
-    }
+  setEnd(newEnd) {
+    this.end = newEnd.clone();
+    this.line.end = this.end;
+  }
 }

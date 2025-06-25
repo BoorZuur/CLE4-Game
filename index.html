@@ -14,7 +14,18 @@
     <canvas id="game"></canvas>
     <div class="game-ui" style="display: none;">
 
-      <div class="LevelCutOff"></div>
+      <div class="LevelCutOff">
+        <div class="LevelCutOffControls">
+          <div class="LevelCutOffControlsPlayer">
+            <img src="./images/PlayerControls.svg" alt="">
+            <h2>The Adventurer</h2>
+          </div>
+          <div class="LevelCutOffControlsCryptographer">
+            <img src="./images/CryptographerControls.svg" alt="">
+            <h2>The Cryptographer</h2>
+          </div>
+        </div>
+      </div>
 
       <div class="TopUI">
         <div class="LevelName"></div>
@@ -41,7 +52,139 @@
 
       </div>
 
-    </div>
+      <div class="TutorialUI" style="display: none;">
+        <div class="Welcome">
+          <h1>Welcome to The Crypt</h1>
+          <p>This is a game about two retired adventurers who end up in an ancient crypt by accident. Together they will
+            need to find the exit and escape the crypt.</p>
+          <h3>Teamwork. Is. KEY.</h3>
+          <button id="NextButtonWelcome">Next</button>
+        </div>
+
+
+        <div class="Controls" style="display: none;">
+          <h1>Controls</h1>
+          <div class="ControlsButtons">
+            <div class="ControlLayouts">
+              <div class="PlayerControl">
+                <h2>The Adventurer</h2>
+                <img src="./images/PlayerControls.svg" alt="">
+              </div>
+              <div class="CryptographerControl">
+                <h2>The Cryptographer</h2>
+                <img src="./images/CryptographerControls.svg" alt="">
+              </div>
+            </div>
+          </div>
+          <button id="NextButtonControls">Next</button>
+        </div>
+
+        <div class="Level1Mechanics" style="display: none;">
+          <h2>In this level you will encounter the following mechanics</h2>
+          <div class="Level1MechanicsList">
+            <div class="Level1Mechanic">
+              <h3>The grapple point</h3>
+              <img src="./images/GrappleMechanic.svg" alt="">
+              <p>Press <span><img src="./images/TopMidControl.svg" alt=""
+                    style="width: 50px; height: 50px; vertical-align: middle;"></span> to
+                grapple</p>
+            </div>
+            <div class="Level1Mechanic">
+              <h3>The Terminal</h3>
+              <img src="./images/TerminalMechanic.svg" alt="">
+              <p>Press <span><img src="./images/TopLeftControl.svg" alt=""
+                    style="width: 50px; height: 50px; vertical-align: middle;"></span> to interact with a terminal</p>
+              <p>Press <span><img src="./images/TopMidControl.svg" alt=""
+                    style="width: 50px; height: 50px; vertical-align: middle;"></span> to hack the terminal when it's
+                green</p>
+            </div>
+            <div class="Level1Mechanic" id="PressurePlate">
+              <h3>The Pressure plate</h3>
+              <img src="./images/PressurePlateMechanic.svg" alt="">
+              <p>Stand on pressure plates to open doors</p>
+            </div>
+          </div>
+          <button id="NextButtonMechanics">Next</button>
+        </div>
+
+        <div class="goal" style="display: none;">
+          <div>
+            <img src="./images/LevelExit.png" alt="">
+          </div>
+          <h2>Your goal is to open the exit</h2>
+          <p>To open the exit you will need to pick up the <img src="./images/Key.png" alt=""
+              style="width: auto; height: 30px; vertical-align: middle;"> along the way</p>
+          <p> Good luck!</p>
+          <button id="NextButtonGoal">Next</button>
+        </div>
+
+        <div class="Level2Mechanics" style="display: none;">
+          <h2>In this level you will encounter the following new mechanics</h2>
+          <div class="Level2MechanicsList">
+            <div class="Level2Mechanic">
+              <h3>The Terminal</h3>
+              <img src="./images/TerminalMechanicDoor.svg" alt="">
+              <p>Some terminals will now open doors</p>
+            </div>
+            <div class="Level2Mechanic">
+              <h3>The Button</h3>
+              <img src="./images/ButtonMechanic.svg" alt="">
+              <p>Press <span><img src="./images/TopRightControl.svg" alt=""
+                    style="width: 50px; height: 50px; vertical-align: middle;"></span> to shoot at a button</p>
+              <p> The button will open a door</p>
+            </div>
+            <div class="Level2Mechanic">
+              <h3>The Elevator</h3>
+              <img src="./images/ElevatorMechanic.svg" alt="">
+              <p>Some pressure plates will now raise or lower an elevator</p>
+            </div>
+          </div>
+          <button id="NextButtonLevel2Mechanics">Next</button>
+        </div>
+
+        <div class="Level2Mechanics2" style="display: none;">
+          <h2>In this level you will encounter the following new mechanics</h2>
+          <div class="Level2Mechanics2List">
+            <div class="Level2Mechanic2">
+              <h3>The Cracked Wall</h3>
+              <img src="./images/CrackedWallMechanic.svg" alt="">
+              <p>Shoot cracked walls to uncover secrets</p>
+            </div>
+            <div class="Level2Mechanic2">
+              <h3>The Wheelie</h3>
+              <img src="./images/WheelieMechanic.svg" alt="">
+              <p>The cryptographer can now press <span><img src="./images/TopRightControl.svg" alt=""
+                    style="width: 50px; height: 50px; vertical-align: middle;"></span> to do a wheelie</p>
+              <p>The wheelie will allow the cryptographer to move faster</p>
+            </div>
+          </div>
+          <button id="NextButtonLevel2Mechanics2">Next</button>
+        </div>
+
+        <div class="Level3Mechanics" style="display: none;">
+          <h2>In this level you will encounter the following new mechanics</h2>
+          <div class="Level3MechanicsList">
+            <div class="Level3Mechanic">
+              <h3>The Checkpoint</h3>
+              <img src="./images/CheckpointMechanic.svg" alt="">
+              <p>You will now respawn at the last checkpoint you passed</p>
+              <p>The current checkpoint will be marked with a yellow light</p>
+            </div>
+          </div>
+          <button id="NextButtonLevel3Mechanics">Next</button>
+        </div>
+
+        <div class="GameCompleted" style="display: none;">
+          <h1>Game Completed!</h1>
+          <p>You have completed the game!</p>
+          <p>Our adventurers have escaped the crypt and can now return to their families.</p>
+          <p>Thank you for playing!</p>
+          <div class="GameCompletedImage">
+            <img src="./images/GameCompleted.png" alt="">
+          </div>
+          <button id="RestartGameButton">Restart Game</button>
+        </div>
+      </div>
   </main>
 </body>
 

@@ -15,10 +15,35 @@ export class UIManager {
         this.completedCollectible1 = document.querySelector('.CompletedCollectible1');
         this.completedCollectible2 = document.querySelector('.CompletedCollectible2');
         this.completedCollectible3 = document.querySelector('.CompletedCollectible3');
+        this.TutorialUI = document.querySelector('.TutorialUI');
         this.nextLevelButton = document.querySelector('#NextLevelButton');
         this.currentLevel = 1
+        this.nextButtonWelcome = document.querySelector('#NextButtonWelcome');
+        this.WelcomeUI = document.querySelector('.Welcome');
+        this.ControlsUI = document.querySelector('.Controls');
+        this.nextButtonControls = document.querySelector('#NextButtonControls');
+        this.nextButtonMechanics = document.querySelector('#NextButtonMechanics');
+        this.MechanicsUI = document.querySelector('.Level1Mechanics');
+        this.goalUI = document.querySelector('.goal');
+        this.nextButtonGoal = document.querySelector('#NextButtonGoal');
+        this.Level2Mechanics = document.querySelector('.Level2Mechanics');
+        this.nextButtonLevel2Mechanics = document.querySelector('#NextButtonLevel2Mechanics');
+        this.Level2Mechanics2 = document.querySelector('.Level2Mechanics2');
+        this.nextButtonLevel2Mechanics2 = document.querySelector('#NextButtonLevel2Mechanics2');
+        this.Level3Mechanics = document.querySelector('.Level3Mechanics');
+        this.nextButtonLevel3Mechanics = document.querySelector('#NextButtonLevel3Mechanics');
+        this.RestartGameButton = document.querySelector('#RestartGameButton');
+        this.GameCompletedUI = document.querySelector('.GameCompleted');
 
+        this.RestartGameButton.addEventListener('click', (event) => this.RestartGameButtonPressed(event));
         this.nextLevelButton.addEventListener('click', (event) => this.nextLevelButtonPressed(event));
+        this.nextButtonWelcome.addEventListener('click', (event) => this.WelcomeButtonPressed(event));
+        this.nextButtonControls.addEventListener('click', (event) => this.ControlsButtonPressed(event));
+        this.nextButtonMechanics.addEventListener('click', (event) => this.MechanicsButtonPressed(event));
+        this.nextButtonGoal.addEventListener('click', (event) => this.GoalButtonPressed(event));
+        this.nextButtonLevel2Mechanics.addEventListener('click', (event) => this.Level2MechanicsButtonPressed(event));
+        this.nextButtonLevel2Mechanics2.addEventListener('click', (event) => this.Level2Mechanics2ButtonPressed(event));
+        this.nextButtonLevel3Mechanics.addEventListener('click', (event) => this.Level3MechanicsButtonPressed(event));
         this.levelCutOff.style.display = 'none';
 
         // Hide UI by default
@@ -43,7 +68,74 @@ export class UIManager {
             this.levelElement.textContent = `${levelName}`;
         }
     }
+    showTutorialUI() {
+        this.TutorialUI.style.display = 'block';
+        if (this.currentLevel >= 2) {
+            this.WelcomeUI.style.display = 'none';
+        }
+        if (this.currentLevel == 2) {
+            this.WelcomeUI.style.display = 'none';
+            this.Level2Mechanics.style.display = 'block';
+        }
+        if (this.currentLevel == 3) {
+            this.WelcomeUI.style.display = 'none';
+            this.Level3Mechanics.style.display = 'block';
+        }
 
+    }
+
+    WelcomeButtonPressed() {
+        this.WelcomeUI.style.display = 'none';
+        this.ControlsUI.style.display = 'block';
+    }
+
+    ControlsButtonPressed() {
+        this.ControlsUI.style.display = 'none';
+        this.MechanicsUI.style.display = 'block';
+    }
+
+    MechanicsButtonPressed() {
+        this.MechanicsUI.style.display = 'none';
+        this.goalUI.style.display = 'block';
+    }
+
+    GoalButtonPressed() {
+        this.goalUI.style.display = 'none';
+        this.TutorialUI.style.display = 'none';
+    }
+
+    Level2MechanicsButtonPressed() {
+        this.Level2Mechanics.style.display = 'none';
+        this.Level2Mechanics2.style.display = 'block';
+    }
+
+    Level2Mechanics2ButtonPressed() {
+        this.Level2Mechanics2.style.display = 'none';
+        this.TutorialUI.style.display = 'none';
+    }
+
+    Level3MechanicsButtonPressed() {
+        this.Level3Mechanics.style.display = 'none';
+        this.TutorialUI.style.display = 'none';
+    }
+
+    showGameCompletedUI() {
+        this.gameUI.style.display = 'none';
+        this.TutorialUI.style.display = 'none';
+        this.LevelCompletedUI.style.display = 'none';
+        this.LevelUI.style.display = 'none';
+        this.levelCutOff.style.display = 'none';
+        this.GameCompletedUI.style.display = 'block';
+    }
+
+    RestartGameButtonPressed() {
+        this.gameUI.style.display = 'none';
+        this.TutorialUI.style.display = 'none';
+        this.LevelCompletedUI.style.display = 'none';
+        this.LevelUI.style.display = 'none';
+        this.levelCutOff.style.display = 'none';
+        window.location.reload();
+    }
 
     updateCollectibles(collectibles) {
         if (collectibles == 0) {
@@ -77,8 +169,16 @@ export class UIManager {
         }
     }
 
+    showLevelCutOff() {
+        this.levelCutOff.style.display = 'block';
+    }
+
     hideLevelUI() {
         this.LevelUI.style.display = 'none';
+    }
+
+    showLevelUI() {
+        this.LevelUI.style.display = 'block';
     }
 
     showLevelCompletedUI() {
@@ -91,21 +191,25 @@ export class UIManager {
     nextLevelButtonPressed() {
         // Get the game instance from the window object
         const game = window.game;
-        if (this.currentLevel <= 2) {
+        if (this.currentLevel < 2) {
             this.LevelCompletedUI.style.display = 'none';
             this.levelCutOff.style.display = 'none';
             this.LevelUI.style.display = 'block';
             this.hide()
-            game.goToScene('level2');
             this.currentLevel = 2
+            game.goToScene('level2');
         }
         else if (this.currentLevel == 2) {
-            game.goToScene('level3');
+            this.LevelCompletedUI.style.display = 'none';
+            this.levelCutOff.style.display = 'none';
+            this.LevelUI.style.display = 'block';
+            this.hide()
             this.currentLevel = 3
+            game.goToScene('level3');
         }
         else if (this.currentLevel == 3) {
-            game.goToScene('level4');
-            this.currentLevel = 4
+            this.LevelCompletedUI.style.display = 'none';
+            this.showGameCompletedUI();
         }
     }
 }

@@ -16,6 +16,7 @@ import { Ramp } from "./ramp.js"
 import { Color } from "excalibur"
 import { lineActor } from "./grapplineLine.js"
 import { Elevator } from "./elevator.js"
+import { FlatPlatform } from "./flatPlatform.js"
 
 
 export class Player extends Actor {
@@ -82,7 +83,8 @@ export class Player extends Actor {
                 event.other.owner instanceof ControlPlatform ||
                 event.other.owner instanceof Ramp ||
                 event.other.owner instanceof Wall ||
-                event.other.owner instanceof Elevator) {
+                event.other.owner instanceof Elevator ||
+                event.other.owner instanceof FlatPlatform) {
                 this.isGrounded = true;
                 this.vel.y = 0;
             }
@@ -177,7 +179,7 @@ export class Player extends Actor {
         }
     }
 
-    handleRespawn(event){
+    handleRespawn(event) {
         this.pos = new Vector(x, y)
     }
 

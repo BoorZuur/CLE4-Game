@@ -86,6 +86,9 @@ export class Terminal extends Actor {
             this.onCooldown = false;
             this.interacting = false;
             this.hacked = false;
+            if (!this.doorMode) {
+                this.border.graphics.opacity = 0;
+            }
         }
     }
 
