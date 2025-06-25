@@ -23,6 +23,8 @@ export class Cryptographer extends Actor {
         // this.body.bounciness = 0
         // this.body.friction = 0.5
         // this.body.mas = 100
+        this.respawnX = x
+        this.respawnY = y
         if (canRotate === undefined || canRotate === null) {
             this.canRotate = true
         } else {
@@ -169,7 +171,7 @@ export class Cryptographer extends Actor {
     }
 
     handleRespawn(event) {
-        this.pos = new Vector(x, y)
+        this.pos = new Vector(this.respawnX, this.respawnY)
     }
 
     interactWithTerminal(terminal) {
