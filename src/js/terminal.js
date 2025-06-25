@@ -182,7 +182,7 @@ export class Terminal extends Actor {
 
         if (this.interacting && !this.hacked && !this.onCooldown) {
             this.minigameTimer++;
-            // this.interactionLabel.text = 'When green, press "W" to hack.';
+            this.interactionLabel.text = 'Hack when green!';
 
             if (this.minigameTimer > this.nextSwitchTime) {
                 this.isGreen = !this.isGreen;
@@ -203,12 +203,12 @@ export class Terminal extends Actor {
             if (engine.input.keyboard.wasPressed(Keys.W) || button2) {
                 if (this.isGreen) {
                     this.hacked = true;
-                    // this.interactionLabel.text = 'Hacked! Press "E" to exit';
+                    this.interactionLabel.text = 'Hacked!';
                     Resources.TerminalHacked.play();
                 } else {
                     this.onCooldown = true;
                     this.cooldownTimer = 120;
-                    // this.interactionLabel.text = 'Failed! Cooldown...';
+                    this.interactionLabel.text = 'Failed! Cooldown...';
                     this.graphics.use(Resources.Terminal.toSprite());
                     this.graphics.flipHorizontal = false;
                     Resources.TerminalError.play();

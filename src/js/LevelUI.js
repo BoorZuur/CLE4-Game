@@ -45,10 +45,13 @@ export class LevelUI extends Actor {
             }
         }
 
-        if (interact1 || interact2) {
+        if (interact1 || interact2  || engine.input.keyboard.wasPressed(Keys.L)) {
+            console.log("Next Level or Screen Button Pressed");
             if (this.levelCompleted) {
                 this.levelCompleted = false;
                 this.ui.nextLevelButtonPressed()
+            } else if (this.ui.TutorialUIOpened) {
+                this.ui.nextScreenButtonPressed();
             }
         }
     }

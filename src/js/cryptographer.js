@@ -59,6 +59,7 @@ export class Cryptographer extends Actor {
         let controller = null
         let xController = 0
         let yController = 0
+        let wheelieButton = false
         let xvel = 0
         let yvel = 0
         let move = 0
@@ -74,27 +75,13 @@ export class Cryptographer extends Actor {
             // console.log("er is geen gamepad")
         } else {
             controller = engine.controllers[1]
+            console.log(controller)
             xController = controller.getAxes(Axes.LeftStickX)
             yController = controller.getAxes(Axes.LeftStickY)
+            wheelieButton = controller.isButtonPressed(Buttons.Face3)
         }
 
-        if (kb.isHeld(keys.Left) || xController < -0.5) {
-            move = -5.5 * delta
-            xvel = -1
-            if (!this.interacting) {
-                this.graphics.flipHorizontal = true
-            }
-        }
-        if (kb.isHeld(keys.Right) || xController > 0.5) {
-            move = 5.5 * delta
-            xvel = 1
-
-            if (!this.interacting) {
-                this.graphics.flipHorizontal = false
-            }
-        }
-        if (kb.isHeld(keys.Up) || yController < -0.5) {
-            yvel = -1
+        if (kb.isHeld(keys.Up) || wheelieButton) {
             // rotate the cryptographer to face up
             if (!this.interacting && this.canRotate) {
                 if (this.graphics.flipHorizontal) {
@@ -114,15 +101,34 @@ export class Cryptographer extends Actor {
                 }
             }
         }
+
+        if (kb.isHeld(keys.Left) || xController < -0.5) {
+            move = -5.5 * delta
+            xvel = -1
+            if (!this.interacting) {
+                this.graphics.flipHorizontal = true
+            }
+        }
+        if (kb.isHeld(keys.Right) || xController > 0.5) {
+            move = 5.5 * delta
+            xvel = 1
+
+            if (!this.interacting) {
+                this.graphics.flipHorizontal = false
+            }
+        }
+        if (kb.isHeld(keys.Up) || yController < -0.5) {
+            yvel = -1
+        }
         if (kb.isHeld(keys.Down) || yController > 0.5) {
             yvel = 1
-            if (!this.interacting && this.canRotate) {
-                if (this.graphics.flipHorizontal) {
-                    this.angularVelocity = -1
-                } else {
-                    this.angularVelocity = +1
-                }
-            }
+            // if (!this.interacting && this.canRotate) {
+            //     if (this.graphics.flipHorizontal) {
+            //         this.angularVelocity = -1
+            //     } else {
+            //         this.angularVelocity = +1
+            //     }
+            // }
         }
 
         const maxRotation = 359 * Math.PI / 180

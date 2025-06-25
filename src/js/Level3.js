@@ -44,6 +44,7 @@ export class Level3 extends Scene {
 
     onActivate() {
         this.showLevelUI();
+        this.levelUI.ui.nextScreen = 'Level3Mechanics'
         this.levelUI.ui.showTutorialUI();
     }
     addElevator(x, y, platformX, platformY, minY, maxY, inverted) {

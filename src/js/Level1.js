@@ -71,6 +71,7 @@ export class Level1 extends Scene {
 
     onStartLevel() {
         this.levelUI.ui.showLevelCutOff();
+        this.levelUI.ui.nextScreen = 'Tutorial';
         this.levelUI.ui.showTutorialUI();
         console.log('onStartLevel')
         let cryptographer = new Cryptographer(100, 650, false)

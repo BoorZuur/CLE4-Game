@@ -37,6 +37,7 @@ export class Level2 extends Scene {
 
     onActivate() {
         this.showLevelUI();
+        this.levelUI.ui.nextScreen = 'Level2Mechanics'
         this.levelUI.ui.showTutorialUI();
     }
 

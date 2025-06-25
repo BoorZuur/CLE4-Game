@@ -16,6 +16,8 @@ export class UIManager {
         this.TutorialUI = document.querySelector('.TutorialUI');
         this.nextLevelButton = document.querySelector('#NextLevelButton');
         this.currentLevel = 1
+        this.TutorialUIOpened = false;
+        this.nextScreen = '';
         this.nextButtonWelcome = document.querySelector('#NextButtonWelcome');
         this.WelcomeUI = document.querySelector('.Welcome');
         this.ControlsUI = document.querySelector('.Controls');
@@ -105,6 +107,7 @@ export class UIManager {
         }
     }
     showTutorialUI() {
+        this.TutorialUIOpened = true;
         this.TutorialUI.style.display = 'block';
         if (this.currentLevel >= 2) {
             this.WelcomeUI.style.display = 'none';
@@ -123,36 +126,46 @@ export class UIManager {
     WelcomeButtonPressed() {
         this.WelcomeUI.style.display = 'none';
         this.ControlsUI.style.display = 'block';
+        this.nextScreen = 'Controls';
     }
 
     ControlsButtonPressed() {
         this.ControlsUI.style.display = 'none';
         this.MechanicsUI.style.display = 'block';
+        this.nextScreen = 'Mechanics';
     }
 
     MechanicsButtonPressed() {
         this.MechanicsUI.style.display = 'none';
         this.goalUI.style.display = 'block';
+        this.nextScreen = 'Goal';
     }
 
     GoalButtonPressed() {
         this.goalUI.style.display = 'none';
         this.TutorialUI.style.display = 'none';
+        this.nextScreen =  'Level2Mechanics';
+        this.TutorialUIOpened = false;
     }
 
     Level2MechanicsButtonPressed() {
         this.Level2Mechanics.style.display = 'none';
         this.Level2Mechanics2.style.display = 'block';
+        this.nextScreen = 'Level2Mechanics2';
     }
 
     Level2Mechanics2ButtonPressed() {
         this.Level2Mechanics2.style.display = 'none';
         this.TutorialUI.style.display = 'none';
+        this.nextScreen = 'Level3Mechanics';
+        this.TutorialUIOpened = false;
     }
 
     Level3MechanicsButtonPressed() {
         this.Level3Mechanics.style.display = 'none';
         this.TutorialUI.style.display = 'none';
+        this.nextScreen = 'GameCompleted';
+        this.TutorialUIOpened = false;
     }
 
     showGameCompletedUI() {
@@ -224,6 +237,26 @@ export class UIManager {
         if (this.completedCollectible3) this.completedCollectible3.src = this.collectibleElement3.src;
     }
 
+    nextScreenButtonPressed() {
+        if (this.nextScreen === 'Tutorial') {
+            this.WelcomeButtonPressed();
+        } else if (this.nextScreen === 'Controls') {
+            this.ControlsButtonPressed();
+        } else if (this.nextScreen === 'Mechanics') {
+            this.MechanicsButtonPressed();
+        } else if (this.nextScreen === 'Goal') {
+            this.GoalButtonPressed();
+        } else if (this.nextScreen === 'Level2Mechanics') {
+            this.Level2MechanicsButtonPressed();
+        } else if (this.nextScreen === 'Level2Mechanics2') {
+            this.Level2Mechanics2ButtonPressed();
+        } else if (this.nextScreen === 'Level3Mechanics') {
+            this.Level3MechanicsButtonPressed();
+        } else if (this.nextScreen === 'GameCompleted') {
+            this.RestartGameButtonPressed();
+        }
+    }
+
     nextLevelButtonPressed() {
         console.log('nextLevelButtonPressed called, currentLevel:', this.currentLevel);
         const game = window.game;
@@ -248,6 +281,7 @@ export class UIManager {
         else if (this.currentLevel == 3) {
             this.LevelCompletedUI.style.display = 'none';
             this.showGameCompletedUI();
+            this.TutorialUIOpened = true;
         }
     }
 }
