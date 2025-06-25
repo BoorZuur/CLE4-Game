@@ -31,8 +31,51 @@ body {
     height: 44%;
     pointer-events: none;
     background-color: black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 
 }
+
+.LevelCutOffControls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.LevelCutOffControlsPlayer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.LevelCutOffControlsCryptographer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.LevelCutOffControlsPlayer h2,
+.LevelCutOffControlsCryptographer h2 {
+    font-size: 20px;
+    color: white;
+    text-align: center;
+}
+
+.LevelCutOffControlsPlayer img,
+.LevelCutOffControlsCryptographer img {
+    width: 50%;
+    height: auto;
+    background-color: #785d30;
+    border-radius: 100px;
+}
+
 
 .game-ui {
     position: absolute;
@@ -57,6 +100,12 @@ body {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    border-bottom: #9f7631 5px solid;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-top: none;
+    border-left: #9f7631 5px solid;
+    border-right: #9f7631 5px solid;
 }
 
 .LevelName {
@@ -131,14 +180,359 @@ body {
     margin-top: 40px;
 }
 
-#RestartLevelButton,
+
+#NextButtonWelcome,
+#NextButtonControls,
+#NextButtonMechanics,
+#NextButtonGoal,
+#NextButtonLevel2Mechanics,
+#NextButtonLevel2Mechanics2,
+#NextButtonLevel3Mechanics {
+    background-color: #483a21;
+    color: white;
+    border: #9f7631 5px solid;
+    padding: 20px 40px;
+    font-size: 24px;
+    border-radius: 5px;
+    width: 150px;
+    pointer-events: all;
+    cursor: pointer;
+}
+
 #NextLevelButton {
     background-color: #483a21;
     color: white;
     border: #9f7631 5px solid;
     padding: 10px 20px;
+    font-size: 20px;
     border-radius: 5px;
     width: 150px;
+    pointer-events: all;
+    cursor: pointer;
+
+}
+
+.TutorialUI {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(3px);
+}
+
+.Welcome {
+    width: 60%;
+    height: 70%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #785d30;
+    border: #9f7631 5px solid;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.Welcome h1 {
+    font-size: 40px;
+    color: white;
+    text-align: center;
+    margin-top: 0px;
+}
+
+.Welcome p {
+    font-size: 20px;
+    color: white;
+    text-align: left;
+    width: 65%;
+}
+
+.Welcome button {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.Welcome img {
+    width: auto;
+    height: 12em;
+    object-fit: cover;
+}
+
+.Controls {
+    width: 60%;
+    height: 70%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #785d30;
+    border: #9f7631 5px solid;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+.Controls button {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.Controls h1 {
+    font-size: 40px;
+    color: white;
+    text-align: center;
+}
+
+.Controls img {
+    width: 600px;
+    height: auto;
+}
+
+.ControlLayouts {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.ControlLayouts h2 {
+    font-size: 30px;
+    color: white;
+    text-align: center;
+}
+
+.Level1Mechanics,
+.Level2Mechanics,
+.Level3Mechanics,
+.Level2Mechanics2,
+.Level3Mechanics {
+    width: 70%;
+    height: 70%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #785d30;
+    border: #9f7631 5px solid;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Level1Mechanics h2,
+.Level2Mechanics h2,
+.Level3Mechanics h2,
+.Level2Mechanics2 h2,
+.Level3Mechanics h2 {
+    font-size: 30px;
+    color: white;
+    text-align: center;
+    margin-bottom: 70px;
+}
+
+.Level1MechanicsList,
+.Level2MechanicsList,
+.Level3MechanicsList,
+.Level2Mechanics2List,
+.Level3MechanicsList {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: baseline;
+    gap: 100px;
+}
+
+.Level1MechanicsList img,
+.Level2MechanicsList img,
+.Level3MechanicsList img,
+.Level2Mechanics2List img,
+.Level3MechanicsList img {
+    width: auto;
+    height: 150px;
+    align-self: center;
+}
+
+.Level1Mechanic,
+.Level2Mechanic,
+.Level3Mechanic,
+.Level2Mechanic2,
+.Level3Mechanic {
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+    align-items: left;
+}
+
+.Level1Mechanics button,
+.Level2Mechanics button,
+.Level3Mechanics button,
+.Level2Mechanics2 button,
+.Level3Mechanics button {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.Level1Mechanic h3,
+.Level2Mechanic h3,
+.Level3Mechanic h3,
+.Level2Mechanic2 h3,
+.Level3Mechanic h3 {
+    font-size: 25px;
+    text-align: center;
+}
+
+.Level1Mechanic p,
+.Level2Mechanic p,
+.Level3Mechanic p,
+.Level2Mechanic2 p,
+.Level3Mechanic p {
+    font-size: 20px;
+    text-align: center;
+}
+
+#PressurePlate img {
+    width: 150px;
+    height: auto;
+    margin-top: 30px;
+}
+
+.goal {
+    position: absolute;
+    box-sizing: border-box;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 70%;
+    background-color: #785d30;
+    border: #9f7631 5px solid;
+    border-radius: 10px;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
+.goal img {
+    width: 170px;
+    height: auto;
+}
+
+
+.goal h2 {
+    font-size: 30px;
+    color: white;
+    text-align: center;
+}
+
+.goal p {
+    font-size: 20px;
+    color: white;
+    text-align: center;
+    padding-top: 30px;
+}
+
+.goal button {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.Level2Mechanics {
+    width: 70%;
+    height: 70%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #785d30;
+    border: #9f7631 5px solid;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.GameCompleted {
+    width: 70%;
+    height: 90%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #785d30;
+    border: #9f7631 5px solid;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.GameCompleted h1 {
+    font-size: 40px;
+    color: white;
+    text-align: center;
+}
+
+.GameCompleted p {
+    font-size: 20px;
+    text-align: center;
+}
+
+.GameCompletedImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.GameCompleted img {
+    width: 50%;
+    height: auto;
+}
+
+
+.GameCompleted button {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: #483a21;
+    color: white;
+    border: #9f7631 5px solid;
+    padding: 20px 40px;
+    font-size: 24px;
+    border-radius: 5px;
+    width: 200px;
     pointer-events: all;
     cursor: pointer;
 }

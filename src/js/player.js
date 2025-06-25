@@ -16,6 +16,7 @@ import { Ramp } from "./ramp.js"
 import { Color } from "excalibur"
 import { lineActor } from "./grapplineLine.js"
 import { Elevator } from "./elevator.js"
+import { FlatPlatform } from "./flatPlatform.js"
 
 
 export class Player extends Actor {
@@ -34,6 +35,8 @@ export class Player extends Actor {
         this.grappleMaxCooldown = 60;
         this.jumpForce = -400;
         this.isGrounded = false;
+        this.respawnX = x.clone()
+        this.respawnY = y.clone()
         this.gravity = 800;
         this.body.friction = 0;
         this.controller = null;
@@ -85,7 +88,8 @@ export class Player extends Actor {
                 event.other.owner instanceof ControlPlatform ||
                 event.other.owner instanceof Ramp ||
                 event.other.owner instanceof Wall ||
-                event.other.owner instanceof Elevator) {
+                event.other.owner instanceof Elevator ||
+                event.other.owner instanceof FlatPlatform) {
                 this.isGrounded = true;
                 this.vel.y = 0;
             }
@@ -181,8 +185,8 @@ export class Player extends Actor {
         }
     }
 
-    handleRespawn(event){
-        this.pos = new Vector(x, y)
+    handleRespawn(event) {
+        this.pos = new Vector(this.respawnX, this.respawnY)
     }
 
     updateControlller(engine) {

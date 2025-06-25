@@ -27,6 +27,7 @@ import { Artifact } from './Artifact.js'
 import { InteractionLabel } from './interactionLabel.js'
 
 
+
 export class Level1 extends Scene {
 
 
@@ -69,7 +70,8 @@ export class Level1 extends Scene {
     }
 
     onStartLevel() {
-
+        this.levelUI.ui.showLevelCutOff();
+        this.levelUI.ui.showTutorialUI();
         console.log('onStartLevel')
         let cryptographer = new Cryptographer(100, 650, false)
         let player = new Player(100, 430)
@@ -112,19 +114,19 @@ export class Level1 extends Scene {
 
         this.addPlatform(270, 550)
 
-        this.addCryptographerInteractionLabel(270, 630, 'You may not be able to jump, but you control the level')
-        this.addCryptographerInteractionLabel(920, 530, 'Hack terminals to control platforms')
+        // this.addCryptographerInteractionLabel(270, 630, 'You may not be able to jump, but you control the level')
+        // this.addCryptographerInteractionLabel(920, 530, 'Hack terminals to control platforms')
 
-        this.addInteractionLabel(270, 380, 'You may notice some people have some trouble jumping.')
-        this.addInteractionLabel(270, 400, 'Thats why you will have to help each other reach certain places')
-        this.addInteractionLabel(870, 430, 'Stand on pressure plates to open doors')
-        this.addInteractionLabel(1160, 550, 'Press I to open the door')
+        // this.addInteractionLabel(270, 380, 'You may notice some people have some trouble jumping.')
+        // this.addInteractionLabel(270, 400, 'Thats why you will have to help each other reach certain places')
+        // this.addInteractionLabel(870, 430, 'Stand on pressure plates to open doors')
+        // this.addInteractionLabel(1160, 550, 'Press I to open the door')
 
 
-        this.addPlayerInteractionLabel(600, 590, 'Some heights are too great to jump.')
-        this.addPlayerInteractionLabel(600, 620, 'Press F to grapple to the hook point.')
+        // this.addPlayerInteractionLabel(600, 590, 'Some heights are too great to jump.')
+        // this.addPlayerInteractionLabel(600, 620, 'Press F to grapple to the hook point.')
 
-        this.addInteractionLabel(780, 355, 'You will need the key to open the exit')
+        // this.addInteractionLabel(780, 355, 'You will need the key to open the exit')
 
 
         this.addWall(450, 550, 0.5 * Math.PI, 0.125)

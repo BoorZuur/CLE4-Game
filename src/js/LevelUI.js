@@ -28,7 +28,7 @@ export class LevelUI extends Actor {
         if (engine.controllers[0]) {
             interact1 = engine.controllers[0].wasButtonPressed(Buttons.LeftBumper)
             interact3 = engine.controllers[0].wasButtonPressed(Buttons.RightBumper);
-        } 
+        }
         if (engine.controllers[1]) {
             interact2 = engine.controllers[1].wasButtonPressed(Buttons.LeftBumper);
             interact4 = engine.controllers[1].wasButtonPressed(Buttons.RightBumper);
@@ -39,9 +39,9 @@ export class LevelUI extends Actor {
             this.uiVisible = !this.uiVisible; // Toggle the state
 
             if (this.uiVisible) {
-                this.ui.show();
+                this.ui.showLevelUI();
             } else {
-                this.ui.hide();
+                this.ui.hideLevelUI();
             }
         }
 
@@ -87,6 +87,7 @@ export class LevelUI extends Actor {
 
     FinishLevel() {
         this.ui.hideLevelUI();
+
         this.ui.showLevelCompletedUI();
         Resources.LevelCompleted.play();
         this.levelCompleted = true;

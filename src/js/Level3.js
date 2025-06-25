@@ -26,7 +26,7 @@ import { Exit } from './Exit.js';
 import { DartShooter } from './DartShooter.js';
 import { Checkpoint } from './Checkpoint.js';
 import { Key } from './Key.js';
-import { FlatPlatform } from './flatplatform.js';
+import { FlatPlatform } from './flatPlatform.js';
 
 
 export class Level3 extends Scene {
@@ -44,6 +44,7 @@ export class Level3 extends Scene {
 
     onActivate() {
         this.showLevelUI();
+        this.levelUI.ui.showTutorialUI();
     }
     addElevator(x, y, platformX, platformY, minY, maxY, inverted) {
         const elevator = new Elevator(x, y, platformX, platformY, minY, maxY, inverted);
@@ -107,7 +108,6 @@ export class Level3 extends Scene {
         this.add(elevator);
         return elevator;
     }
-
     addDartShooter(x, y, respawnX, respawnY) {
         const dartShooter = new DartShooter(x, y, this, respawnX, respawnY);
         this.add(dartShooter);
@@ -125,6 +125,7 @@ export class Level3 extends Scene {
         const levelUI = new LevelUI(this);
         this.levelUI = levelUI;
         this.add(this.levelUI)
+        this.levelUI.ui.currentLevel = 3;
         console.log('level3 showLevelUI')
         this.levelUI.updateLevelName('Level 3');
         console.log('level3 updateLevelName')
@@ -164,8 +165,8 @@ export class Level3 extends Scene {
 
         let cryptographer = new Cryptographer(300, 650)
         this.add(cryptographer)
-        // let player = new Player(350, 650)
-        let player = new Player(400, 60)
+        let player = new Player(350, 650)
+        // let player = new Player(400, 60)
         this.add(player)
 
         let ramp = new Ramp(1055, 673)
@@ -179,7 +180,7 @@ export class Level3 extends Scene {
         this.add(terminal2)
         terminal2.setPlatformScale(0.05, 0.1)
 
-        let terminal3 = new Terminal(650, 663, 0.05, 100, 240, false, 50, 50, 180, 180)
+        let terminal3 = new Terminal(650, 663, 0.05, 100, 240, false, 50, 70, 180, 180)
         this.add(terminal3)
 
         let terminal4 = new Terminal(800, 663, 0.05, 780, 200, false, 400, 550, 10, 10)
@@ -193,9 +194,9 @@ export class Level3 extends Scene {
 
 
 
-        let key = new Key(1178, 60)
-        this.add(key)
-        key.rotation = 0.5 * Math.PI
+        this.key = new Key(1178, 60, this)
+        this.add(this.key)
+        this.key.rotation = 0.5 * Math.PI
 
         this.addCheckPoint(260, 348)
         this.addCheckPoint(670, 435)
@@ -218,6 +219,7 @@ export class Level3 extends Scene {
 
         this.addWall(710, 300, 0, 0.1)
         this.addWall(900, 300, 0, 0.1)
+        this.addWall(430, 170, 0.5 * Math.PI, 0.1)
 
         this.addArtifact(720, 75)
         this.addArtifact(1210, 460)
@@ -254,12 +256,12 @@ export class Level3 extends Scene {
         //door6 is voor de deur boven/midden
         let door6 = new Door(900, 100, new Vector(0.15, 0.15))
         this.add(door6)
-        this.addButton(560, 75, door6, false)
+        this.addButton(580, 75, door6, false)
 
         //door7 is voor de deur bij de sleutel
         let door7 = new Door(1140, 60, new Vector(0.13, 0.13))
         this.add(door7)
-        this.addButton(40, 85, door7, false)
+        this.addButton(530, 75, door7, true)
 
 
         // this.addButton(250, 435, 0.5 * Math.PI)
@@ -345,7 +347,7 @@ export class Level3 extends Scene {
         this.addWall(410, 159, 0, 0.125)
         // let player = new Player(400, 60)
         // this.add(player)
-        this.addWall(535, 59, 0, 0.1)
+        this.addWall(555, 59, 0, 0.1)
 
         let x = 710
         for (let i = 0; i < 8; i++) {
