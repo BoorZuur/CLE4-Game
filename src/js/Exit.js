@@ -50,7 +50,7 @@ export class Exit extends Actor {
 
         if (engine.controllers[0]) {
             interact1 = engine.controllers[0].wasButtonPressed(Buttons.Face4);
-        } 
+        }
         if (engine.controllers[1]) {
             interact2 = engine.controllers[1].wasButtonPressed(Buttons.Face4);
         }

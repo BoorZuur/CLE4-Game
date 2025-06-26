@@ -144,7 +144,7 @@ export class UIManager {
     GoalButtonPressed() {
         this.goalUI.style.display = 'none';
         this.TutorialUI.style.display = 'none';
-        this.nextScreen =  'Level2Mechanics';
+        this.nextScreen = 'Level2Mechanics';
         this.TutorialUIOpened = false;
     }
 
@@ -169,8 +169,8 @@ export class UIManager {
     }
 
     showGameCompletedUI() {
-        this.gameUI.style.display = 'none';
-        this.TutorialUI.style.display = 'none';
+        console.log('showGameCompletedUI called');
+        this.TutorialUI.style.display = 'block';
         this.LevelCompletedUI.style.display = 'none';
         this.LevelUI.style.display = 'none';
         this.levelCutOff.style.display = 'none';
@@ -178,6 +178,7 @@ export class UIManager {
     }
 
     RestartGameButtonPressed() {
+        console.log('RestartGameButtonPressed called');
         this.gameUI.style.display = 'none';
         this.TutorialUI.style.display = 'none';
         this.LevelCompletedUI.style.display = 'none';

@@ -26,7 +26,7 @@ import { Exit } from './Exit.js';
 import { DartShooter } from './DartShooter.js';
 import { Checkpoint } from './Checkpoint.js';
 import { Key } from './Key.js';
-import { FlatPlatform } from './flatPlatform.js';
+import { FlatPlatform } from './flatplatform.js';
 
 
 export class Level3 extends Scene {

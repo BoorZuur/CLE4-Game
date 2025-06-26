@@ -16,7 +16,7 @@ import { Ramp } from "./ramp.js"
 import { Color } from "excalibur"
 import { lineActor } from "./grapplineLine.js"
 import { Elevator } from "./elevator.js"
-import { FlatPlatform } from "./flatPlatform.js"
+import { FlatPlatform } from "./flatplatform.js"
 
 
 export class Player extends Actor {

@@ -81,6 +81,26 @@ export class Cryptographer extends Actor {
             wheelieButton = controller.isButtonPressed(Buttons.Face3)
         }
 
+        if (kb.isHeld(keys.Left) || xController < -0.5) {
+            move = -5.5 * delta
+            xvel = -1
+            if (!this.interacting) {
+                this.graphics.flipHorizontal = true
+            }
+        }
+        if (kb.isHeld(keys.Right) || xController > 0.5) {
+            move = 5.5 * delta
+            xvel = 1
+
+            if (!this.interacting) {
+                this.graphics.flipHorizontal = false
+            }
+        }
+        if (kb.isHeld(keys.Up) || yController < -0.5) {
+            yvel = -1
+        }
+
+        
         if (kb.isHeld(keys.Up) || wheelieButton) {
             // rotate the cryptographer to face up
             if (!this.interacting && this.canRotate) {
@@ -102,24 +122,6 @@ export class Cryptographer extends Actor {
             }
         }
 
-        if (kb.isHeld(keys.Left) || xController < -0.5) {
-            move = -5.5 * delta
-            xvel = -1
-            if (!this.interacting) {
-                this.graphics.flipHorizontal = true
-            }
-        }
-        if (kb.isHeld(keys.Right) || xController > 0.5) {
-            move = 5.5 * delta
-            xvel = 1
-
-            if (!this.interacting) {
-                this.graphics.flipHorizontal = false
-            }
-        }
-        if (kb.isHeld(keys.Up) || yController < -0.5) {
-            yvel = -1
-        }
         if (kb.isHeld(keys.Down) || yController > 0.5) {
             yvel = 1
             // if (!this.interacting && this.canRotate) {

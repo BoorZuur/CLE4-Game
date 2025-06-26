@@ -165,8 +165,8 @@ export class Level1 extends Scene {
         let door = this.addDoor(1030, 620)
         door.scale = new Vector(0.15, 0.15)
         door.z = -2
-        this.addPlate(950, 466, door)
-        this.addPlate(1100, 676, door)
+        this.addPlate(950, 468, door)
+        this.addPlate(1100, 679, door)
         this.exit = new Exit(1200, 630, this)
         this.exit.scale = new Vector(0.12, 0.12)
         this.add(this.exit)
@@ -178,7 +178,7 @@ export class Level1 extends Scene {
         this.addArtifact(270, 500)
         this.addArtifact(950, 410)
         this.addArtifact(1100, 630)
-        this.addCrate(500, 480)
+        this.addCrate(500, 350)
 
     }
     onInitialize(engine) {
