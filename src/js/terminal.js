@@ -66,7 +66,7 @@ export class Terminal extends Actor {
         if (event.other.owner instanceof Cryptographer) {
             this.cryptographer = event.other.owner;
             if (!this.interactionLabel) {
-                this.interactionLabel = new InteractionLabel(0, -1000, '', 50, 5, 'White')
+                this.interactionLabel = new InteractionLabel(0, -1000, 'Interact to start hacking', 50, 5, 'White')
                 this.addChild(this.interactionLabel)
             }
         }

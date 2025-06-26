@@ -58,6 +58,7 @@ const Resources = {
     LevelCompleted: new Sound('sounds/LevelCompleted.mp3'),
     Slingshot: new Sound('sounds/Slingshot.mp3'),
     DingSound: new Sound('sounds/DingSound.mp3'),
+    StartButtonControl: new ImageSource('images/StartButton.svg'),
 }
 
 const ResourceLoader = new Loader()

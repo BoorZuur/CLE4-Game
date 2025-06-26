@@ -27,15 +27,14 @@ export class MainMenuScene extends Scene {
         // Create start button
         const startButton = new Actor({
             x: engine.halfDrawWidth,
-            y: engine.halfDrawHeight + 160,
+            y: engine.halfDrawHeight + 140,
             width: Resources.StartButton.width,
             height: Resources.StartButton.height
         });
-        const StartButtonsprite = Resources.StartButton.toSprite();
-        StartButtonsprite.scale = new Vector(0.35, 0.35);
+        const StartButtonsprite = Resources.StartButtonControl.toSprite();
+        StartButtonsprite.scale = new Vector(0.25, 0.25);
         startButton.graphics.use(StartButtonsprite);
         this.add(startButton);
-
 
 
         // Add keyboard listener for starting the game

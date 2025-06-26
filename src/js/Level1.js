@@ -165,8 +165,8 @@ export class Level1 extends Scene {
         let door = this.addDoor(1030, 620)
         door.scale = new Vector(0.15, 0.15)
         door.z = -2
-        this.addPlate(950, 470, door)
-        this.addPlate(1100, 680, door)
+        this.addPlate(950, 466, door)
+        this.addPlate(1100, 676, door)
         this.exit = new Exit(1200, 630, this)
         this.exit.scale = new Vector(0.12, 0.12)
         this.add(this.exit)
@@ -231,6 +231,7 @@ export class Level1 extends Scene {
     addPlate(x, y, door) {
         const plate = new PressurePlate(x, y, door, this);
         this.add(plate);
+        plate.z = -2
         return plate;
     }
     addButton(x, y, door) {

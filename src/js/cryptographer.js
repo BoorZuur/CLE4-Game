@@ -30,7 +30,7 @@ export class Cryptographer extends Actor {
         } else {
             this.canRotate = canRotate
         }
-        
+
         console.log("Cryptographer can rotate: " + this.canRotate)
         this.interacting = false
         this.nearTerminal = null
@@ -184,7 +184,7 @@ export class Cryptographer extends Actor {
         if (this.interacting) {
             this.interacting = false
             this.nearTerminal.interacting = false
-            // this.nearTerminal.interactionLabel.text = 'Press "E" to use terminal'
+            this.nearTerminal.interactionLabel.text = 'You left the terminal'
             Resources.TerminalExit.play();
             if (!this.nearTerminal.doorMode) {
                 this.nearTerminal.movePlatform(0, 0)
